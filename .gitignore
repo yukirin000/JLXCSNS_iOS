@@ -6,7 +6,7 @@ tmp
 *.mode1v3
 *.pbxuser
 *.xcworkspace
-*.xcuserdata
+xcuserdata
 console.log
 GPU/
 Rong_Cloud_iOS_SDK/

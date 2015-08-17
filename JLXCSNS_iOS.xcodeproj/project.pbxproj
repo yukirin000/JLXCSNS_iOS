@@ -22,6 +22,25 @@
 		4249E2841B81911A00F01B77 /* RongCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4249E27D1B81911A00F01B77 /* RongCloud.bundle */; };
 		4249E2851B81911A00F01B77 /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4249E27E1B81911A00F01B77 /* RongIMKit.framework */; };
 		4249E2861B81911A00F01B77 /* RongIMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4249E27F1B81911A00F01B77 /* RongIMLib.framework */; };
+		4249E2991B81C16400F01B77 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2881B81C16400F01B77 /* Icon-60.png */; };
+		4249E29A1B81C16400F01B77 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2891B81C16400F01B77 /* Icon-60@2x.png */; };
+		4249E29B1B81C16400F01B77 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E28A1B81C16400F01B77 /* Icon-60@3x.png */; };
+		4249E29C1B81C16400F01B77 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E28B1B81C16400F01B77 /* Icon-72.png */; };
+		4249E29D1B81C16400F01B77 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E28C1B81C16400F01B77 /* Icon-72@2x.png */; };
+		4249E29E1B81C16400F01B77 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E28D1B81C16400F01B77 /* Icon-76.png */; };
+		4249E29F1B81C16400F01B77 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E28E1B81C16400F01B77 /* Icon-76@2x.png */; };
+		4249E2A01B81C16400F01B77 /* Icon-Small-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E28F1B81C16400F01B77 /* Icon-Small-40.png */; };
+		4249E2A11B81C16400F01B77 /* Icon-Small-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2901B81C16400F01B77 /* Icon-Small-40@2x.png */; };
+		4249E2A21B81C16400F01B77 /* Icon-Small-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2911B81C16400F01B77 /* Icon-Small-40@3x.png */; };
+		4249E2A31B81C16400F01B77 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2921B81C16400F01B77 /* Icon-Small-50.png */; };
+		4249E2A41B81C16400F01B77 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2931B81C16400F01B77 /* Icon-Small-50@2x.png */; };
+		4249E2A51B81C16400F01B77 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2941B81C16400F01B77 /* Icon-Small.png */; };
+		4249E2A61B81C16400F01B77 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2951B81C16400F01B77 /* Icon-Small@2x.png */; };
+		4249E2A71B81C16400F01B77 /* Icon-Small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2961B81C16400F01B77 /* Icon-Small@3x.png */; };
+		4249E2A81B81C16400F01B77 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2971B81C16400F01B77 /* Icon.png */; };
+		4249E2A91B81C16400F01B77 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2981B81C16400F01B77 /* Icon@2x.png */; };
+		4249E2AC1B81C78100F01B77 /* LaunchImage-480@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2AA1B81C78100F01B77 /* LaunchImage-480@2x.png */; };
+		4249E2AD1B81C78100F01B77 /* LaunchImage-568@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2AB1B81C78100F01B77 /* LaunchImage-568@2x.png */; };
 		4249F76A1B16B127002A37A2 /* FriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4249F7691B16B127002A37A2 /* FriendsListViewController.m */; };
 		4249F76E1B16BA79002A37A2 /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4249F76D1B16BA79002A37A2 /* HMSegmentedControl.m */; };
 		424B22CB1B1ECD0A00E5BC71 /* ChineseToPinyinResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 424B22BF1B1ECD0A00E5BC71 /* ChineseToPinyinResource.m */; };
@@ -266,6 +285,25 @@
 		4249E27E1B81911A00F01B77 /* RongIMKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMKit.framework; sourceTree = "<group>"; };
 		4249E27F1B81911A00F01B77 /* RongIMLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMLib.framework; sourceTree = "<group>"; };
 		4249E2801B81911A00F01B77 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/RongCloudKit.strings"; sourceTree = "<group>"; };
+		4249E2881B81C16400F01B77 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
+		4249E2891B81C16400F01B77 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
+		4249E28A1B81C16400F01B77 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
+		4249E28B1B81C16400F01B77 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		4249E28C1B81C16400F01B77 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		4249E28D1B81C16400F01B77 /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
+		4249E28E1B81C16400F01B77 /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
+		4249E28F1B81C16400F01B77 /* Icon-Small-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-40.png"; sourceTree = "<group>"; };
+		4249E2901B81C16400F01B77 /* Icon-Small-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-40@2x.png"; sourceTree = "<group>"; };
+		4249E2911B81C16400F01B77 /* Icon-Small-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-40@3x.png"; sourceTree = "<group>"; };
+		4249E2921B81C16400F01B77 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		4249E2931B81C16400F01B77 /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
+		4249E2941B81C16400F01B77 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		4249E2951B81C16400F01B77 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		4249E2961B81C16400F01B77 /* Icon-Small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@3x.png"; sourceTree = "<group>"; };
+		4249E2971B81C16400F01B77 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		4249E2981B81C16400F01B77 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		4249E2AA1B81C78100F01B77 /* LaunchImage-480@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchImage-480@2x.png"; sourceTree = "<group>"; };
+		4249E2AB1B81C78100F01B77 /* LaunchImage-568@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchImage-568@2x.png"; sourceTree = "<group>"; };
 		4249F7681B16B127002A37A2 /* FriendsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsListViewController.h; sourceTree = "<group>"; };
 		4249F7691B16B127002A37A2 /* FriendsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsListViewController.m; sourceTree = "<group>"; };
 		4249F76C1B16BA79002A37A2 /* HMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControl.h; sourceTree = "<group>"; };
@@ -781,6 +819,32 @@
 				4249E27F1B81911A00F01B77 /* RongIMLib.framework */,
 			);
 			path = Rong_Cloud_iOS_SDK;
+			sourceTree = "<group>";
+		};
+		4249E2871B81C16400F01B77 /* icon */ = {
+			isa = PBXGroup;
+			children = (
+				4249E2AA1B81C78100F01B77 /* LaunchImage-480@2x.png */,
+				4249E2AB1B81C78100F01B77 /* LaunchImage-568@2x.png */,
+				4249E2881B81C16400F01B77 /* Icon-60.png */,
+				4249E2891B81C16400F01B77 /* Icon-60@2x.png */,
+				4249E28A1B81C16400F01B77 /* Icon-60@3x.png */,
+				4249E28B1B81C16400F01B77 /* Icon-72.png */,
+				4249E28C1B81C16400F01B77 /* Icon-72@2x.png */,
+				4249E28D1B81C16400F01B77 /* Icon-76.png */,
+				4249E28E1B81C16400F01B77 /* Icon-76@2x.png */,
+				4249E28F1B81C16400F01B77 /* Icon-Small-40.png */,
+				4249E2901B81C16400F01B77 /* Icon-Small-40@2x.png */,
+				4249E2911B81C16400F01B77 /* Icon-Small-40@3x.png */,
+				4249E2921B81C16400F01B77 /* Icon-Small-50.png */,
+				4249E2931B81C16400F01B77 /* Icon-Small-50@2x.png */,
+				4249E2941B81C16400F01B77 /* Icon-Small.png */,
+				4249E2951B81C16400F01B77 /* Icon-Small@2x.png */,
+				4249E2961B81C16400F01B77 /* Icon-Small@3x.png */,
+				4249E2971B81C16400F01B77 /* Icon.png */,
+				4249E2981B81C16400F01B77 /* Icon@2x.png */,
+			);
+			path = icon;
 			sourceTree = "<group>";
 		};
 		4249F76B1B16BA79002A37A2 /* HMSegmentedControl */ = {
@@ -1637,6 +1701,7 @@
 		42CA20FD1AFD120C002A7273 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4249E2871B81C16400F01B77 /* icon */,
 				4251738E1B32A378005FAFA9 /* ScanQR1@2x.png */,
 				4251738F1B32A378005FAFA9 /* ScanQR2@2x.png */,
 				425173901B32A378005FAFA9 /* ScanQR3@2x.png */,
@@ -1740,38 +1805,57 @@
 			files = (
 				427AD81E1AFE21A800103CAC /* blueArrow@2x.png in Resources */,
 				4249E2821B81911A00F01B77 /* RongCloudKit.strings in Resources */,
+				4249E2A81B81C16400F01B77 /* Icon.png in Resources */,
+				4249E2A11B81C16400F01B77 /* Icon-Small-40@2x.png in Resources */,
+				4249E2AD1B81C78100F01B77 /* LaunchImage-568@2x.png in Resources */,
 				42B880C01AFDD5ED00B2C2F0 /* back_btn@2x.png in Resources */,
 				4269CFF01AFCB6B100591053 /* Main.storyboard in Resources */,
+				4249E2AC1B81C78100F01B77 /* LaunchImage-480@2x.png in Resources */,
 				42997BB61B036D3800DDA3B5 /* RegisterInformationViewController.xib in Resources */,
+				4249E2991B81C16400F01B77 /* Icon-60.png in Resources */,
 				4249E2841B81911A00F01B77 /* RongCloud.bundle in Resources */,
 				4269D00C1AFCB7A400591053 /* JLXCBaseString.strings in Resources */,
 				42C925F71B15F54900B5A203 /* jlxc.db in Resources */,
 				425173941B32A378005FAFA9 /* ScanQR3@2x.png in Resources */,
 				42A35A921B23124A00596DF3 /* TuSDK.bundle in Resources */,
+				4249E2A91B81C16400F01B77 /* Icon@2x.png in Resources */,
+				4249E2A71B81C16400F01B77 /* Icon-Small@3x.png in Resources */,
+				4249E2A31B81C16400F01B77 /* Icon-Small-50.png in Resources */,
 				4249E2831B81911A00F01B77 /* release_notes_ios.txt in Resources */,
 				42B880B41AFDC42200B2C2F0 /* ToastFinish@2x.png in Resources */,
 				427AD8201AFE21A800103CAC /* grayArrow@2x.png in Resources */,
 				42B880B51AFDC42200B2C2F0 /* ToastWarn@2x.png in Resources */,
 				427AD8211AFE21A800103CAC /* whiteArrow.png in Resources */,
 				425173921B32A378005FAFA9 /* ScanQR1@2x.png in Resources */,
+				4249E29E1B81C16400F01B77 /* Icon-76.png in Resources */,
 				42A65C0E1B05E70E0026E1F3 /* testimage.png in Resources */,
+				4249E2A51B81C16400F01B77 /* Icon-Small.png in Resources */,
 				427AD81F1AFE21A800103CAC /* grayArrow.png in Resources */,
 				42A35A941B23124A00596DF3 /* TuSDK.strings in Resources */,
+				4249E29B1B81C16400F01B77 /* Icon-60@3x.png in Resources */,
 				427AD8071AFE1F4B00103CAC /* JLXCSNS.plist in Resources */,
 				425173931B32A378005FAFA9 /* ScanQR2@2x.png in Resources */,
 				424D26911B032C2A0065F859 /* AMap.bundle in Resources */,
+				4249E29A1B81C16400F01B77 /* Icon-60@2x.png in Resources */,
 				4249E2811B81911A00F01B77 /* Emoji.plist in Resources */,
 				427AD8221AFE21A800103CAC /* whiteArrow@2x.png in Resources */,
 				4269CFF51AFCB6B100591053 /* LaunchScreen.xib in Resources */,
+				4249E2A21B81C16400F01B77 /* Icon-Small-40@3x.png in Resources */,
+				4249E2A41B81C16400F01B77 /* Icon-Small-50@2x.png in Resources */,
 				425C9D861B0F661D00ADF4C1 /* city.plist in Resources */,
+				4249E2A01B81C16400F01B77 /* Icon-Small-40.png in Resources */,
 				427AD81D1AFE21A800103CAC /* blueArrow.png in Resources */,
+				4249E29F1B81C16400F01B77 /* Icon-76@2x.png in Resources */,
 				42A65C101B05EC810026E1F3 /* Empty.xib in Resources */,
+				4249E29C1B81C16400F01B77 /* Icon-72.png in Resources */,
 				424B22D01B1ECD0A00E5BC71 /* unicode_to_hanyu_pinyin.txt in Resources */,
 				427AD81B1AFE21A800103CAC /* blackArrow.png in Resources */,
 				427AD81C1AFE21A800103CAC /* blackArrow@2x.png in Resources */,
 				426B50741B12B9B200BC3E0D /* SecondLoginViewController.xib in Resources */,
 				4269CFF21AFCB6B100591053 /* Images.xcassets in Resources */,
+				4249E2A61B81C16400F01B77 /* Icon-Small@2x.png in Resources */,
 				425173951B32A378005FAFA9 /* ScanQR4@2x.png in Resources */,
+				4249E29D1B81C16400F01B77 /* Icon-72@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2079,6 +2163,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Wang Zhu (Y8498X6PFY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wang Zhu (Y8498X6PFY)";
@@ -2104,6 +2189,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d271e95c-3669-4e6e-9969-58e6869b5b8a";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -2111,6 +2197,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Wang Zhu (Y8498X6PFY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wang Zhu (Y8498X6PFY)";
@@ -2135,6 +2222,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d271e95c-3669-4e6e-9969-58e6869b5b8a";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -96,7 +96,11 @@
             
             if (direction == registerDirection) {
                 debugLog(@"跳转到注册");
-                [self sendVerify];
+//                [self sendVerify];
+                RegisterViewController * rvc = [[RegisterViewController alloc] init];
+                rvc.phoneNumber              = self.loginTextField.text;
+                [self pushVC:rvc];
+                [self hideLoading];
             }
             
         }else{
@@ -116,29 +120,29 @@
 }
 
 #pragma mark- privateMethod
-//跳转到注册页面 发送验证码
-- (void)sendVerify
-{
-    debugLog(@"%@", kGetMobileVerifyPath);
-    [HttpService postWithUrlString:kGetMobileVerifyPath params:@{@"phone_num":self.loginTextField.text} andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-
-        int status = [responseData[@"status"] intValue];
-        if (status == HttpStatusCodeSuccess) {
-            RegisterViewController * rvc = [[RegisterViewController alloc] init];
-            rvc.phoneNumber              = self.loginTextField.text;
-            [self pushVC:rvc];
-            [self hideLoading];
-        }else{
-            [self showWarn:responseData[@"message"]];
-        }
-        
-        debugLog(@"%@", responseData);
-        
-    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self showWarn:@"网络异常T_T"];
-
-    }];
-}
+////跳转到注册页面 发送验证码
+//- (void)sendVerify
+//{
+//    debugLog(@"%@", kGetMobileVerifyPath);
+//    [HttpService postWithUrlString:kGetMobileVerifyPath params:@{@"phone_num":self.loginTextField.text} andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
+//
+//        int status = [responseData[@"status"] intValue];
+//        if (status == HttpStatusCodeSuccess) {
+//            RegisterViewController * rvc = [[RegisterViewController alloc] init];
+//            rvc.phoneNumber              = self.loginTextField.text;
+//            [self pushVC:rvc];
+//            [self hideLoading];
+//        }else{
+//            [self showWarn:responseData[@"message"]];
+//        }
+//        
+//        debugLog(@"%@", responseData);
+//        
+//    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [self showWarn:@"网络异常T_T"];
+//
+//    }];
+//}
 
 //自动登录
 - (BOOL)autoLogin
