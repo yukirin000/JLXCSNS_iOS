@@ -8,4 +8,5 @@ tmp
 *.xcworkspace
 *.xcuserdata
 console.log
-
+GPU/
+Rong_Cloud_iOS_SDK/
