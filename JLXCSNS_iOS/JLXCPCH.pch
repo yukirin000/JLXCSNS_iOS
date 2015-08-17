@@ -1,0 +1,155 @@
+//
+//  JLXCPCH.pch
+//  JLXCSNS_iOS
+//
+//  Created by 李晓航 on 15/5/8.
+//  Copyright (c) 2015年 JLXC. All rights reserved.
+//
+
+#ifndef JLXCSNS_iOS_JLXCPCH_pch
+#define JLXCSNS_iOS_JLXCPCH_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+//国际化String 暂时就一种语言
+#define UBabyString(title) NSLocalizedStringFromTable(title, @"UBabyString", nil)
+
+//notifyKey
+//新好友刷新
+#define NOTIFY_NEW_GROUP @"imNewGroup"
+//已经添加对方好友后 被添加通知 废弃
+#define NOTIFY_ADD_GROUP @"imAddGroup"
+//状态回复消息或点赞到来 
+#define NOTIFY_NEWS_PUSH @"newsPush"
+//未读变成已读了 弃用
+//#define NOTIFY_NEWS_ISREAD @"newsIsread"
+//tab栏徽标更新通知
+#define NOTIFY_TAB_BADGE @"tabBadge"
+//消息顶部更新
+#define NOTIFY_MESSAGE_REFRESH @"messageRefresh"
+//发送完状态 刷新通知
+#define NOTIFY_PUBLISH_NEWS @"publishNews"
+//创建新聊天室 刷新
+#define NOTIFY_CREATE_CHATROOM @"createChatroom"
+//退出聊天室 或者被提出
+#define NOTIFY_QUIT_CHATROOM @"quitChatroom"
+
+//共用字符串
+//网络异常
+#define StringCommonNetException @"网络有毒=_="
+//确定
+#define StringCommonConfirm @"确定"
+//完成
+#define StringCommonFinish @"完成"
+//取消
+#define StringCommonCancel @"取消"
+//修改
+#define StringCommonModify UBabyString(@"Common_Modify")
+//编辑
+#define StringCommonEdit UBabyString(@"Common_Edit")
+//保存
+#define StringCommonSave @"保存"
+//提示
+#define StringCommonPrompt @"提示"
+
+//提交
+#define StringCommonSubmit UBabyString(@"Common_Submit")
+//数据获取中...
+#define StringCommonDownloadData UBabyString(@"Common_DownloadData")
+//数据上传中...
+#define StringCommonUploadData @"数据上传中^_^"
+//数据获取失败
+#define StringCommonDownloadDataFail UBabyString(@"Common_DownloadDataFail")
+
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
+
+#define FileNameKey @"name"
+#define FileDataKey @"data"
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#ifdef DEBUG
+#define debugLog(...) NSLog(__VA_ARGS__)
+//NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ## __VA_ARGS__);
+#define debugMethod() NSLog(@"[method] = >%s", __func__)
+#else
+#define debugLog(...)
+#define debugMethod()
+#endif
+
+//字体大小
+//#define FONT_SIZE_HUGE                      20
+//#define FONT_SIZE_LARGE                     18
+//#define FONT_SIZE_MEDIUM                    16
+//#define FONT_SIZE_SMALL                     14
+//#define FONT_SIZE_TINY                      12
+//#define FONT_SIZE_MICRO                     10
+
+//标签字体大小
+#define FONT_SIZE_TAG                         13
+
+#define ALERT_SHOW(title, msg) \
+[[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show]
+//tab高度
+#define kTabBarHeight       49
+//一页请求多少
+#define U_PAGE_SIZE         10
+//nav高度
+#define kNavBarAndStatusHeight ([UIDevice currentDevice].systemVersion.floatValue >= 7.0 ? 64 : 44)
+//聊天室切割图像 高度
+#define CutImageHeight 100
+
+
+//国际化String 暂时就一种语言
+#define JLXCString(title) NSLocalizedStringFromTable(title, @"UBabyString", nil)
+
+//helper
+#import "DeviceManager.h"
+#import "ToolsManager.h"
+#import "PPRevealSideViewController.h"
+#import "NSString+Expand.h"
+
+//接口
+#import "Interface.h"
+#import "UserService.h"
+#import "DatabaseService.h"
+#import "PushService.h"
+
+//网络请求
+//#import "HttpService.h"
+
+//控件基类
+#import "CustomButton.h"
+#import "CustomLabel.h"
+#import "CustomImageView.h"
+#import "CustomTextField.h"
+#import "UIView+LayoutMethods.h"
+#import "PlaceHolderTextView.h"
+
+#define kCenterOriginX(i) (([DeviceManager getDeviceWidth]-i)/2.0)
+
+#if TARGET_IPHONE_SIMULATOR
+#define PATH_OF_DOCUMENT    @"/Users/lixiaohang/Desktop"
+#elif TARGET_OS_IPHONE
+#define PATH_OF_DOCUMENT    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+#endif
+
+//高德AppKey
+#define GAODE_AppKey @"e34bd84e133572c46e802c66968f64e2"
+//融云AppKey
+#define Rong_AppKey @"lmxuhwagx83id"
+//涂图AppKey
+#define TuTu_AppKey @"c07be0edf211b048-00-t14qn1"
+//云巴AppKey
+#define YunBa_AppKey @"55ab4554c75ecd535d69b955"
+//IM 推送 id马甲
+#define JLXC @"jlxc"
+//聊天室马甲
+#define JLXC_CHATROOM @"jlxcChatroom"
+
+#endif
