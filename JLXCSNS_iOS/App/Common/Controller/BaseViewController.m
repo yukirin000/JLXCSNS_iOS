@@ -77,8 +77,8 @@
 //    [self.view addSubview:self.hudProgress];
     [window addSubview:_hudProgress];
     //点击HUD消失效果
-    //    UITapGestureRecognizer *hudTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideLoading)];
-    //    [self.hudProgress addGestureRecognizer:hudTap];
+    UITapGestureRecognizer *hudTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideLoading)];
+    [self.hudProgress addGestureRecognizer:hudTap];
 }
 
 - (void)createNavBar
@@ -94,6 +94,7 @@
     __weak typeof(self) sself = self;
     //返回按钮
     [self.navBar.leftBtn setImage:[UIImage imageNamed:@"back_btn"] forState:UIControlStateNormal];
+    [self.navBar.leftBtn setImage:[UIImage imageNamed:@"back_white_btn_selected"] forState:UIControlStateHighlighted];
     if ([DeviceManager getDeviceSystem] >= 7.0) {
         [self.navBar setLeftBtnWithFrame:CGRectMake(10, 15, 40, 50) andContent:nil andBlock:^{
             [sself.navigationController popViewControllerAnimated:YES];

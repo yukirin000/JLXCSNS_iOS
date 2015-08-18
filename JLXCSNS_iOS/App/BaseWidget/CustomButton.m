@@ -38,4 +38,10 @@
     [super layoutSubviews];
 }
 
+-(void)setFontSize:(CGFloat)fontSize
+{
+    _fontSize = fontSize;
+    self.titleLabel.font = [UIFont systemFontOfSize:_fontSize];
+}
+
 @end

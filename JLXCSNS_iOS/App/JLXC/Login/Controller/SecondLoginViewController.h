@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface SecondLoginViewController : BaseViewController
+@interface SecondLoginViewController : BaseViewController<UITextFieldDelegate>
 
 @property (nonatomic, strong) NSString * username;
 

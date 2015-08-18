@@ -19,7 +19,7 @@
 @property int viewWidth;
 //界面高
 @property int viewHeight;
-@property MBProgressHUD *hudProgress;
+@property (nonatomic, strong) MBProgressHUD *hudProgress;
 /*!导航栏*/
 @property (nonatomic, strong) NavBar * navBar;
 

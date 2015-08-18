@@ -7,8 +7,7 @@
 //
 
 #import "LoginViewController.h"
-#import "RegisterViewController.h"
-#import "RegisterInformationViewController.h"
+#import "VerifyViewController.h"
 #import "SecondLoginViewController.h"
 #import "PublishNewsViewController.h"
 #import "ChoiceSchoolViewController.h"
@@ -16,6 +15,7 @@
 #import "TestListViewController.h"
 #import "PersonalViewController.h"
 #import "CommonFriendsListViewController.h"
+#import "YSAlertView.h"
 
 @interface LoginViewController ()
 
@@ -29,11 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:ColorYellow];
     
     //自动登录
     if ([self autoLogin]) {
-        
         return;
     }else{
         //非自动登录 初始化页面
@@ -45,24 +44,53 @@
 #pragma mark- layout
 - (void)createWidget
 {
+    //背景
+    CustomImageView * backImageView = [[CustomImageView alloc] initWithFrame:self.view.bounds];
+    backImageView.contentMode       = UIViewContentModeScaleAspectFill;
+    backImageView.image             = [UIImage imageNamed:@"login_back_image"];
+    [self.view addSubview:backImageView];
+    //登录按钮
     self.loginBtn       = [[CustomButton alloc] init];
+    //登录textfield
     self.loginTextField = [[CustomTextField alloc] init];
     
     [self.view addSubview:self.loginBtn];
     [self.view addSubview:self.loginTextField];
+    
+    //绑定事件
+    [self.loginBtn addTarget:self action:@selector(nextLogin:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)configUI
 {
-    self.loginTextField.frame       = CGRectMake(kCenterOriginX(250), 100, 200, 30);
-    self.loginTextField.placeholder = @"请输入手机号";
-    self.loginTextField.borderStyle = UITextBorderStyleRoundedRect;
+    //placeHolder处理
+    UIFont * placeHolderFont                  = [UIFont systemFontOfSize:FontLoginTextField];
+    UIColor * placeHolderWhite                = [UIColor colorWithHexString:ColorWhite];
+    NSAttributedString * placeHolderString    = [[NSAttributedString alloc] initWithString:@"请输入手机号码" attributes:@{NSFontAttributeName:placeHolderFont,NSForegroundColorAttributeName:placeHolderWhite}];
+    //loginTextFiled样式处理
+    self.loginTextField.frame                 = CGRectMake(kCenterOriginX(250), 150, 250, 30);
+    self.loginTextField.delegate              = self;
+    self.loginTextField.attributedPlaceholder = placeHolderString;
+    self.loginTextField.font                  = placeHolderFont;
+    self.loginTextField.clearButtonMode       = UITextFieldViewModeWhileEditing;
+    self.loginTextField.textColor             = [UIColor colorWithHexString:ColorDeepBlack];
+    self.loginTextField.tintColor             = [UIColor colorWithHexString:ColorLightBlack];
+    self.loginTextField.keyboardType          = UIKeyboardTypeNumberPad;
     
-    self.loginBtn.frame             = CGRectMake(kCenterOriginX(100), self.loginTextField.bottom+40, 100, 30);
-    [self.loginBtn setTitle:@"下一步" forState:UIControlStateNormal];
-    [self.loginBtn addTarget:self action:@selector(nextLogin:) forControlEvents:UIControlEventTouchUpInside];
+    //增加底部线
+    UIView * lineView                         = [[UIView alloc] initWithFrame:CGRectMake(self.loginTextField.x, self.loginTextField.bottom, self.loginTextField.width, 1)];
+    lineView.backgroundColor                  = [UIColor colorWithHexString:ColorWhite];
+    [self.view addSubview:lineView];
+
+    //btn样式处理
+    self.loginBtn.frame                       = CGRectMake(kCenterOriginX(250), self.loginTextField.bottom+30, 250, 40);
+    self.loginBtn.layer.cornerRadius          = 3;
+    [self.loginBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
+    self.loginBtn.fontSize                    = FontLoginButton;
+    self.loginBtn.backgroundColor             = [UIColor colorWithHexString:ColorYellow];
+    [self.loginBtn setTitle:@"登录/注册" forState:UIControlStateNormal];
     
-    self.loginTextField.text        = @"13736661240";
+    self.loginTextField.text         = @"13500065922";
     
 }
 
@@ -74,7 +102,7 @@
         [self showWarn:@"请输入正确的手机号码"];
         return;
     }
-    
+
     [self showLoading:nil];
     NSDictionary * params = @{@"username":self.loginTextField.text};
     debugLog(@"%@", kIsUserPath);
@@ -88,18 +116,15 @@
             int direction = [responseData[@"result"][@"direction"] intValue];
             if (direction == loginDirection) {
                 [self hideLoading];
-                debugLog(@"跳转到登录");
                 SecondLoginViewController * slVC = [[SecondLoginViewController alloc] init];
                 slVC.username                    = self.loginTextField.text;
                 [self pushVC:slVC];
             }
             
             if (direction == registerDirection) {
-                debugLog(@"跳转到注册");
-//                [self sendVerify];
-                RegisterViewController * rvc = [[RegisterViewController alloc] init];
-                rvc.phoneNumber              = self.loginTextField.text;
-                [self pushVC:rvc];
+                VerifyViewController * vvc = [[VerifyViewController alloc] init];
+                vvc.phoneNumber            = self.loginTextField.text;
+                [self pushVC:vvc];
                 [self hideLoading];
             }
             
@@ -117,6 +142,25 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.loginTextField resignFirstResponder];
+}
+
+#pragma mark- UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self.loginTextField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    //手机号不超过11位
+    if (range.length == 0) {
+        if ((textField.text.length+string.length)>11) {
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 #pragma mark- privateMethod

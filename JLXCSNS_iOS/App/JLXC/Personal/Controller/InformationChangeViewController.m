@@ -44,7 +44,7 @@
     __weak typeof(self) sself = self;
     [self.navBar setRightBtnWithContent:StringCommonSave andBlock:^{
         
-        if (sself.signTextView.text.length < 1) {
+        if (sself.nameTextFiled.text.length < 1) {
             [sself showWarn:@"昵称不能为空"];
             return ;
         }

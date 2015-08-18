@@ -40,9 +40,9 @@
     [super setSelected:selected];
     
     if (selected) {
-        self.titeLabel.textColor = [UIColor blueColor];
+        self.titeLabel.textColor = [UIColor colorWithHexString:ColorBrown];
     }else{
-        self.titeLabel.textColor = [UIColor darkGrayColor];
+        self.titeLabel.textColor = [UIColor colorWithHexString:ColorBrown];
     }
 
 }

@@ -11,6 +11,8 @@
 #import <MAMapKit/MAMapKit.h>
 #import "YunBaService.h"
 #import <TuSDK/TuSDK.h>
+#import <SMS_SDK/SMS_SDK.h>
+
 
 @interface AppDelegate ()
 
@@ -49,11 +51,14 @@
     [[RCIM sharedRCIM] initWithAppKey:Rong_AppKey deviceToken:nil];
 //    [RCIM sharedRCIM].messageBeep = YES;
 
-//    [UIDevice appIdentifier];
     //云巴推送
     [YunBaService setupWithAppkey:YunBa_AppKey];
     //图图初始化
     [TuSDK initSdkWithAppKey:TuTu_AppKey];
+    
+    //初始化SMS服务
+    [SMS_SDK registerApp:SMS_AppKey
+              withSecret:SMS_Security];
     
     //初始化数据库
     [DatabaseService sharedInstance];

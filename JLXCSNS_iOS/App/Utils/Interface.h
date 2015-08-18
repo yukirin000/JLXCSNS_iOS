@@ -11,11 +11,11 @@
 
 //192.168.1.109
 //附件
-#define kAttachmentAddr @"http://192.168.1.100/jlxc_php/Uploads/"
+#define kAttachmentAddr @"http://192.168.1.103/jlxc_php/Uploads/"
 //IP
-#define kRootAddr @"http://192.168.1.100/jlxc_php/"
+#define kRootAddr @"http://192.168.1.103/jlxc_php/"
 //home
-#define kHomeAddr @"http://192.168.1.100/jlxc_php/index.php/Home/MobileApi"//115.28.4.154 Zwkxd0515
+#define kHomeAddr @"http://192.168.1.103/jlxc_php/index.php/Home/MobileApi"//115.28.4.154 Zwkxd0515
 //http://localhost/www/DemoThink/
 #define kTestPath [kHomeAddr stringByAppendingString:@"DemoThink/"]
 

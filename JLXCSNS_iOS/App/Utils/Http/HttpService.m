@@ -16,11 +16,16 @@
     
     [manager GET:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
-            //缓存
-            if (operation != nil) {
-                [HttpCache cacheHandleWith:responseObject andUrl:urlStr];
+            @try {
+                //缓存
+                if (operation != nil) {
+                    [HttpCache cacheHandleWith:responseObject andUrl:urlStr];
+                }
+                success(operation, responseObject);
             }
-            success(operation, responseObject);
+            @catch (NSException *exception) {
+                 fail(operation, nil);
+            }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (fail) {
@@ -35,7 +40,12 @@
     
     [manager POST:urlStr parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
-            success(operation, responseObject);
+            @try {
+                success(operation, responseObject);
+            }
+            @catch (NSException *exception) {
+                fail(operation, nil);
+            }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (fail) {
@@ -57,7 +67,12 @@
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
-            success(operation, responseObject);
+            @try {
+                success(operation, responseObject);
+            }
+            @catch (NSException *exception) {
+                fail(operation, nil);
+            }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (fail) {
@@ -73,7 +88,7 @@
     AFHTTPRequestOperationManager * manager           = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer                         = [AFHTTPRequestSerializer serializer];
     manager.responseSerializer                        = [AFJSONResponseSerializer serializer];
-    manager.requestSerializer.timeoutInterval         = 60.0f;
+    manager.requestSerializer.timeoutInterval         = 30.0f;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     return manager;
     

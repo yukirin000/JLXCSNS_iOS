@@ -25,8 +25,8 @@
     if (self) {
         //顶部背景栏
         self.frame = CGRectMake(0, 0, [DeviceManager getDeviceWidth], kNavBarAndStatusHeight);
-        self.backgroundColor = [UIColor grayColor];
-        self.titleLabel = [[CustomLabel alloc] initWithFontSize:20];
+        self.backgroundColor = [UIColor colorWithHexString:ColorYellow];
+        self.titleLabel = [[CustomLabel alloc] initWithFontSize:FontNavBarTitle];
         if ([DeviceManager getDeviceSystem] >= 7.0) {
             self.titleLabel.frame = CGRectMake(kCenterOriginX(200), 20, 200, 44);
         }else{
@@ -34,12 +34,12 @@
         }
         
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.textColor = [UIColor whiteColor];
+        self.titleLabel.textColor = [UIColor colorWithHexString:ColorBrown];
         
-        self.leftBtn = [[CustomButton alloc] initWithFontSize:16];
+        self.leftBtn = [[CustomButton alloc] initWithFontSize:FontNavBarTitle];
         [self.leftBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
-        self.rightBtn = [[CustomButton alloc] initWithFontSize:16];
+        self.rightBtn = [[CustomButton alloc] initWithFontSize:FontNavBarTitle];
         [self.rightBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:self.leftBtn];

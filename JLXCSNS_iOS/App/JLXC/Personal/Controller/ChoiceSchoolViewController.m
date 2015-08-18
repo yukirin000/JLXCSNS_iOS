@@ -57,9 +57,11 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self initMap];
     
+    [self showLoading:@"定位中...."];
+    
+    [self initMap];
+
     [self configUI];
     
 //    if([CLLocationManager locationServicesEnabled] && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
@@ -72,13 +74,46 @@
 
 - (void)configUI
 {
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.refreshTableView.frame.size.width, 0)];
-    _searchBar.tintColor = [UIColor greenColor];
+    
+    [self.navBar setNavTitle:@"选择学校"];
+    
+    //头部背景
+    UIView * headView          = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.refreshTableView.frame.size.width, 30)];
+    headView.backgroundColor   = [UIColor colorWithHexString:ColorLightWhite];
+    //搜索bar
+    _searchBar                 = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.refreshTableView.frame.size.width, 0)];
+    _searchBar.backgroundColor = [UIColor clearColor];
+    _searchBar.tintColor       = [UIColor colorWithHexString:ColorOrange];
+    UIView * searchView = self.searchBar.subviews[0];
+    searchView.backgroundColor = [UIColor colorWithHexString:ColorLightGary];
+    for (UIView *view in self.searchBar.subviews) {
+        // for before iOS7.0
+        if ([view isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
+            [view removeFromSuperview];
+            break;
+        }
+        // for later iOS7.0(include)
+        if ([view isKindOfClass:NSClassFromString(@"UIView")] && view.subviews.count > 0) {
+            [[view.subviews objectAtIndex:0] removeFromSuperview];
+            break;
+        }
+    }
+    
     [_searchBar setDelegate:self];
-    [_searchBar setPlaceholder:@"搜索"];
+    [_searchBar setPlaceholder:@"伙计你的学校是.."];
     [_searchBar sizeToFit];
     [_searchBar setTranslucent:YES];
-    [self.refreshTableView setTableHeaderView:_searchBar];
+    [headView addSubview:_searchBar];
+    //提示lable
+    CustomLabel * topPromptLabel   = [[CustomLabel alloc] initWithFrame:CGRectMake(10, _searchBar.bottom-2, 200, 20)];
+    topPromptLabel.text            = @"猜你在这些学校(·ω＜)";
+    topPromptLabel.textColor       = [UIColor colorWithHexString:ColorDeepGary];
+    topPromptLabel.font            = [UIFont systemFontOfSize:10];
+
+    headView.height                = topPromptLabel.bottom;
+    [headView addSubview:topPromptLabel];
+
+    [self.refreshTableView setTableHeaderView:headView];
 }
 
 #pragma mark- override
@@ -122,11 +157,18 @@
         [self searchReGeocodeWithCoordinate:self.currentLocation.location.coordinate];
     }
 }
+//失败
+- (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+    //失败也获取列表
+    [self getSchoolListWithAdcode:self.mapReGeocodeSearchResponse.regeocode.addressComponent.adcode andName:self.searchBar.text];
+}
 
 #pragma mark - AMapSearchDelegate
 - (void)searchRequest:(id)request didFailWithError:(NSError *)error
 {
-    debugLog(@"%s: searchRequest = %@, errInfo= %@", __func__, [request class], error);
+    [self getSchoolListWithAdcode:self.mapReGeocodeSearchResponse.regeocode.addressComponent.adcode andName:self.searchBar.text];
+//    debugLog(@"%s: searchRequest = %@, errInfo= %@", __func__, [request class], error);
     [self refreshFinish];
 }
 ///* POI 搜索回调. */
@@ -225,40 +267,40 @@
                 RegisterInformationViewController * rivc    = [[RegisterInformationViewController alloc] init];
                 [self pushVC:rivc];
                 
-                //省处理
-                NSString * province = self.mapReGeocodeSearchResponse.regeocode.addressComponent.province;
-                if ([province hasSuffix:@"省"]) {
-                    province = [province substringToIndex:province.length-1];
-                }
-                //城市处理
-                NSString * city = self.mapReGeocodeSearchResponse.regeocode.addressComponent.city;
-                if ([city hasSuffix:@"市"]) {
-                    city = [city substringToIndex:city.length-1];
-                }
-                
-                if (province.length < 1 && city.length < 1) {
-                    city = @"";
-                }else{
-                    city = [NSString stringWithFormat:@"%@,%@", province, city];
-                }
-                
-                NSDictionary * params = @{@"uid":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
-                                          @"field":@"city",
-                                          @"value":city};
-
-                debugLog(@"%@ %@", kChangePersonalInformationPath, params);
-                [HttpService postWithUrlString:kChangePersonalInformationPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-                    debugLog(@"%@", responseData);
-                    int status = [responseData[HttpStatus] intValue];
-                    if (status == HttpStatusCodeSuccess) {
-                        [UserService sharedService].user.city = city;
-                        //数据缓存
-                        [[UserService sharedService] saveAndUpdate];
-                    }
-                    
-                } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    
-                }];
+//                //省处理
+//                NSString * province = self.mapReGeocodeSearchResponse.regeocode.addressComponent.province;
+//                if ([province hasSuffix:@"省"]) {
+//                    province = [province substringToIndex:province.length-1];
+//                }
+//                //城市处理
+//                NSString * city = self.mapReGeocodeSearchResponse.regeocode.addressComponent.city;
+//                if ([city hasSuffix:@"市"]) {
+//                    city = [city substringToIndex:city.length-1];
+//                }
+//                
+//                if (province.length < 1 && city.length < 1) {
+//                    city = @"";
+//                }else{
+//                    city = [NSString stringWithFormat:@"%@,%@", province, city];
+//                }
+//                
+//                NSDictionary * params = @{@"uid":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
+//                                          @"field":@"city",
+//                                          @"value":city};
+//
+//                debugLog(@"%@ %@", kChangePersonalInformationPath, params);
+//                [HttpService postWithUrlString:kChangePersonalInformationPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
+//                    debugLog(@"%@", responseData);
+//                    int status = [responseData[HttpStatus] intValue];
+//                    if (status == HttpStatusCodeSuccess) {
+//                        [UserService sharedService].user.city = city;
+//                        //数据缓存
+//                        [[UserService sharedService] saveAndUpdate];
+//                    }
+//                    
+//                } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                    
+//                }];
             }
             
         }else{
@@ -275,7 +317,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.0;
+    return 50.0;
 }
 
 #pragma mark - Search Bar Delegate
@@ -316,24 +358,25 @@
 /*! 重写该方法定制Cell*/
 - (void)handleTableViewContentWith:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath
 {
+    
     SchoolModel * schoolModel     = self.dataArr[indexPath.row];
     //名字
-    CustomLabel * schoolNameLabel = [[CustomLabel alloc] initWithFontSize:15];
-    schoolNameLabel.frame         = CGRectMake(10, 10, 300, 20);
+    CustomLabel * schoolNameLabel = [[CustomLabel alloc] initWithFontSize:12];
+    schoolNameLabel.textColor     = [UIColor colorWithHexString:ColorDeepBlack];
+    schoolNameLabel.frame         = CGRectMake(10, 5, 300, 20);
     schoolNameLabel.text          = schoolModel.schoolName;
     [cell.contentView addSubview:schoolNameLabel];
-
     //描述
-    CustomLabel * descripLabel    = [[CustomLabel alloc] initWithFontSize:12];
-    descripLabel.textColor        = [UIColor grayColor];
+    CustomLabel * descripLabel    = [[CustomLabel alloc] initWithFontSize:10];
+    descripLabel.textColor        = [UIColor colorWithHexString:ColorDeepGary];
     descripLabel.frame            = CGRectMake(10, schoolNameLabel.bottom, 300, 20);
     NSString * schoolLevel        = schoolModel.level == 1 ? @"初中":@"高中";
     NSString * descrip            = [NSString stringWithFormat:@"%@%@◆%@", schoolModel.cityName, schoolModel.districtName,schoolLevel];
     descripLabel.text             = descrip;
     [cell.contentView addSubview:descripLabel];
 
-    UIView * lineView             = [[UIView alloc] initWithFrame:CGRectMake(5, 59, self.viewWidth, 1)];
-    lineView.backgroundColor      = [UIColor grayColor];
+    UIView * lineView             = [[UIView alloc] initWithFrame:CGRectMake(0, 49, self.viewWidth, 1)];
+    lineView.backgroundColor      = [UIColor colorWithHexString:ColorLightGary];
     [cell.contentView addSubview:lineView];
     
 }
@@ -398,11 +441,17 @@
 //获取学校列表
 - (void)getSchoolListWithAdcode:(NSString *)code andName:(NSString *)name
 {
+    //默认北京
+    if (code.length < 1 && name.length < 1) {
+        code = @"110101";
+    }
+    
     NSString * url = [NSString stringWithFormat:@"%@?page=%d&district_code=%@&school_name=%@", kGetSchoolListPath, self.currentPage, code, [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     debugLog(@"%@", url);
+    
     [HttpService getWithUrlString:url andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-//        debugLog(@"%@", responseData);
         int status = [responseData[HttpStatus] intValue];
+        [self hideLoading];
         if (status == HttpStatusCodeSuccess) {
             
             //下拉刷新清空数组
@@ -410,7 +459,6 @@
                 [self.dataArr removeAllObjects];
             }
             //如果是关键字搜索
-//            if (self.isKeyWord && self.currentPage == 1) {            
             if (self.currentPage == 1) {
                 [self.dataArr removeAllObjects];
                 [super refreshData];
@@ -430,15 +478,14 @@
             }
             [self reloadTable];
         }else{
-//            [self showWarn:responseData[HttpMessage]];
             self.isReloading = NO;
             [self.refreshTableView refreshFinish];
         }
         
     } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self hideLoading];        
         self.isReloading = NO;
         [self.refreshTableView refreshFinish];
-//        [self showWarn:StringCommonNetException];
     }];
 }
 

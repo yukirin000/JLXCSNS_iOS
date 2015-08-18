@@ -1,5 +1,5 @@
 //
-//  XWAlterview.h
+//  YSAlterview.h
 //  new
 //
 //  Created by chinat2t on 14-11-6.
@@ -7,20 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
-@class XWAlterview ;
-@interface XWAlterview : UIView
+
+typedef void (^ClickBlock)(void);
+
+@interface YSAlertView : UIView
+
 - (id)initWithTitle:(NSString *)title
         contentText:(NSString *)content
     leftButtonTitle:(NSString *)leftTitle
    rightButtonTitle:(NSString *)rigthTitle;
 
-- (void)show;
-@property (nonatomic, copy) dispatch_block_t leftBlock;
-@property (nonatomic, copy) dispatch_block_t rightBlock;
-//点击左右按钮都会触发该消失的block
-@property (nonatomic, copy) dispatch_block_t dismissBlock;
 
-+(XWAlterview*)showmessage:(NSString *)message subtitle:(NSString *)subtitle cancelbutton:(NSString *)cancle;
+- (void)show;
+
+@property (nonatomic, copy) ClickBlock leftBlock;
+@property (nonatomic, copy) ClickBlock rightBlock;
+//@property (nonatomic, copy) dispatch_block_t dismissBlock;
+
++(YSAlertView*)showmessage:(NSString *)message subtitle:(NSString *)subtitle cancelbutton:(NSString *)cancle;
+
+//左边
+- (void)setLeftBlock:(ClickBlock)leftBlock;
+//右边
+- (void)setRightBlock:(ClickBlock)rightBlock;
+
 @end
 
 // 版权属于原作者

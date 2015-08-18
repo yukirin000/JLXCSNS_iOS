@@ -36,8 +36,13 @@ enum {
 
 @interface PersonalViewController ()<ZHPickViewDelegate, TuSDKPFEditFilterControllerDelegate, TuSDKCPComponentErrorDelegate>
 
+//背景滚动视图
+@property (strong, nonatomic) UIScrollView * backScrollView;
+
 //背景图
 @property (strong, nonatomic) CustomImageView *backImageView;
+//背景透明的按钮
+@property (strong, nonatomic) CustomButton *backImageBtn;
 //头像
 @property (strong, nonatomic) CustomButton *headImageBtn;
 //姓名
@@ -139,7 +144,10 @@ enum {
     self.datePicker.backgroundColor = [UIColor whiteColor];
     self.datePicker.datePickerMode  = UIDatePickerModeDate;
     if ([UserService sharedService].user.birthday.length > 9) {
-    self.datePicker.date            = [ToolsManager dateFromString:[UserService sharedService].user.birthday andFormatter:@"yyyy-MM-dd"];
+        NSDate * date = [ToolsManager dateFromString:[UserService sharedService].user.birthday andFormatter:@"yyyy-MM-dd"];
+        if (date != nil) {
+            self.datePicker.date            = date;
+        }
     }
     //生日挂件view
     UIView * accessoryView                = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, 30)];
@@ -185,20 +193,27 @@ enum {
 {
     self.informationArr = @[@"昵称",@"签名",@"生日",@"性别",@"学校",@"城市"];
     
-    self.infomationTableView                              = [[UITableView alloc] initWithFrame:CGRectMake(0, self.informationLabel.bottom, self.viewWidth, self.viewHeight-self.informationLabel.bottom-kTabBarHeight) style:UITableViewStylePlain];
+    self.infomationTableView                              = [[UITableView alloc] initWithFrame:CGRectMake(0, self.informationLabel.bottom, self.viewWidth, 181) style:UITableViewStylePlain];
+    self.infomationTableView.scrollEnabled                = NO;
 //    self.infomationTableView.bounces    = NO;
     self.infomationTableView.showsVerticalScrollIndicator = NO;
     self.infomationTableView.delegate                     = self;
     self.infomationTableView.dataSource                   = self;
     [self.infomationTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"personalCell"];
-    [self.view addSubview:self.infomationTableView];
+    [self.backScrollView addSubview:self.infomationTableView];
     
+    //设置内容大小
+    self.backScrollView.contentSize = CGSizeMake(0, self.infomationTableView.bottom);
 }
 
 - (void)initWidget
 {
+    //背景滚动视图
+    self.backScrollView    = [[UIScrollView alloc] init];
+    
     //背景图
     self.backImageView     = [[CustomImageView alloc] init];
+    self.backImageBtn      = [[CustomButton alloc] init];
     //头像
     self.headImageBtn      = [[CustomButton alloc] init];
     //姓名
@@ -225,31 +240,44 @@ enum {
     self.friendCountLabel  = [[CustomLabel alloc] initWithFontSize:15];
 
     self.informationLabel  = [[CustomLabel alloc] initWithFontSize:15];
+    
+    
     [self.view addSubview:self.backImageView];
-    [self.view addSubview:self.nameBtn];
-    [self.view addSubview:self.headImageBtn];
-    [self.view addSubview:self.newsImageBackView];
+    [self.view addSubview:self.backScrollView];
+    [self.backScrollView addSubview:self.backImageBtn];
+    [self.backScrollView addSubview:self.nameBtn];
+    [self.backScrollView addSubview:self.headImageBtn];
+    [self.backScrollView addSubview:self.newsImageBackView];
+    
     [self.newsImageBackView addSubview:self.newsImageView1];
     [self.newsImageBackView addSubview:self.newsImageView2];
     [self.newsImageBackView addSubview:self.newsImageView3];
     
-    [self.view addSubview:self.visitBackView];
+    [self.backScrollView addSubview:self.visitBackView];
     [self.visitBackView addSubview:self.visitHeadImage1];
     [self.visitBackView addSubview:self.visitHeadImage2];
     [self.visitBackView addSubview:self.visitHeadImage3];
     [self.visitBackView addSubview:self.visitCountLabel];
     
-    [self.view addSubview:self.myFriendsBackView];
+    [self.backScrollView addSubview:self.myFriendsBackView];
     [self.myFriendsBackView addSubview:self.myFriendsImage1];
     [self.myFriendsBackView addSubview:self.myFriendsImage2];
     [self.myFriendsBackView addSubview:self.myFriendsImage3];
     [self.myFriendsBackView addSubview:self.friendCountLabel];
-    [self.view addSubview:self.informationLabel];
+    [self.backScrollView addSubview:self.informationLabel];
+    
+    //事件
+    //点击事件
+    [self.backImageBtn addTarget:self action:@selector(backImageClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)configUI
 {
+    //背景滚动视图
+    self.backScrollView.frame                        = CGRectMake(0, 0, self.viewWidth, self.viewHeight-kTabBarHeight);
+    self.backScrollView.showsVerticalScrollIndicator = NO;
     
+    //顶部栏设置部分
     self.navBar.backgroundColor           = [UIColor clearColor];
     self.navBar.leftBtn.hidden            = NO;
     [self.navBar.leftBtn setImage:nil forState:UIControlStateNormal];
@@ -259,7 +287,8 @@ enum {
         MyCardViewController * mcVC = [[MyCardViewController alloc] init];
         [sself pushViewController:mcVC animated:YES];
     }];
-    
+    [self.navBar.leftBtn setImage:nil forState:UIControlStateNormal];
+    [self.navBar.leftBtn setImage:nil forState:UIControlStateHighlighted];
     //右上角设置
     [self.navBar setRightBtnWithContent:@"设置" andBlock:^{
         PersonalSettingViewController * psVC = [[PersonalSettingViewController alloc] init];
@@ -277,9 +306,6 @@ enum {
     self.backImageView.layer.masksToBounds    = YES;
     //背景
     self.backImageView.userInteractionEnabled = YES;
-    //点击时间
-    UITapGestureRecognizer * tap              = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backImageClick:)];
-    [self.backImageView addGestureRecognizer:tap];
 
     //调整Mode
     self.newsImageView1.contentMode  = UIViewContentModeScaleAspectFill;
@@ -318,13 +344,17 @@ enum {
     self.myFriendsImage2.hidden = YES;
     self.myFriendsImage3.hidden = YES;
 
-    self.backImageView.frame               = CGRectMake(0, 0, self.viewWidth, 195);
+    //背景图
+    self.backImageView.frame               = CGRectMake(0, 0, self.viewWidth, self.viewHeight);
+    //用于点击的透明背景
+    self.backImageBtn.frame                = CGRectMake(0, 0, self.viewWidth, 200);
+    
     self.headImageBtn.frame                = CGRectMake(35, 110, 60, 60);
     [self.headImageBtn addTarget:self action:@selector(headImageClick:) forControlEvents:UIControlEventTouchUpInside];
     self.nameBtn.frame                     = CGRectMake(113, 131, 60, 30);
-
+    
     //我的状态
-    self.newsImageBackView.frame           = CGRectMake(0, self.backImageView.bottom, self.viewWidth, 65);
+    self.newsImageBackView.frame           = CGRectMake(0, self.backImageBtn.bottom, self.viewWidth, 65);
     self.newsImageBackView.backgroundColor = [UIColor greenColor];
     [self.newsImageBackView addTarget:self action:@selector(myNewsClick:) forControlEvents:UIControlEventTouchUpInside];
     CustomLabel * newsLabel                = [[CustomLabel alloc] initWithFrame:CGRectMake(10, 23, 70, 20)];
@@ -369,10 +399,10 @@ enum {
 {
     //头像
     NSURL * headUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, [UserService sharedService].user.head_image]];
-    [self.headImageBtn sd_setBackgroundImageWithURL:headUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"testimage"]];
+    [self.headImageBtn sd_setBackgroundImageWithURL:headUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     //背景
     NSURL * backUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, [UserService sharedService].user.background_image]];
-    [self.backImageView sd_setImageWithURL:backUrl placeholderImage:[UIImage imageNamed:@"testimage"]];
+    [self.backImageView sd_setImageWithURL:backUrl placeholderImage:[UIImage imageNamed:@"default_back_image"]];
     [self.nameBtn setTitle:[UserService sharedService].user.name forState:UIControlStateNormal];
     
     NSArray * friendArr = [IMGroupModel findHasAddAll];
@@ -400,7 +430,7 @@ enum {
     
     //获取当前最近的三张状态图片
     [self getNewsImages];
-    [self getVisitImages];
+//    [self getVisitImages];
 }
 
 #pragma mark- ZHPickViewDelegate

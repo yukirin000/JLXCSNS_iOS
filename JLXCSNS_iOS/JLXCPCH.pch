@@ -113,6 +113,9 @@
 #import "ToolsManager.h"
 #import "PPRevealSideViewController.h"
 #import "NSString+Expand.h"
+#import "Colors.h"
+#import "UIColor+Hexadecimal.h"
+#import "JLXCFont.h"
 
 //接口
 #import "Interface.h"
@@ -139,6 +142,8 @@
 #define PATH_OF_DOCUMENT    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 #endif
 
+#define DEFAULT_AVATAR @"default_avatar"
+
 //高德AppKey
 #define GAODE_AppKey @"e34bd84e133572c46e802c66968f64e2"
 //融云AppKey
@@ -147,6 +152,11 @@
 #define TuTu_AppKey @"c07be0edf211b048-00-t14qn1"
 //云巴AppKey
 #define YunBa_AppKey @"55ab4554c75ecd535d69b955"
+//SMS AppKey
+#define SMS_AppKey @"94025949f2d3"
+//SMS AppSecurity
+#define SMS_Security @"f3d6e97c5b3a1872336ff370a08d1aeb"
+
 //IM 推送 id马甲
 #define JLXC @"jlxc"
 //聊天室马甲

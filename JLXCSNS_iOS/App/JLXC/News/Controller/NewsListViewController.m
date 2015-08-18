@@ -226,12 +226,20 @@
 //使用缓存
 - (void)useCache
 {
-    NSString * url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&frist_time=", kNewsListPath, self.currentPage, [UserService sharedService].user.uid];
-    NSDictionary * dic = [HttpCache getCacheWithUrl:url];
-    if (dic != nil) {
-        NSArray * list = dic[HttpResult][HttpList];
-        //注入数据刷新页面
-        [self injectDataSourceWith:list];
+    @try {
+        NSString * url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&frist_time=", kNewsListPath, self.currentPage, [UserService sharedService].user.uid];
+        NSDictionary * dic = [HttpCache getCacheWithUrl:url];
+        if (dic != nil) {
+            NSArray * list = dic[HttpResult][HttpList];
+            //注入数据刷新页面
+            [self injectDataSourceWith:list];
+        }
+    }
+    @catch (NSException *exception) {
+
+    }
+    @finally {
+
     }
     
 }

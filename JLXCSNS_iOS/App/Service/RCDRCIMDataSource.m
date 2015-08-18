@@ -64,7 +64,7 @@
     } error:^(RCConnectErrorCode status) {
         // Connect失败
         debugLog(@"==================================Rong fail:%ld", status);
-        [self setIMToken:[UserService sharedService].user.im_token];
+//        [self setIMToken:[UserService sharedService].user.im_token];
     } tokenIncorrect:^{
         [self setIMToken:[UserService sharedService].user.im_token];
     }];

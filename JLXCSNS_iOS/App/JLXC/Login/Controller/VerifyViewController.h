@@ -8,6 +8,11 @@
 
 #import "BaseViewController.h"
 
-@interface VerifyViewController : BaseViewController
+@interface VerifyViewController : BaseViewController<UITextFieldDelegate>
+
+//如果是从找回密码进来的
+@property (nonatomic, assign) BOOL isFindPwd;
+
+@property (nonatomic, copy) NSString * phoneNumber;
 
 @end

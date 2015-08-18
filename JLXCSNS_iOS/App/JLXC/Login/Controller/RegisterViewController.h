@@ -9,7 +9,7 @@
 #import "BaseViewController.h"
 
 /*! 注册用户或者找回密码*/
-@interface RegisterViewController : BaseViewController
+@interface RegisterViewController : BaseViewController<UITextFieldDelegate>
 
 //如果是从找回密码进来的
 @property (nonatomic, assign) BOOL isFindPwd;

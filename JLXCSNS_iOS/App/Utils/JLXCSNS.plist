@@ -4,13 +4,13 @@
 <array>
 	<dict>
 		<key>title</key>
-		<string>首页</string>
+		<string>主页</string>
 		<key>controller</key>
 		<string>NewsMainViewController</string>
 		<key>selectedPic</key>
-		<string></string>
+		<string>home_btn_homepage_select</string>
 		<key>normalPic</key>
-		<string></string>
+		<string>home_btn_homepage_normal</string>
 	</dict>
 	<dict>
 		<key>title</key>
@@ -18,19 +18,19 @@
 		<key>controller</key>
 		<string>ChatMainViewController</string>
 		<key>selectedPic</key>
-		<string></string>
+		<string>home_btn_msg_select</string>
 		<key>normalPic</key>
-		<string></string>
+		<string>home_btn_msg_normal</string>
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>发现</string>
+		<string>找同学</string>
 		<key>controller</key>
 		<string>FindMainViewController</string>
 		<key>selectedPic</key>
-		<string></string>
+		<string>home_btn_friends_select</string>
 		<key>normalPic</key>
-		<string></string>
+		<string>home_btn_friends_normal</string>
 	</dict>
 	<dict>
 		<key>title</key>
@@ -38,9 +38,9 @@
 		<key>controller</key>
 		<string>PersonalViewController</string>
 		<key>selectedPic</key>
-		<string></string>
+		<string>home_btn_me_select</string>
 		<key>normalPic</key>
-		<string></string>
+		<string>home_btn_me_normal</string>
 	</dict>
 </array>
 </plist>

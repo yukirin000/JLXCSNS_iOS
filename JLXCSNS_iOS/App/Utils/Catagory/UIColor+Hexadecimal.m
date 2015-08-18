@@ -1,15 +1,17 @@
 //
-//  UIColor+Ew.m
-//  EwChat
 //
-//  Created by 老邢Thierry on 5/26/14.
-//  Copyright (c) 2014 老邢Thierry. All rights reserved.
+//  Copyright (c) 2014 李晓航. All rights reserved.
 //
 
-#import "UIColor+Ew.h"
+#import "UIColor+Hexadecimal.h"
 
-@implementation UIColor (Ew)
+@implementation UIColor (Hexadecimal)
 + (UIColor *) colorWithHexString: (NSString *) stringToConvert
+{
+    return [UIColor colorWithHexString:stringToConvert andAlpha:1.0];
+}
+
++ (UIColor *) colorWithHexString: (NSString *) stringToConvert andAlpha:(CGFloat)alpha
 {
     NSString *cString = [[stringToConvert stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
     
@@ -41,7 +43,7 @@
     return [UIColor colorWithRed:((float) r / 255.0f)
                            green:((float) g / 255.0f)
                             blue:((float) b / 255.0f)
-                           alpha:1.0f];
+                           alpha:alpha];
 }
 
 @end

@@ -10,11 +10,13 @@
 #import "CustomLabel.h"
 
 @interface CustomButton : UIButton
-@property CGFloat fontSize;
 
+@property (nonatomic, assign) CGFloat fontSize;
 //附加tag
 @property (nonatomic, assign) NSInteger secondTag;
 
 - (id)initWithFontSize:(int)fontSize;
+
+- (void)setFontSize:(CGFloat)fontSize;
 
 @end
