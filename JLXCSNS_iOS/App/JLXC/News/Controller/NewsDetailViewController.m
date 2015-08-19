@@ -22,6 +22,7 @@
 #import "SecondCommentModel.h"
 #import "OtherPersonalViewController.h"
 #import "LikeListViewController.h"
+#import "NewsUtils.h"
 
 @interface NewsDetailViewController ()<NewsCommentDelegate,HPGrowingTextViewDelegate>
 
@@ -225,7 +226,7 @@
     if (self.news.image_arr.count == 1) {
         //一张图片放大
         ImageModel * imageModel = self.news.image_arr[0];
-        CGRect rect             = [self getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
+        CGRect rect             = [NewsUtils getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
         rect.origin.x           = self.headImageView.x;
         rect.origin.y           = self.contentLabel.bottom+10;
         CustomButton * imageBtn = [[CustomButton alloc] init];
@@ -631,21 +632,7 @@
     [self pushVC:opvc];
 }
 
-//获取合适的比例
-- (CGRect)getRectWithSize:(CGSize) size
-{
-    CGFloat x,y,width,height;
-    if (size.width > size.height) {
-        width  = 200;
-        height = size.height*(200/size.width);
-    }else{
-        width  = 100;
-        height = size.height*(100/size.width);
-    }
-    CGRect rect = CGRectMake(x, y, width, height);
-    
-    return rect;
-}
+
 
 - (void)getData
 {
@@ -819,7 +806,7 @@
         //一张图片 大图
         ImageModel * imageModel = self.news.image_arr[0];
         CGSize size             = CGSizeMake(imageModel.width, imageModel.height);
-        CGRect rect             = [self getRectWithSize:size];
+        CGRect rect             = [NewsUtils getRectWithSize:size];
         height                  = cellOtherHeight+contentSize.height+rect.size.height;
     }else{
         //多张图片九宫格

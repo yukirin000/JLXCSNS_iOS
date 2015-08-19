@@ -5,27 +5,27 @@
 //  Created by liudianling on 14-11-18.
 //  Copyright (c) 2014年 赵恒志. All rights reserved.
 //
-#define ZHToobarHeight 40
+#define ZHToobarHeight 30
 #import "ZHPickView.h"
 
-@interface ZHPickView ()<UIPickerViewDelegate,UIPickerViewDataSource>
-@property(nonatomic,copy)NSString *plistName;
-@property(nonatomic,strong)NSArray *plistArray;
-@property(nonatomic,assign)BOOL isLevelArray;
-@property(nonatomic,assign)BOOL isLevelString;
-@property(nonatomic,assign)BOOL isLevelDic;
-@property(nonatomic,strong)NSDictionary *levelTwoDic;
-@property(nonatomic,strong)UIToolbar *toolbar;
-@property(nonatomic,strong)UIPickerView *pickerView;
-@property(nonatomic,strong)UIDatePicker *datePicker;
-@property(nonatomic,assign)NSDate *defaulDate;
-@property(nonatomic,assign)BOOL isHaveNavControler;
-@property(nonatomic,assign)NSInteger pickeviewHeight;
-@property(nonatomic,copy)NSString *resultString;
-@property(nonatomic,strong)NSMutableArray *componentArray;
-@property(nonatomic,strong)NSMutableArray *dicKeyArray;
-@property(nonatomic,copy)NSMutableArray *state;
-@property(nonatomic,copy)NSMutableArray *city;
+@interface ZHPickView () <UIPickerViewDelegate,UIPickerViewDataSource>
+@property (nonatomic,copy  ) NSString       *plistName;
+@property (nonatomic,strong) NSArray        *plistArray;
+@property (nonatomic,assign) BOOL           isLevelArray;
+@property (nonatomic,assign) BOOL           isLevelString;
+@property (nonatomic,assign) BOOL           isLevelDic;
+@property (nonatomic,strong) NSDictionary   *levelTwoDic;
+@property (nonatomic,strong) UIView         *topbar;
+@property (nonatomic,strong) UIPickerView   *pickerView;
+@property (nonatomic,strong) UIDatePicker   *datePicker;
+@property (nonatomic,assign) NSDate         *defaulDate;
+@property (nonatomic,assign) BOOL           isHaveNavControler;
+@property (nonatomic,assign) NSInteger      pickeviewHeight;
+@property (nonatomic,copy  ) NSString       *resultString;
+@property (nonatomic,strong) NSMutableArray *componentArray;
+@property (nonatomic,strong) NSMutableArray *dicKeyArray;
+@property (nonatomic,copy  ) NSMutableArray *state;
+@property (nonatomic,copy  ) NSMutableArray *city;
 
 //组
 @property (nonatomic, assign) NSInteger row;
@@ -168,23 +168,36 @@
 }
 
 -(void)setUpToolBar{
-    _toolbar=[self setToolbarStyle];
+    _topbar=[self setToolbarStyle];
     [self setToolbarWithPickViewFrame];
-    [self addSubview:_toolbar];
+    [self addSubview:_topbar];
 }
--(UIToolbar *)setToolbarStyle{
-    UIToolbar *toolbar=[[UIToolbar alloc] init];
+-(UIView *)setToolbarStyle{
+    UIView * topbar=[[UIView alloc] init];
+    topbar.backgroundColor = [UIColor colorWithHexString:ColorWhite];
     
-    UIBarButtonItem *lefttem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(remove)];
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    //保存按钮
+    CustomButton * saveBtn = [[CustomButton alloc] initWithFontSize:15];
+    [saveBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
+    saveBtn.frame = CGRectMake(screenWidth-60, 10, 40, 20);
+    [saveBtn addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
+    [saveBtn setTitle:StringCommonSave forState:UIControlStateNormal];
+    [topbar addSubview:saveBtn];
     
-    UIBarButtonItem *centerSpace=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    //取消按钮
+    CustomButton * cancelBtn = [[CustomButton alloc] initWithFontSize:15];
+    [cancelBtn setTitleColor:[UIColor colorWithHexString:ColorDeepBlack] forState:UIControlStateNormal];
+    cancelBtn.frame = CGRectMake(20, 10, 40, 20);
+    [cancelBtn addTarget:self action:@selector(remove) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitle:StringCommonCancel forState:UIControlStateNormal];
+    [topbar addSubview:cancelBtn];
     
-    UIBarButtonItem *right=[[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(doneClick)];
-    toolbar.items=@[lefttem,centerSpace,right];
-    return toolbar;
+    
+    return topbar;
 }
 -(void)setToolbarWithPickViewFrame{
-    _toolbar.frame=CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, ZHToobarHeight);
+    _topbar.frame=CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, ZHToobarHeight);
 }
 
 #pragma mark piackView 数据源方法
@@ -336,10 +349,6 @@
 //                _city =dicValueArray[row];
 //            }
 
-        debugLog(@"%ld %ld", self.section, self.row);
-        debugLog(@"%@ ", _dicKeyArray[self.section][0]);
-        debugLog(@"%@ ", [_plistArray[self.section] objectForKey:_dicKeyArray[self.section][0]][self.row]);
-
       _resultString=[NSString stringWithFormat:@"%@,%@",_dicKeyArray[self.section][0],[_plistArray[self.section] objectForKey:_dicKeyArray[self.section][0]][self.row]];
        
     }
@@ -353,20 +362,6 @@
  */
 -(void)setPickViewColer:(UIColor *)color{
     _pickerView.backgroundColor=color;
-}
-/**
- *  设置toobar的文字颜色
- */
--(void)setTintColor:(UIColor *)color{
-    
-    _toolbar.tintColor=color;
-}
-/**
- *  设置toobar的背景颜色
- */
--(void)setToolbarTintColor:(UIColor *)color{
-    
-    _toolbar.barTintColor=color;
 }
 -(void)dealloc{
     

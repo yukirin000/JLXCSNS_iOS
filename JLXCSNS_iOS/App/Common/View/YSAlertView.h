@@ -15,7 +15,8 @@ typedef void (^ClickBlock)(void);
 - (id)initWithTitle:(NSString *)title
         contentText:(NSString *)content
     leftButtonTitle:(NSString *)leftTitle
-   rightButtonTitle:(NSString *)rigthTitle;
+   rightButtonTitle:(NSString *)rigthTitle
+           showView:(UIView *)view;
 
 
 - (void)show;
@@ -24,7 +25,7 @@ typedef void (^ClickBlock)(void);
 @property (nonatomic, copy) ClickBlock rightBlock;
 //@property (nonatomic, copy) dispatch_block_t dismissBlock;
 
-+(YSAlertView*)showmessage:(NSString *)message subtitle:(NSString *)subtitle cancelbutton:(NSString *)cancle;
+//+(YSAlertView*)showmessage:(NSString *)message subtitle:(NSString *)subtitle cancelbutton:(NSString *)cancle;
 
 //左边
 - (void)setLeftBlock:(ClickBlock)leftBlock;

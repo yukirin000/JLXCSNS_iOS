@@ -10,7 +10,7 @@
 
 typedef void(^ChangeBlock) (NSString * content);
 
-@interface InformationChangeViewController : BaseViewController<UITextFieldDelegate,UITextViewDelegate>
+@interface InformationChangeViewController : BaseViewController<UITextFieldDelegate>
 
 //0姓名 1签名
 @property (nonatomic, assign) NSInteger changeType;

@@ -22,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    
     //0姓名 1签名
     if (self.changeType == 0) {
         //姓名
@@ -48,7 +50,7 @@
             [sself showWarn:@"昵称不能为空"];
             return ;
         }
-        if (sself.signTextView.text.length>8) {
+        if (sself.nameTextFiled.text.length>8) {
             [sself showWarn:@"昵称不能超过八个字"];
             return ;
         }
@@ -59,10 +61,15 @@
         [sself.navigationController popViewControllerAnimated:YES];
     }];
     
-    self.nameTextFiled             = [[CustomTextField alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+20, 300, 30)];
-    self.nameTextFiled.text        = self.content;
-    self.nameTextFiled.borderStyle = UITextBorderStyleRoundedRect;
-    self.nameTextFiled.placeholder = @"请输入姓名";
+    CustomImageView * backImageView = [[CustomImageView alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+20, 300, 30)];
+    backImageView.image             = [UIImage imageNamed:@"comment_border_view"];
+    [self.view addSubview:backImageView];
+
+    self.nameTextFiled              = [[CustomTextField alloc] initWithFrame:CGRectMake(kCenterOriginX(290), kNavBarAndStatusHeight+20, 290, 30)];
+    self.nameTextFiled.font         = [UIFont systemFontOfSize:14];
+    self.nameTextFiled.textColor    = [UIColor colorWithHexString:ColorDeepBlack];
+    self.nameTextFiled.text         = self.content;
+    self.nameTextFiled.placeholder  = @"请输入姓名";
     [self.view addSubview:self.nameTextFiled];
 }
 
@@ -76,32 +83,22 @@
             [sself showWarn:@"签名不能超过60字╮(╯_╰)╭"];
             return ;
         }
-        
         if (ccblock) {
             ccblock(sself.signTextView.text);
         }
         [sself.navigationController popViewControllerAnimated:YES];
     }];
-    self.signTextView             = [[PlaceHolderTextView alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+20, 300, 30) andPlaceHolder:@"在这里写签名~"];
-    self.signTextView.text        = self.content;
-    self.signTextView.delegate    = self;
+    
+    CustomImageView * backImageView = [[CustomImageView alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+20, 300, 80)];
+    backImageView.image             = [UIImage imageNamed:@"comment_border_view"];
+    [self.view addSubview:backImageView];
+    self.signTextView               = [[PlaceHolderTextView alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+20, 300, 80) andPlaceHolder:@"在这里写签名~"];
+    self.signTextView.font          = [UIFont systemFontOfSize:14];
+    self.signTextView.textColor     = [UIColor colorWithHexString:ColorDeepBlack];
+    self.signTextView.text          = self.content;
     [self.view addSubview:self.signTextView];
 }
 
-#pragma mark- UITextViewDelegate
-- (void)textViewDidChange:(UITextView *)textView
-{
-
-    if ([textView isKindOfClass:[PlaceHolderTextView class]]) {
-
-        if (textView.text.length > 0) {
-            [((PlaceHolderTextView *)textView) setPlaceHidden:YES];
-        }else{
-            [((PlaceHolderTextView *)textView) setPlaceHidden:NO];
-        }
-    }
-
-}
 
 #pragma mark- private method
 - (void)setChangeBlock:(ChangeBlock)block

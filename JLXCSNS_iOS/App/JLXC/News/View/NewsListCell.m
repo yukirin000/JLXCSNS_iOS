@@ -14,6 +14,7 @@
 #import "LikeModel.h"
 #import "OtherPersonalViewController.h"
 #import "IMGroupModel.h"
+#import "NewsUtils.h"
 #import "LikeListViewController.h"
 
 @interface NewsListCell()
@@ -154,12 +155,12 @@
     if (news.image_arr.count == 1) {
         //一张图片放大
         ImageModel * imageModel = news.image_arr[0];
-        CGRect rect             = [self getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
+        CGRect rect             = [NewsUtils getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
         rect.origin.x           = self.headImageBtn.x;
         rect.origin.y           = self.contentLabel.bottom+10;
         CustomButton * imageBtn = [[CustomButton alloc] init];
-        //加载单张大图
-        NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.url]];
+        //加载单张
+        NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
         [imageBtn addGestureRecognizer:tap];
         [imageBtn sd_setBackgroundImageWithURL:imageUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"testimage"]];
@@ -290,21 +291,6 @@
     self.lineView.frame        = CGRectMake(5, bottomPosition, [DeviceManager getDeviceWidth], 1);
 }
 
-//获取合适的比例
-- (CGRect)getRectWithSize:(CGSize) size
-{
-    CGFloat x,y,width,height;
-    if (size.width > size.height) {
-        width  = 200;
-        height = size.height*(200/size.width);
-    }else{
-        width  = 100;
-        height = size.height*(100/size.width);
-    }
-    CGRect rect = CGRectMake(x, y, width, height);
-    
-    return rect;
-}
 #pragma mark- method response
 //大头像点击
 - (void)headClick:(CustomButton *)btn

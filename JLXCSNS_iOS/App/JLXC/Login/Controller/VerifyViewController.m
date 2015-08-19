@@ -86,7 +86,7 @@
     __weak typeof(self) sself = self;
     //设置返回
     [self.navBar setLeftBtnWithContent:nil andBlock:^{
-        YSAlertView * alertView = [[YSAlertView alloc] initWithTitle:@"已经发送验证码辣" contentText:@"不等一会吗？" leftButtonTitle:@"好的" rightButtonTitle:@"不了"];
+        YSAlertView * alertView = [[YSAlertView alloc] initWithTitle:@"已经发送验证码辣" contentText:@"不等一会吗？" leftButtonTitle:@"好的" rightButtonTitle:@"不了"  showView:sself.view];
         [alertView setRightBlock:^{
             [sself.navigationController popViewControllerAnimated:YES];
         }];

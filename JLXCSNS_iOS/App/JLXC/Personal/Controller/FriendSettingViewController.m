@@ -121,7 +121,7 @@
 }
 
 #pragma mark- private method
-//添加好友
+//删除好友
 - (void)deleteFriendCommit
 {
     //kAddFriendPath

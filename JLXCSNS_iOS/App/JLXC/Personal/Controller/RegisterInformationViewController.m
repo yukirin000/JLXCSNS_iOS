@@ -9,6 +9,7 @@
 #import "RegisterInformationViewController.h"
 #import "UIImageView+WebCache.h"
 #import "CusTabBarViewController.h"
+#import "NSData+ImageCache.h"
 @interface RegisterInformationViewController ()
 //0男 1女
 @property (nonatomic, assign) int sex;
@@ -125,7 +126,7 @@
         headImage = self.imageBtn.currentBackgroundImage;
         fileName = [ToolsManager getUploadImageName];
 //        files = @[@{FileDataKey:UIImagePNGRepresentation(headImage),FileNameKey:fileName}];
-        files = @[@{FileDataKey:UIImageJPEGRepresentation(headImage, 1.0),FileNameKey:fileName}];
+        files = @[@{FileDataKey:UIImageJPEGRepresentation(headImage, 0.9),FileNameKey:fileName}];
     }
     
     debugLog(@"%@", kSavePersonalInfoPath);
@@ -142,11 +143,9 @@
             //数据缓存
             [[UserService sharedService] saveAndUpdate];
             [self hideLoading];
-            
-            NSURL * headUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, [UserService sharedService].user.head_image]];
-            debugLog(@"%@", headUrl.absoluteString);
             //缓存头像
-            [[SDWebImageManager sharedManager] saveImageToCache:headImage forURL:headUrl];
+            [UIImageJPEGRepresentation(headImage, 0.9) cacheImageWithUrl:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, [UserService sharedService].user.head_image]];
+            
             //注册成功进入主页
             [CusTabBarViewController reinit];            
             CusTabBarViewController * ctbvc = [CusTabBarViewController sharedService];

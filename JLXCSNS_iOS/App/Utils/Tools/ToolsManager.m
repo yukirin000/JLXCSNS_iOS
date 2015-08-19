@@ -135,6 +135,9 @@
 
 + (CGSize)getSizeWithContent:(NSString *)content andFontSize:(CGFloat)fontSize andFrame:(CGRect)frame
 {
+    if (content == nil) {
+        return CGSizeZero;
+    }
     CGSize size;
     if ([DeviceManager getDeviceSystem] > 7.0) {
 
@@ -369,7 +372,7 @@
 
 + (NSString *)getUploadImageName
 {
-    return [NSString stringWithFormat:@"%ld%d.png", [UserService sharedService].user.uid, (int)[NSDate date].timeIntervalSince1970];
+    return [NSString stringWithFormat:@"%ld%d.jpg", [UserService sharedService].user.uid, (int)[NSDate date].timeIntervalSince1970];
 }
 
 //切割图片！！！ 没用上

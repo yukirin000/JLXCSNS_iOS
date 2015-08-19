@@ -8,6 +8,7 @@
 
 
 #import "SchoolNewsListViewController.h"
+#import "NewsUtils.h"
 #import "HttpCache.h"
 #import "OtherPersonalViewController.h"
 #import "StudentListViewController.h"
@@ -361,22 +362,6 @@
     [self refreshData];
 }
 
-//获取合适的比例
-- (CGRect)getRectWithSize:(CGSize) size
-{
-    CGFloat x,y,width,height;
-    if (size.width > size.height) {
-        width  = 200;
-        height = size.height*(200/size.width);
-    }else{
-        width  = 100;
-        height = size.height*(100/size.width);
-    }
-    CGRect rect = CGRectMake(x, y, width, height);
-    
-    return rect;
-}
-
 - (CGFloat)getCellHeightWith:(NewsModel *)news
 {
     CGSize contentSize        = [ToolsManager getSizeWithContent:news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, self.viewWidth-30, MAXFLOAT)];
@@ -391,7 +376,7 @@
         //一张图片 大图
         ImageModel * imageModel = news.image_arr[0];
         CGSize size             = CGSizeMake(imageModel.width, imageModel.height);
-        CGRect rect             = [self getRectWithSize:size];
+        CGRect rect             = [NewsUtils getRectWithSize:size];
         height                  = cellOtherHeight+contentSize.height+rect.size.height;
     }else{
         //多张图片九宫格

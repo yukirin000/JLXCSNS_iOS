@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface OtherPersonalViewController : BaseViewController<UIActionSheetDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface OtherPersonalViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, assign) NSInteger uid;
 

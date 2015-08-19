@@ -25,6 +25,8 @@
         _placeHolderLabel.text = placeHolder;
         [self addSubview:_placeHolderLabel];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentChange:) name:UITextViewTextDidChangeNotification object:nil];
+        
     }
     
     return self;
@@ -46,20 +48,16 @@
     _placeHolderLabel.hidden = hidden;
 }
 
-//#pragma mark- placeHolder 使用该控件时需要加上这个代理方法
-//- (void)textViewDidChange:(UITextView *)textView
-//{
-//    
-//    if ([textView isKindOfClass:[PlaceHolderTextView class]]) {
-//        
-//        if (textView.text.length > 0) {
-//            [((PlaceHolderTextView *)textView) setPlaceHidden:YES];
-//        }else{
-//            [((PlaceHolderTextView *)textView) setPlaceHidden:NO];
-//        }
-//    }
-//    
-//}
+- (void)contentChange:(NSNotification *)notify
+{
+        
+    if (self.text.length > 0) {
+        [self setPlaceHidden:YES];
+    }else{
+        [self setPlaceHidden:NO];
+    }
+    
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -130,6 +130,10 @@
 //http://localhost/jlxc_php/index.php/Home/MobileApi/getVisitImages
 #define kGetVisitImagesPath [kHomeAddr stringByAppendingString:@"/getVisitImages"]
 
+//个人信息中 获取好友人数和图片
+//http://localhost/jlxc_php/index.php/Home/MobileApi/getVisitImages
+#define kGetFriendsImagePath [kHomeAddr stringByAppendingString:@"/getFriendsImage"]
+
 //个人信息中 用户发布过的状态列表
 //http://localhost/jlxc_php/index.php/Home/MobileApi/userNewsList
 #define kUserNewsListPath [kHomeAddr stringByAppendingString:@"/userNewsList"]

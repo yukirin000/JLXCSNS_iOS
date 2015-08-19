@@ -87,6 +87,7 @@
     
     UIImage * image = [ImageHelper getBigImage:info[UIImagePickerControllerOriginalImage]];
     [self handleImage:image];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 
 }
 
@@ -178,7 +179,7 @@
             UIImage * image = [ImageHelper getBigImage:imageView.image];
 //            NSString * fileName = [ToolsManager getUploadImageName];
 //            [files addObject:@{FileDataKey:UIImagePNGRepresentation(image),FileNameKey:fileName}];
-            [files addObject:@{FileDataKey:UIImageJPEGRepresentation(image, 0.8),FileNameKey:fileName}];
+            [files addObject:@{FileDataKey:UIImageJPEGRepresentation(image, 0.9),FileNameKey:fileName}];
         }
     }
     
@@ -190,7 +191,7 @@
         if (status == HttpStatusCodeSuccess) {
             
             [self hideLoading];
-            //缓存图片 没有返回路径缓存无效
+            //缓存图片 没有返回路径缓存无效 以后处理
 //            [self cacheImageWithFiles:files andResultUrls:responseData[HttpResult]];
             [self.navigationController popViewControllerAnimated:YES];
             //发送发送成功通知

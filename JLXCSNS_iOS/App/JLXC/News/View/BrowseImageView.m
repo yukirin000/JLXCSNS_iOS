@@ -91,7 +91,7 @@
     self.backScrollView.showsHorizontalScrollIndicator = NO;
     self.backScrollView.showsVerticalScrollIndicator   = NO;
     self.backScrollView.backgroundColor                = [UIColor clearColor];
-    self.backScrollView.maximumZoomScale               = 2.0f;
+    self.backScrollView.maximumZoomScale               = 5.0f;
     self.backScrollView.minimumZoomScale               = 1.0f;
     
 }
@@ -129,7 +129,7 @@
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
 {
-    debugLog(@"%@ size :%@", NSStringFromUIEdgeInsets(scrollView.contentInset),NSStringFromCGSize(scrollView.contentSize));
+//    debugLog(@"%@ size :%@", NSStringFromUIEdgeInsets(scrollView.contentInset),NSStringFromCGSize(scrollView.contentSize));
 
 }
 

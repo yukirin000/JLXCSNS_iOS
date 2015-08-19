@@ -63,14 +63,7 @@
  *  设置PickView的颜色
  */
 -(void)setPickViewColer:(UIColor *)color;
-/**
- *  设置toobar的文字颜色
- */
--(void)setTintColor:(UIColor *)color;
-/**
- *  设置toobar的背景颜色
- */
--(void)setToolbarTintColor:(UIColor *)color;
+
 @end
 
 // 版权属于原作者

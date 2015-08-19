@@ -15,7 +15,7 @@
 +(UIImage *)getBigImage:(UIImage *)image;
 
 /*! 获取缩放后的小图 弃用*/
-+(UIImage *)getSubImage:(UIImage *)image;
+//+(UIImage *)getSubImage:(UIImage *)image;
 
 
 

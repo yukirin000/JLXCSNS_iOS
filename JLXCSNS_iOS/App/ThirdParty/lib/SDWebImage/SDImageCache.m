@@ -36,7 +36,6 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 @interface SDImageCache ()
 
 @property (strong, nonatomic) NSCache *memCache;
-@property (strong, nonatomic) NSString *diskCachePath;
 @property (strong, nonatomic) NSMutableArray *customPaths;
 @property (SDDispatchQueueSetterSementics, nonatomic) dispatch_queue_t ioQueue;
 

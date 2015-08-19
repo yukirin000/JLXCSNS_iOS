@@ -33,7 +33,6 @@
 {
     NSString *encrypt = [self MD5];
     encrypt = [self disorder:encrypt];
-    debugLog(@"%@ - %@", self, encrypt);
     return encrypt;
 //    return self;
 }
