@@ -15,11 +15,9 @@
 #import "ZHPickView.h"
 #import "ChoiceSchoolViewController.h"
 #import "MyNewsListViewController.h"
-#import "ImageFilterViewController.h"
 #import "MyCardViewController.h"
 #import "FriendsListViewController.h"
 #import "PersonalSettingViewController.h"
-#import <TuSDK/TuSDK.h>
 enum {
     BackgroundImage = 1,
     HeadImage       = 2
@@ -34,51 +32,55 @@ enum {
     ContentCity     = 5
 };
 
-@interface PersonalViewController ()<ZHPickViewDelegate, TuSDKPFEditFilterControllerDelegate, TuSDKCPComponentErrorDelegate>
+@interface PersonalViewController ()<ZHPickViewDelegate>
 
 //背景滚动视图
 @property (strong, nonatomic) UIScrollView * backScrollView;
 
 //背景图
-@property (strong, nonatomic) CustomImageView *backImageView;
+@property (strong, nonatomic) CustomImageView * backImageView;
 //背景透明的按钮
-@property (strong, nonatomic) CustomButton *backImageBtn;
+@property (strong, nonatomic) CustomButton * backImageBtn;
 //头像
-@property (strong, nonatomic) CustomButton *headImageBtn;
+@property (strong, nonatomic) CustomButton * headImageBtn;
 //姓名
-@property (strong, nonatomic) CustomButton *nameBtn;
+@property (strong, nonatomic) CustomLabel * nameLabel;
+//性别
+@property (strong, nonatomic) CustomImageView * sexImageView;
+//学校
+@property (strong, nonatomic) CustomLabel * schoolLabel;
 
 //个人资料label
 @property (strong, nonatomic) UILabel * informationLabel;
 
 //我的状态背景按钮
-@property (strong, nonatomic) CustomButton *newsImageBackView;
+@property (strong, nonatomic) CustomButton * newsImageBackView;
 //新闻imageView1
-@property (strong, nonatomic) UIImageView *newsImageView1;
+@property (strong, nonatomic) UIImageView * newsImageView1;
 //新闻imageView2
-@property (strong, nonatomic) UIImageView *newsImageView2;
+@property (strong, nonatomic) UIImageView * newsImageView2;
 //新闻imageView3
-@property (strong, nonatomic) UIImageView *newsImageView3;
+@property (strong, nonatomic) UIImageView * newsImageView3;
 
 //最近来访背景点击
-@property (strong, nonatomic) UIButton *visitBackView;
+@property (strong, nonatomic) UIButton * visitBackView;
 //最近来访头像1
-@property (strong, nonatomic) CustomImageView *visitHeadImage1;
+@property (strong, nonatomic) CustomImageView * visitHeadImage1;
 //最近来访头像2
-@property (strong, nonatomic) CustomImageView *visitHeadImage2;
+@property (strong, nonatomic) CustomImageView * visitHeadImage2;
 //最近来访头像3
-@property (strong, nonatomic) CustomImageView *visitHeadImage3;
+@property (strong, nonatomic) CustomImageView * visitHeadImage3;
 //好友数量label
 @property (nonatomic, strong) CustomLabel * visitCountLabel;
 
 //我的好友点击背景按钮
-@property (strong, nonatomic) UIButton *myFriendsBackView;
+@property (strong, nonatomic) UIButton * myFriendsBackView;
 //我的好友头像1
-@property (strong, nonatomic) CustomImageView *myFriendsImage1;
+@property (strong, nonatomic) CustomImageView * myFriendsImage1;
 //我的好友头像2
-@property (strong, nonatomic) CustomImageView *myFriendsImage2;
+@property (strong, nonatomic) CustomImageView * myFriendsImage2;
 //我的好友头像3
-@property (strong, nonatomic) CustomImageView *myFriendsImage3;
+@property (strong, nonatomic) CustomImageView * myFriendsImage3;
 //好友数量label
 @property (nonatomic, strong) CustomLabel * friendCountLabel;
 
@@ -204,6 +206,7 @@ enum {
     
     //设置内容大小
     self.backScrollView.contentSize = CGSizeMake(0, self.infomationTableView.bottom);
+    [self.headImageBtn addTarget:self action:@selector(headImageClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)initWidget
@@ -217,8 +220,11 @@ enum {
     //头像
     self.headImageBtn      = [[CustomButton alloc] init];
     //姓名
-    self.nameBtn           = [[CustomButton alloc] init];
-    
+    self.nameLabel         = [[CustomLabel alloc] init];
+    //性别
+    self.sexImageView      = [[CustomImageView alloc] init];
+    //学校
+    self.schoolLabel       = [[CustomLabel alloc] init];
     //我的状态
     self.newsImageBackView = [[CustomButton alloc] init];
     self.newsImageView1    = [[CustomImageView alloc] init];
@@ -245,7 +251,7 @@ enum {
     [self.view addSubview:self.backImageView];
     [self.view addSubview:self.backScrollView];
     [self.backScrollView addSubview:self.backImageBtn];
-    [self.backScrollView addSubview:self.nameBtn];
+    [self.backScrollView addSubview:self.nameLabel];
     [self.backScrollView addSubview:self.headImageBtn];
     [self.backScrollView addSubview:self.newsImageBackView];
     
@@ -285,7 +291,7 @@ enum {
     //左上角名片
     [self.navBar setLeftBtnWithContent:@"名片" andBlock:^{
         MyCardViewController * mcVC = [[MyCardViewController alloc] init];
-        [sself pushViewController:mcVC animated:YES];
+        [sself pushVC:mcVC];
     }];
     [self.navBar.leftBtn setImage:nil forState:UIControlStateNormal];
     [self.navBar.leftBtn setImage:nil forState:UIControlStateHighlighted];
@@ -296,8 +302,6 @@ enum {
     }];
     [self.view bringSubviewToFront:self.navBar];
     
-    //姓名
-    self.nameBtn.enabled                      = NO;
     //头像
     self.headImageBtn.layer.cornerRadius      = 30;
     self.headImageBtn.layer.masksToBounds     = YES;
@@ -348,10 +352,18 @@ enum {
     self.backImageView.frame               = CGRectMake(0, 0, self.viewWidth, self.viewHeight);
     //用于点击的透明背景
     self.backImageBtn.frame                = CGRectMake(0, 0, self.viewWidth, 200);
-    
-    self.headImageBtn.frame                = CGRectMake(35, 110, 60, 60);
-    [self.headImageBtn addTarget:self action:@selector(headImageClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.nameBtn.frame                     = CGRectMake(113, 131, 60, 30);
+    //头像
+    self.headImageBtn.frame                = CGRectMake(kCenterOriginX(60), 90, 60, 60);
+    //姓名
+    self.nameLabel.frame                   = CGRectMake(kCenterOriginX(200), self.headImageBtn.bottom+5, 170, 30);
+    self.nameLabel.textColor               = [UIColor colorWithHexString:ColorWhite];
+    self.nameLabel.font                    = [UIFont systemFontOfSize:FontInformation];
+    //性别
+    self.sexImageView.frame                = CGRectMake(self.nameLabel.right+3, self.headImageBtn.bottom+5, 27, 30);
+    //学校
+    self.schoolLabel.frame                 = CGRectMake(kCenterOriginX(200), self.headImageBtn.bottom+5, 200, 30);
+    self.schoolLabel.textColor             = [UIColor colorWithHexString:ColorWhite];
+    self.schoolLabel.font                  = [UIFont systemFontOfSize:FontTopSchool];
     
     //我的状态
     self.newsImageBackView.frame           = CGRectMake(0, self.backImageBtn.bottom, self.viewWidth, 65);
@@ -403,30 +415,38 @@ enum {
     //背景
     NSURL * backUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, [UserService sharedService].user.background_image]];
     [self.backImageView sd_setImageWithURL:backUrl placeholderImage:[UIImage imageNamed:@"default_back_image"]];
-    [self.nameBtn setTitle:[UserService sharedService].user.name forState:UIControlStateNormal];
-    
-    NSArray * friendArr = [IMGroupModel findHasAddAll];
-    NSArray * friends = @[self.myFriendsImage1, self.myFriendsImage2, self.myFriendsImage3];
-    //最多三张
-    NSInteger num = 0;
-    if (friendArr.count > 3) {
-        num = 3;
-    }
-    //遍历设置图片
-    for (int i=0; i<num; i++) {
-        IMGroupModel * group        = friendArr[i];
-        CustomImageView * imageView = friends[i];
-        NSURL * url                 = [NSURL URLWithString:[kAttachmentAddr stringByAppendingString:group.avatarPath]];
-        [imageView sd_setImageWithURL:url];
-        imageView.hidden = NO;
-    }
-    
-    //设置数量
-    if (friendArr.count > 0) {
-        self.friendCountLabel.text = [NSString stringWithFormat:@"%ld", friendArr.count];
+    //姓名
+    self.nameLabel.text = [UserService sharedService].user.name;
+    //性别
+    if ([UserService sharedService].user.sex == SexBoy) {
+        self.sexImageView.image = [UIImage imageNamed:@"sex_boy"];
     }else{
-        self.friendCountLabel.text = @"";
+        self.sexImageView.image = [UIImage imageNamed:@"sex_girl"];
     }
+//    self.schoolLabel.text = [UserService sharedService].user.school;
+    self.schoolLabel.text = nil;
+//    NSArray * friendArr = [IMGroupModel findHasAddAll];
+//    NSArray * friends = @[self.myFriendsImage1, self.myFriendsImage2, self.myFriendsImage3];
+//    //最多三张
+//    NSInteger num = 0;
+//    if (friendArr.count > 3) {
+//        num = 3;
+//    }
+//    //遍历设置图片
+//    for (int i=0; i<num; i++) {
+//        IMGroupModel * group        = friendArr[i];
+//        CustomImageView * imageView = friends[i];
+//        NSURL * url                 = [NSURL URLWithString:[kAttachmentAddr stringByAppendingString:group.avatarPath]];
+//        [imageView sd_setImageWithURL:url];
+//        imageView.hidden = NO;
+//    }
+//    
+//    //设置数量
+//    if (friendArr.count > 0) {
+//        self.friendCountLabel.text = [NSString stringWithFormat:@"%ld", friendArr.count];
+//    }else{
+//        self.friendCountLabel.text = @"";
+//    }
     
     //获取当前最近的三张状态图片
     [self getNewsImages];
@@ -533,7 +553,7 @@ enum {
                     [self updateDataInformationWithField:@"name" andValue:content];
                     contentLabel.text = @"";
                     contentLabel.text = content;
-                    [self.nameBtn setTitle:content forState:UIControlStateNormal];
+                    self.nameLabel.text = content;
                 }];
                 [self pushVC:icvc];
             }
@@ -640,19 +660,6 @@ enum {
     
 }
 
-#pragma mark- TuSDKPFEditFilterControllerDelegate
-//图片渲染结束
-- (void)onTuSDKPFEditFilter:(TuSDKPFEditFilterController *)controller result:(TuSDKResult *)result
-{
-    UIImage * image = [ImageHelper getBigImage:result.image];
-    [self imageUploadWithImage:image];
-}
-
-- (void)onComponent:(TuSDKCPViewController *)controller result:(TuSDKResult *)result error:(NSError *)error;
-{
-    lsqLDebug(@"onComponent: controller - %@, result - %@, error - %@", controller, result, error);
-}
-
 #pragma mark- UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -663,14 +670,8 @@ enum {
         image = [ImageHelper getBigImage:info[UIImagePickerControllerOriginalImage]];
     }
     
-    ImageFilterViewController * ifVC = [[ImageFilterViewController alloc] init];
-    ifVC.delegate                    = self;
-    ifVC.inputImage                  = image;
-    [picker dismissViewControllerAnimated:NO completion:^{
-        [self presentViewController:ifVC animated:YES completion:nil];
-    }];
-//    [self imageUploadWithImage:image];
-//    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self imageUploadWithImage:image];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

@@ -10,7 +10,6 @@
 #import "LoginViewController.h"
 #import <MAMapKit/MAMapKit.h>
 #import "YunBaService.h"
-#import <TuSDK/TuSDK.h>
 #import <SMS_SDK/SMS_SDK.h>
 
 
@@ -53,8 +52,6 @@
 
     //云巴推送
     [YunBaService setupWithAppkey:YunBa_AppKey];
-    //图图初始化
-    [TuSDK initSdkWithAppKey:TuTu_AppKey];
     
     //初始化SMS服务
     [SMS_SDK registerApp:SMS_AppKey

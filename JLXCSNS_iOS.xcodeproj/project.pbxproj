@@ -13,6 +13,8 @@
 		422CE3C61AFEEFF000BCD78A /* RefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 422CE3C51AFEEFF000BCD78A /* RefreshTableView.m */; };
 		422CE3C91AFEF77200BCD78A /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422CE3C81AFEF77200BCD78A /* RefreshViewController.m */; };
 		422CE3CF1AFF2D2C00BCD78A /* TestListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422CE3CE1AFF2D2C00BCD78A /* TestListViewController.m */; };
+		4240CF141B842543002B09E2 /* sex_boy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4240CF121B842543002B09E2 /* sex_boy@2x.png */; };
+		4240CF151B842543002B09E2 /* sex_girl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4240CF131B842543002B09E2 /* sex_girl@2x.png */; };
 		4243DF881B023CEA0050357F /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4243DF871B023CEA0050357F /* UserModel.m */; };
 		4243DF8B1B023D450050357F /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4243DF8A1B023D450050357F /* UserService.m */; };
 		4243DF941B024A9D0050357F /* ChoiceSchoolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4243DF931B024A9D0050357F /* ChoiceSchoolViewController.m */; };
@@ -221,11 +223,6 @@
 		42A1BEDE1B1DD37700E66F06 /* CommonFriendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A1BEDD1B1DD37700E66F06 /* CommonFriendModel.m */; };
 		42A1BEE11B1DF08600E66F06 /* NewsVisitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A1BEE01B1DF08600E66F06 /* NewsVisitViewController.m */; };
 		42A35A821B230CDE00596DF3 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A35A811B230CDE00596DF3 /* CoreMotion.framework */; };
-		42A35A911B23124A00596DF3 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A35A8D1B23124A00596DF3 /* GPUImage.framework */; };
-		42A35A921B23124A00596DF3 /* TuSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42A35A8E1B23124A00596DF3 /* TuSDK.bundle */; };
-		42A35A931B23124A00596DF3 /* TuSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A35A8F1B23124A00596DF3 /* TuSDK.framework */; };
-		42A35A941B23124A00596DF3 /* TuSDK.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42A35A901B23124A00596DF3 /* TuSDK.strings */; };
-		42A35A971B2312B600596DF3 /* ImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A35A961B2312B600596DF3 /* ImageFilterViewController.m */; };
 		42A65C041B05DA950026E1F3 /* BrowseImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A65BF81B05DA950026E1F3 /* BrowseImageViewController.m */; };
 		42A65C051B05DA950026E1F3 /* ChoiceLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A65BFA1B05DA950026E1F3 /* ChoiceLocationViewController.m */; };
 		42A65C061B05DA950026E1F3 /* NewsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A65BFC1B05DA950026E1F3 /* NewsListViewController.m */; };
@@ -297,6 +294,8 @@
 		422CE3C81AFEF77200BCD78A /* RefreshViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshViewController.m; sourceTree = "<group>"; };
 		422CE3CD1AFF2D2C00BCD78A /* TestListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestListViewController.h; path = ../../../Common/View/TestListViewController.h; sourceTree = "<group>"; };
 		422CE3CE1AFF2D2C00BCD78A /* TestListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestListViewController.m; path = ../../../Common/View/TestListViewController.m; sourceTree = "<group>"; };
+		4240CF121B842543002B09E2 /* sex_boy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex_boy@2x.png"; sourceTree = "<group>"; };
+		4240CF131B842543002B09E2 /* sex_girl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex_girl@2x.png"; sourceTree = "<group>"; };
 		4243DF861B023CEA0050357F /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		4243DF871B023CEA0050357F /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		4243DF891B023D450050357F /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
@@ -649,12 +648,6 @@
 		42A1BEDF1B1DF08600E66F06 /* NewsVisitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsVisitViewController.h; sourceTree = "<group>"; };
 		42A1BEE01B1DF08600E66F06 /* NewsVisitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsVisitViewController.m; sourceTree = "<group>"; };
 		42A35A811B230CDE00596DF3 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		42A35A8D1B23124A00596DF3 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GPUImage.framework; sourceTree = "<group>"; };
-		42A35A8E1B23124A00596DF3 /* TuSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TuSDK.bundle; sourceTree = "<group>"; };
-		42A35A8F1B23124A00596DF3 /* TuSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDK.framework; sourceTree = "<group>"; };
-		42A35A901B23124A00596DF3 /* TuSDK.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = TuSDK.strings; sourceTree = "<group>"; };
-		42A35A951B2312B600596DF3 /* ImageFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFilterViewController.h; sourceTree = "<group>"; };
-		42A35A961B2312B600596DF3 /* ImageFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFilterViewController.m; sourceTree = "<group>"; };
 		42A65BF71B05DA950026E1F3 /* BrowseImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseImageViewController.h; sourceTree = "<group>"; };
 		42A65BF81B05DA950026E1F3 /* BrowseImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseImageViewController.m; sourceTree = "<group>"; };
 		42A65BF91B05DA950026E1F3 /* ChoiceLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceLocationViewController.h; sourceTree = "<group>"; };
@@ -740,7 +733,6 @@
 				42CAEDAD1B00E26100814DCA /* MapKit.framework in Frameworks */,
 				42CAEDAB1B00E25C00814DCA /* libz.dylib in Frameworks */,
 				42CAEDA91B00E25600814DCA /* libxml2.dylib in Frameworks */,
-				42A35A911B23124A00596DF3 /* GPUImage.framework in Frameworks */,
 				42CAEDA71B00E25000814DCA /* libstdc++.dylib in Frameworks */,
 				429C6E781B83594B00776C9D /* SMS_SDK.framework in Frameworks */,
 				42CAEDA51B00E24500814DCA /* libc++abi.dylib in Frameworks */,
@@ -753,7 +745,6 @@
 				42CAED9B1B00E21B00814DCA /* CoreMedia.framework in Frameworks */,
 				42CAED991B00E1E800814DCA /* CoreLocation.framework in Frameworks */,
 				42CAED971B00E1E100814DCA /* CoreAudio.framework in Frameworks */,
-				42A35A931B23124A00596DF3 /* TuSDK.framework in Frameworks */,
 				4260401E1B144C5200554875 /* libYunBa.a in Frameworks */,
 				42CAED951B00E1DB00814DCA /* CFNetwork.framework in Frameworks */,
 				42CAED931B00E1D600814DCA /* AVFoundation.framework in Frameworks */,
@@ -1177,8 +1168,6 @@
 				422CE3C81AFEF77200BCD78A /* RefreshViewController.m */,
 				42CAEDB21B00EB6500814DCA /* CusTabBarViewController.h */,
 				42CAEDB31B00EB6500814DCA /* CusTabBarViewController.m */,
-				42A35A951B2312B600596DF3 /* ImageFilterViewController.h */,
-				42A35A961B2312B600596DF3 /* ImageFilterViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1287,7 +1276,6 @@
 			children = (
 				429C6E721B83594B00776C9D /* SMS_SDK */,
 				4249E2781B81911A00F01B77 /* Rong_Cloud_iOS_SDK */,
-				42A35A8C1B23124A00596DF3 /* GPU */,
 				424B22BC1B1ECD0A00E5BC71 /* PinYin4Objc */,
 				4249F76B1B16BA79002A37A2 /* HMSegmentedControl */,
 				4260401B1B144C5200554875 /* YunBa */,
@@ -1657,6 +1645,8 @@
 		429C6E8E1B8386F000776C9D /* personal */ = {
 			isa = PBXGroup;
 			children = (
+				4240CF121B842543002B09E2 /* sex_boy@2x.png */,
+				4240CF131B842543002B09E2 /* sex_girl@2x.png */,
 				429C6E8F1B8386F000776C9D /* default_back_image@2x.png */,
 			);
 			name = personal;
@@ -1669,17 +1659,6 @@
 				42997BB91B036E9F00DDA3B5 /* Framework */,
 			);
 			name = Framework;
-			sourceTree = "<group>";
-		};
-		42A35A8C1B23124A00596DF3 /* GPU */ = {
-			isa = PBXGroup;
-			children = (
-				42A35A8D1B23124A00596DF3 /* GPUImage.framework */,
-				42A35A8E1B23124A00596DF3 /* TuSDK.bundle */,
-				42A35A8F1B23124A00596DF3 /* TuSDK.framework */,
-				42A35A901B23124A00596DF3 /* TuSDK.strings */,
-			);
-			path = GPU;
 			sourceTree = "<group>";
 		};
 		42A65BF51B05DA950026E1F3 /* News */ = {
@@ -1935,6 +1914,7 @@
 			files = (
 				429C6E8D1B837C7400776C9D /* tabbar@2x.png in Resources */,
 				429C6E771B83594B00776C9D /* SMS_SDKLocalizable.strings in Resources */,
+				4240CF151B842543002B09E2 /* sex_girl@2x.png in Resources */,
 				427AD81E1AFE21A800103CAC /* blueArrow@2x.png in Resources */,
 				4249E2821B81911A00F01B77 /* RongCloudKit.strings in Resources */,
 				4249E2A81B81C16400F01B77 /* Icon.png in Resources */,
@@ -1952,11 +1932,11 @@
 				4269D00C1AFCB7A400591053 /* JLXCBaseString.strings in Resources */,
 				42C925F71B15F54900B5A203 /* jlxc.db in Resources */,
 				425173941B32A378005FAFA9 /* ScanQR3@2x.png in Resources */,
-				42A35A921B23124A00596DF3 /* TuSDK.bundle in Resources */,
 				4249E2A91B81C16400F01B77 /* Icon@2x.png in Resources */,
 				4249E2A71B81C16400F01B77 /* Icon-Small@3x.png in Resources */,
 				429C6E3B1B832AD300776C9D /* alert_dialog_background@2x.png in Resources */,
 				4249E2A31B81C16400F01B77 /* Icon-Small-50.png in Resources */,
+				4240CF141B842543002B09E2 /* sex_boy@2x.png in Resources */,
 				429C6E3F1B832AD300776C9D /* alert_dialog_confirm_btn_press@2x.png in Resources */,
 				4249E2831B81911A00F01B77 /* release_notes_ios.txt in Resources */,
 				42B880B41AFDC42200B2C2F0 /* ToastFinish@2x.png in Resources */,
@@ -1973,7 +1953,6 @@
 				429C6E8C1B837C7400776C9D /* home_btn_msg_select@2x.png in Resources */,
 				4249E2A51B81C16400F01B77 /* Icon-Small.png in Resources */,
 				427AD81F1AFE21A800103CAC /* grayArrow.png in Resources */,
-				42A35A941B23124A00596DF3 /* TuSDK.strings in Resources */,
 				4249E29B1B81C16400F01B77 /* Icon-60@3x.png in Resources */,
 				427AD8071AFE1F4B00103CAC /* JLXCSNS.plist in Resources */,
 				425173931B32A378005FAFA9 /* ScanQR2@2x.png in Resources */,
@@ -2130,7 +2109,6 @@
 				427AD7EC1AFE1F4B00103CAC /* FMDatabasePool.m in Sources */,
 				427AD7EA1AFE1F4B00103CAC /* FMDatabase.m in Sources */,
 				427AD7F71AFE1F4B00103CAC /* SDWebImageDownloaderOperation.m in Sources */,
-				42A35A971B2312B600596DF3 /* ImageFilterViewController.m in Sources */,
 				426B50711B12B9B200BC3E0D /* LoginViewController.m in Sources */,
 				42C925F21B15ACD100B5A203 /* ChatListViewController.m in Sources */,
 				426FC4E01B2BCA88000EF875 /* ChatRoomMemberCell.m in Sources */,

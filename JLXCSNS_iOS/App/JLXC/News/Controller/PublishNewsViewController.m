@@ -10,8 +10,7 @@
 #import "BrowseImageViewController.h"
 #import "ChoiceLocationViewController.h"
 #import "UIImageView+WebCache.h"
-#import "ImageFilterViewController.h"
-@interface PublishNewsViewController ()<TuSDKPFEditFilterControllerDelegate,TuSDKPFCameraDelegate>
+@interface PublishNewsViewController ()
 
 //图片按钮数组
 @property (nonatomic, strong) NSMutableArray * imageArr;
@@ -81,97 +80,19 @@
     [self.locationBtn addTarget:self action:@selector(locationClick:) forControlEvents:UIControlEventTouchUpInside];
     
 }
-#pragma mark- TuSDKPFEditFilterControllerDelegate
-//图片渲染结束
-- (void)onTuSDKPFEditFilter:(TuSDKPFEditFilterController *)controller result:(TuSDKResult *)result
-{
-    
-    UIImage * image = [ImageHelper getBigImage:result.image];
-    [self handleImage:image];
-
-}
-/**
- *  获取组件返回错误信息
- *
- *  @param controller 控制器
- *  @param result     返回结果
- *  @param error      异常信息
- */
-- (void)onComponent:(TuSDKCPViewController *)controller result:(TuSDKResult *)result error:(NSError *)error
-{
-    lsqLDebug(@"onComponent: controller - %@, result - %@, error - %@", controller, result, error);
-}
 
 #pragma mark- UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     
-    ImageFilterViewController * ifVC = [[ImageFilterViewController alloc] init];
-    ifVC.delegate                    = self;
-    ifVC.inputImage                  = info[UIImagePickerControllerOriginalImage];
-
-    [picker dismissViewControllerAnimated:NO completion:^{
-        [self presentViewController:ifVC animated:YES completion:nil];
-    }];
-    
-//    UIImage * image = [ImageHelper getBigImage:info[UIImagePickerControllerOriginalImage]];
-//    [self handleImage:image];
+    UIImage * image = [ImageHelper getBigImage:info[UIImagePickerControllerOriginalImage]];
+    [self handleImage:image];
 
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - cameraComponentHandler TuSDKPFCameraDelegate
-- (void)showCameraController;
-{
-    // 组件选项配置
-    // @see-http://tusdk.com/docs/ios/api/Classes/TuSDKPFCameraOptions.html
-    TuSDKPFCameraOptions *opt = [TuSDKPFCameraOptions build];
-    // 是否开启滤镜支持 (默认: 关闭)
-    opt.enableFilters = YES;
-    
-    // 是否保存最后一次使用的滤镜
-    opt.saveLastFilter = YES;
-    
-    // 自动选择分组滤镜指定的默认滤镜
-    opt.autoSelectGroupDefaultFilter = YES;
-    
-    // 开启滤镜配置选项
-    opt.enableFilterConfig = YES;
-    
-    // 视频视图显示比例类型 (默认:lsqRatioAll, 如果设置cameraViewRatio > 0, 将忽略ratioType)
-    opt.ratioType = lsqRatioAll;
-    
-    // 是否开启长按拍摄 (默认: NO)
-    opt.enableLongTouchCapture = YES;
-    
-    // 开启持续自动对焦 (默认: NO)
-    opt.enableContinueFoucs = YES;
-    
-    // 视频覆盖区域颜色 (默认：[UIColor clearColor])
-    opt.regionViewColor = RGB(51, 51, 51);
-    
-    TuSDKPFCameraViewController *controller = opt.viewController;
-    // 添加委托
-    controller.delegate = self;
-    [self presentViewController:controller animated:YES completion:nil];
-}
-
-/**
- *  获取一个拍摄结果
- *
- *  @param controller 默认相机视图控制器
- *  @param result     拍摄结果
- */
-- (void)onTuSDKPFCamera:(TuSDKPFCameraViewController *)controller captureResult:(TuSDKResult *)result;
-{
-    UIImage * image = [ImageHelper getBigImage:result.image];
-    [self handleImage:image];
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 #pragma mark- Action Delegate
@@ -186,9 +107,7 @@
         }
         if (buttonIndex == 1) {
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-//                [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
-                [self showCameraController];
-                return;
+                [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
             }
         }
         

@@ -108,7 +108,7 @@
     CustomLabel * topPromptLabel   = [[CustomLabel alloc] initWithFrame:CGRectMake(10, _searchBar.bottom-2, 200, 20)];
     topPromptLabel.text            = @"猜你在这些学校(·ω＜)";
     topPromptLabel.textColor       = [UIColor colorWithHexString:ColorDeepGary];
-    topPromptLabel.font            = [UIFont systemFontOfSize:10];
+    topPromptLabel.font            = [UIFont systemFontOfSize:12];
 
     headView.height                = topPromptLabel.bottom;
     [headView addSubview:topPromptLabel];
@@ -367,7 +367,7 @@
     schoolNameLabel.text          = schoolModel.schoolName;
     [cell.contentView addSubview:schoolNameLabel];
     //描述
-    CustomLabel * descripLabel    = [[CustomLabel alloc] initWithFontSize:10];
+    CustomLabel * descripLabel    = [[CustomLabel alloc] initWithFontSize:12];
     descripLabel.textColor        = [UIColor colorWithHexString:ColorDeepGary];
     descripLabel.frame            = CGRectMake(10, schoolNameLabel.bottom, 300, 20);
     NSString * schoolLevel        = schoolModel.level == 1 ? @"初中":@"高中";

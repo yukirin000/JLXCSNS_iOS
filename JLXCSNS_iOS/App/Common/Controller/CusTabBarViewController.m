@@ -18,7 +18,6 @@
 #import "YunBaService.h"
 #import "PushService.h"
 #import "RCDRCIMDataSource.h"
-#import <TuSDK/TuSDK.h>
 
 
 enum Tab{
@@ -32,7 +31,7 @@ enum Tab{
     TabMe       = 3
 };
 
-@interface CusTabBarViewController ()<PPRevealSideViewControllerDelegate,TuSDKFilterManagerDelegate>
+@interface CusTabBarViewController ()<PPRevealSideViewControllerDelegate>
 
 //@property (nonatomic, strong) LeftPersonalViewController * leftVC;
 
@@ -123,7 +122,6 @@ static CusTabBarViewController * instance = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [ToolsManager sharedManager];        
     });
-    [TuSDK checkManagerWithDelegate:self];
     
 }
 
@@ -284,13 +282,6 @@ static CusTabBarViewController * instance = nil;
 //    
 //    self.coverView.hidden = YES;
 //}
-
-#pragma mark- TuSDKFilterManagerDelegate
-- (void)onTuSDKFilterManagerInited:(TuSDKFilterManager *)manager;
-{
-    debugLog(@"tutu ok");
-}
-
 
 #pragma mark- tabBar点击代理
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
