@@ -357,18 +357,18 @@
     return str;
 }
 
-+ (NSString *)getRemarkOrOriginalNameWithUid:(NSInteger)uid andOriginalName:(NSString *)name
-{
-    IMGroupModel * group = [IMGroupModel findByGroupId:[ToolsManager getCommonGroupId:uid]];
-    if (group == nil) {
-        return name;
-    }
-    NSString * retName = name;
-    if (group.groupRemark != nil && group.groupRemark.length > 0) {
-        retName = group.groupRemark;
-    }
-    return retName;
-}
+//+ (NSString *)getRemarkOrOriginalNameWithUid:(NSInteger)uid andOriginalName:(NSString *)name
+//{
+//    IMGroupModel * group = [IMGroupModel findByGroupId:[ToolsManager getCommonGroupId:uid]];
+//    if (group == nil) {
+//        return name;
+//    }
+//    NSString * retName = name;
+//    if (group.groupRemark != nil && group.groupRemark.length > 0) {
+//        retName = group.groupRemark;
+//    }
+//    return retName;
+//}
 
 + (NSString *)getUploadImageName
 {

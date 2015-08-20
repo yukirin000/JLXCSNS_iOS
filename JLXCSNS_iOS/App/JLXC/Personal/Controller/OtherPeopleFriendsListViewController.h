@@ -8,7 +8,7 @@
 
 #import "RefreshViewController.h"
 
-/*! 最近来访list*/
+/*! 其他人的好友list*/
 @interface OtherPeopleFriendsListViewController : RefreshViewController
 
 /*! 用户id*/

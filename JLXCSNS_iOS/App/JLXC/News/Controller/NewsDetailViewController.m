@@ -195,9 +195,9 @@
     NSURL * headUrl                           = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, self.news.head_sub_image]];
     UITapGestureRecognizer * tap              = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(newsHeadClick:)];
     [self.headImageView addGestureRecognizer:tap];
-    [self.headImageView sd_setImageWithURL:headUrl placeholderImage:[UIImage imageNamed:@"testimage"]];
+    [self.headImageView sd_setImageWithURL:headUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
 
-    NSString * name = [ToolsManager getRemarkOrOriginalNameWithUid:self.news.uid andOriginalName:self.news.name];
+    NSString * name = self.news.name;
     
     //姓名
     CGSize nameSize              = [ToolsManager getSizeWithContent:name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
@@ -235,7 +235,7 @@
         //点击手势
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
         [imageBtn addGestureRecognizer:tap];
-        [imageBtn sd_setBackgroundImageWithURL:imageUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"testimage"]];
+        [imageBtn sd_setBackgroundImageWithURL:imageUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
         imageBtn.frame          = rect;
         [backView addSubview:imageBtn];
         //底部位置
@@ -258,7 +258,7 @@
             //点击手势
             UITapGestureRecognizer * tap     = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
             [imageView addGestureRecognizer:tap];
-            [imageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:@"testimage"]];
+            [imageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
             [backView addSubview:imageView];
             //底部位置
             if (btnArr.count == i+1) {
@@ -315,7 +315,7 @@
         NSURL * headUrl            = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, like.head_sub_image]];
         //点击事件
         [likeHeadBtn addTarget:self action:@selector(likeHeadClick:) forControlEvents:UIControlEventTouchUpInside];
-        [likeHeadBtn sd_setBackgroundImageWithURL:headUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"testimage"]];
+        [likeHeadBtn sd_setBackgroundImageWithURL:headUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
         [backView addSubview:likeHeadBtn];
     }
     
@@ -493,7 +493,7 @@
     self.currentTopComment    = comment;
     
     //是好友查看备注
-    NSString * name = [ToolsManager getRemarkOrOriginalNameWithUid:secondComment.user_id andOriginalName:secondComment.name];
+    NSString * name = secondComment.name;
     self.secondTextView.placeholder = [NSString stringWithFormat:@"回复：%@",name];
     
     [self.secondTextView becomeFirstResponder];

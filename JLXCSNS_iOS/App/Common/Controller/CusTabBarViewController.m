@@ -99,7 +99,7 @@ static CusTabBarViewController * instance = nil;
 
     _backView                 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth], kTabBarHeight)];
     _backView.image           = [UIImage imageNamed:@"tabbar"];
-    _backView.backgroundColor = [UIColor grayColor];
+//    _backView.backgroundColor = [UIColor grayColor];
     _backView.userInteractionEnabled = YES;
     [self.tabBar addSubview:_backView];
 
@@ -108,8 +108,6 @@ static CusTabBarViewController * instance = nil;
     [self createVC];
     
     [self registerNotification];
-    
-    [self badgeNotify:nil];
     
     //初始化侧滑用的遮罩 侧滑关闭
 //    [self initCoverView];
@@ -122,7 +120,7 @@ static CusTabBarViewController * instance = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [ToolsManager sharedManager];        
     });
-    
+    [self badgeNotify:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated

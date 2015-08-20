@@ -123,7 +123,7 @@
     [self.headImageBtn addTarget:self action:@selector(headClick:) forControlEvents:UIControlEventTouchUpInside];
     
     //姓名    //是好友查看备注
-    NSString * name          = [ToolsManager getRemarkOrOriginalNameWithUid:news.uid andOriginalName:news.name];
+    NSString * name          = news.name;
     CGSize nameSize          = [ToolsManager getSizeWithContent:name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
     self.nameLabel.frame     = CGRectMake(self.headImageBtn.right+10, self.headImageBtn.y, nameSize.width, 20);
     self.nameLabel.text      = name;
@@ -264,7 +264,7 @@
         CommentModel * comment                  = news.comment_arr[i];
         
         //评论文本 姓名：内容 //是好友查看备注
-        NSString * commentName = [ToolsManager getRemarkOrOriginalNameWithUid:comment.user_id andOriginalName:comment.name];
+        NSString * commentName                  = comment.name;
         NSString * commentStr                   = [NSString stringWithFormat:@"%@:%@", commentName, comment.comment_content];
         
         CustomLabel * commentNameLabel          = [[CustomLabel alloc] initWithFontSize:15];

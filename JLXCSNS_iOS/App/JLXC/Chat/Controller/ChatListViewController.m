@@ -22,11 +22,11 @@
     // Do any additional setup after loading the view.
     //设置要显示的会话类型
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION), @(ConversationType_APPSERVICE), @(ConversationType_PUBLICSERVICE),@(ConversationType_GROUP)]];
-    [self setConversationAvatarStyle:RC_USER_AVATAR_CYCLE];
 
-    self.conversationListTableView.frame = CGRectMake(0, 0, [DeviceManager getDeviceWidth], [DeviceManager getDeviceHeight]-kNavBarAndStatusHeight-kTabBarHeight);
-    
-    self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.conversationListTableView.frame           = CGRectMake(0, 0, [DeviceManager getDeviceWidth], [DeviceManager getDeviceHeight]-kTabBarHeight);
+
+    self.conversationListTableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
+    self.conversationListTableView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -50,27 +50,27 @@
         ChatViewController *conversationVC = [[ChatViewController alloc]init];
         conversationVC.conversationType    = model.conversationType;
         conversationVC.targetId            = model.targetId;
-        conversationVC.userName          = model.conversationTitle;
+        conversationVC.userName            = model.conversationTitle;
         [self.navigationController pushViewController:conversationVC animated:YES];
     }
     
-    //聊天室
-    if (model.conversationType == ConversationType_GROUP) {
-//        RCTextMessage * tm = [[RCTextMessage alloc] init];
-//        tm.content = @"hahaha";
-//        [[RCIMClient sharedClient] sendMessage:ConversationType_GROUP targetId:model.targetId content:tm pushContent:nil success:^(long messageId) {
-//    
-//        } error:^(RCErrorCode nErrorCode, long messageId) {
-//            
-//        }];
-        
-        ChatRoomChatController *conversationVC = [[ChatRoomChatController alloc]init];
-        conversationVC.conversationType        = model.conversationType;
-        conversationVC.targetId                = model.targetId;
-        conversationVC.userName              = model.conversationTitle;
-
-        [self.navigationController pushViewController:conversationVC animated:YES];
-    }
+//    //聊天室
+//    if (model.conversationType == ConversationType_GROUP) {
+////        RCTextMessage * tm = [[RCTextMessage alloc] init];
+////        tm.content = @"hahaha";
+////        [[RCIMClient sharedClient] sendMessage:ConversationType_GROUP targetId:model.targetId content:tm pushContent:nil success:^(long messageId) {
+////    
+////        } error:^(RCErrorCode nErrorCode, long messageId) {
+////            
+////        }];
+//        
+//        ChatRoomChatController *conversationVC = [[ChatRoomChatController alloc]init];
+//        conversationVC.conversationType        = model.conversationType;
+//        conversationVC.targetId                = model.targetId;
+//        conversationVC.userName              = model.conversationTitle;
+//
+//        [self.navigationController pushViewController:conversationVC animated:YES];
+//    }
     
 }
 
@@ -108,9 +108,18 @@
 {
 //    RCConversationModel * model = self.conversationListDataSource[indexPath.row];
 //    debugLog(@"!!!!!!!%@", model.targetId);
+    if ([cell isKindOfClass:[RCConversationCell class]]) {
+        RCConversationCell *messageCell = (RCConversationCell *)cell;
+        //messageCell.portraitImageView
+        UIImageView *portraitImageView  = (UIImageView *)messageCell.headerImageView;
+        portraitImageView.layer.cornerRadius = 2;
+    }
     
-//    RCConversationCell * ccell       = (RCConversationCell *)cell;
-//
+    CGFloat height = [self.conversationListTableView.delegate tableView:self.conversationListTableView heightForRowAtIndexPath:indexPath];
+    UIView * lineView        = [[UIView alloc] initWithFrame:CGRectMake(0, height-1, [DeviceManager getDeviceWidth], 1)];
+    lineView.backgroundColor = [UIColor colorWithHexString:ColorLightGary];
+    [cell.contentView addSubview:lineView];
+    
 //    RCMessageBubbleTipView * tipView = [[RCMessageBubbleTipView alloc] init];
 //    ccell.bubbleTipView              = tipView;
 //    

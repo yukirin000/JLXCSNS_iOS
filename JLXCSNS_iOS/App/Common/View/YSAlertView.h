@@ -2,7 +2,7 @@
 //  YSAlterview.h
 //  new
 //
-//  Created by chinat2t on 14-11-6.
+//  Created by chinat2t on 14-9-6.
 //  Copyright (c) 2014年 chinat2t. All rights reserved.
 //
 

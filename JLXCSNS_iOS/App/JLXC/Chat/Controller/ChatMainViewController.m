@@ -9,7 +9,6 @@
 #import "ChatMainViewController.h"
 #import "IMGroupModel.h"
 #import "ChatListViewController.h"
-#import "FriendsListViewController.h"
 #import "HMSegmentedControl.h"
 #import "NotifyNewsViewController.h"
 
@@ -81,20 +80,20 @@
         [alert show];
     }];
     sself.navBar.rightBtn.hidden = YES;
-    
-    
+
     //创建segment
     self.segmentedControl.autoresizingMask            = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
     self.segmentedControl.frame                       = CGRectMake(kCenterOriginX(120), 25, 120, 30);
+    self.segmentedControl.backgroundColor             = [UIColor clearColor];
     [self.segmentedControl addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
     self.segmentedControl.selectionStyle              = HMSegmentedControlSelectionStyleTextWidthStripe;
     self.segmentedControl.selectionIndicatorLocation  = HMSegmentedControlSelectionIndicatorLocationDown;
     self.segmentedControl.selectionIndicatorHeight    = 2.0;
-    self.segmentedControl.selectionIndicatorColor     = [UIColor blueColor];
-    self.segmentedControl.backgroundColor             = [UIColor yellowColor];
-    self.segmentedControl.titleTextAttributes         = @{NSForegroundColorAttributeName : [UIColor darkGrayColor]};
+    self.segmentedControl.selectionIndicatorColor     = [UIColor colorWithHexString:ColorOrange];
+    self.segmentedControl.titleTextAttributes         = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:ColorBrown andAlpha:0.5], NSFontAttributeName : [UIFont systemFontOfSize:FontNavBarTitle]};
     self.segmentedControl.shouldAnimateUserSelection  = NO;
-    self.segmentedControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1]};
+    self.segmentedControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:ColorBrown], NSFontAttributeName : [UIFont systemFontOfSize:FontNavBarTitle]};
+    
 
     self.chatUnreadLabel.frame             = CGRectMake(0, 0, 12, 12);
     self.chatUnreadLabel.backgroundColor   = [UIColor redColor];

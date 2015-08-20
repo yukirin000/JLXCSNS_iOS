@@ -122,12 +122,12 @@
 
 
 /**!
- * 获取备注
+ * 获取备注 暂时弃用
  * @param uid 用户id
  * @param name 用户名字
  * @return 显示名字
  */
-+ (NSString *)getRemarkOrOriginalNameWithUid:(NSInteger)uid andOriginalName:(NSString *)name;
+//+ (NSString *)getRemarkOrOriginalNameWithUid:(NSInteger)uid andOriginalName:(NSString *)name;
 
 /**!
  * 获取要上传通用的图片名

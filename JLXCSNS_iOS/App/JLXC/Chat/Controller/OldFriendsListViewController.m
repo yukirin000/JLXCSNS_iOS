@@ -6,14 +6,14 @@
 //  Copyright (c) 2015年 JLXC. All rights reserved.
 //
 
-#import "FriendsListViewController.h"
+#import "OldFriendsListViewController.h"
 #import "IMGroupModel.h"
 #import "UIImageView+WebCache.h"
 #import "ChatViewController.h"
 #import "NewFriendsListViewController.h"
 #import "OtherPersonalViewController.h"
 
-@interface FriendsListViewController ()
+@interface OldFriendsListViewController ()
 
 //好友列表
 @property (nonatomic, strong) UITableView * friendsTableView;
@@ -34,7 +34,7 @@
 
 @end
 
-@implementation FriendsListViewController
+@implementation OldFriendsListViewController
 
 - (instancetype)init
 {

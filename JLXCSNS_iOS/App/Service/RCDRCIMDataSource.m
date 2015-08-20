@@ -148,7 +148,7 @@
         if (group) {
             //头像代理
             //备注
-            NSString * name = [ToolsManager getRemarkOrOriginalNameWithUid:[[group.groupId stringByReplacingOccurrencesOfString:JLXC withString:@""] integerValue] andOriginalName:group.groupTitle];
+            NSString * name = group.groupTitle;
             RCUserInfo * usr = [[RCUserInfo alloc] initWithUserId:userId name:name portrait:[ToolsManager completeUrlStr:group.avatarPath]];
             //用旧的
             completion(usr);
@@ -176,8 +176,9 @@
                     //更新
                     [group update];
                 }
+                
                 //聊天名
-                name = [ToolsManager getRemarkOrOriginalNameWithUid:[[group.groupId stringByReplacingOccurrencesOfString:JLXC withString:@""] integerValue] andOriginalName:result[@"name"]];
+                name = result[@"name"];
                 RCUserInfo * usr = [[RCUserInfo alloc] initWithUserId:userId name:name portrait:[ToolsManager completeUrlStr:result[@"head_image"]]];
                 return completion(usr);
             }

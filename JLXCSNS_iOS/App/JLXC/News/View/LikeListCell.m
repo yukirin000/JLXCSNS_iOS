@@ -57,9 +57,9 @@
 {
     //头像
     NSURL * imageUrl = [NSURL URLWithString:[ToolsManager completeUrlStr:model.head_sub_image]];
-    [self.headImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:@"testimage"]];
+    [self.headImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     //姓名
-    NSString * name      = [ToolsManager getRemarkOrOriginalNameWithUid:model.user_id andOriginalName:model.name];
+    NSString * name      = model.name;
     CGSize size          = [ToolsManager getSizeWithContent:name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 30)];
     self.nameLabel.text  = name;
     self.nameLabel.width = size.width;

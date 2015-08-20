@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "AppDelegate.h"
+#import "SDWebImageManager.h"
 
 @interface BaseViewController ()
 
@@ -230,6 +231,7 @@
 
 - (void)didReceiveMemoryWarning
 {
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

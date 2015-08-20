@@ -11,6 +11,7 @@
 #import <AddressBook/AddressBook.h>
 #import "UIImageView+WebCache.h"
 #import "OtherPersonalViewController.h"
+#import "FindUtils.h"
 
 //联系人Model
 @interface ContactModel : NSObject
@@ -54,6 +55,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setNavBarTitle:@"通讯录中的小伙伴 (・ω・=)"];
+    
     [self readAllPeoples];
     
     [self initTableView];
@@ -68,9 +71,11 @@
 - (void)initTableView
 {
     //列表
-    self.tableView            = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, [DeviceManager getDeviceWidth], self.view.height-kNavBarAndStatusHeight) style:UITableViewStylePlain];
-    self.tableView.delegate   = self;
-    self.tableView.dataSource = self;
+    self.tableView                 = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, [DeviceManager getDeviceWidth], self.view.height-kNavBarAndStatusHeight) style:UITableViewStylePlain];
+    self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    self.tableView.delegate        = self;
+    self.tableView.dataSource      = self;
     [self.view addSubview:self.tableView];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
 }
@@ -87,46 +92,50 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell      = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    cell.backgroundColor        = [UIColor colorWithHexString:ColorWhite];
     cell.selectionStyle         = UITableViewCellSelectionStyleNone;
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
     ContactModel * contact      = self.dataSource[indexPath.row];
     //头像
-    CustomImageView * imageView = [[CustomImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
-    imageView.backgroundColor   = [UIColor grayColor];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:contact.head_sub_image]]];
+    CustomImageView * imageView    = [[CustomImageView alloc] initWithFrame:CGRectMake(10, 10, 45, 45)];
+    imageView.layer.cornerRadius   = 2;
+    imageView.layer.masksToBounds  = YES;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:contact.head_sub_image]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     [cell.contentView addSubview:imageView];
-
+    
     //昵称
-    CustomLabel * nameLabel     = [[CustomLabel alloc] initWithFontSize:15];
-    nameLabel.frame             = CGRectMake(imageView.right+10, imageView.y+5, 200, 20);
-    nameLabel.text              = contact.name;
+    CustomLabel * nameLabel        = [[CustomLabel alloc] initWithFontSize:15];
+    nameLabel.frame                = CGRectMake(imageView.right+10, imageView.y+3, 200, 20);
+    nameLabel.font                 = [UIFont systemFontOfSize:FontListName];
+    nameLabel.textColor            = [UIColor colorWithHexString:ColorDeepBlack];
+    nameLabel.text                 = contact.name;
     [cell.contentView addSubview:nameLabel];
 
     //通讯录名
-    CustomLabel * contactLabel  = [[CustomLabel alloc] initWithFontSize:15];
-    contactLabel.frame          = CGRectMake(imageView.right+10, nameLabel.bottom, 200, 20);
-    contactLabel.text           = [NSString stringWithFormat:@"通讯录：%@", self.contactDic[contact.phone]];
+    CustomLabel * contactLabel        = [[CustomLabel alloc] initWithFontSize:14];
+    contactLabel.frame                = CGRectMake(nameLabel.x, nameLabel.bottom+1, 200, 20);
+    contactLabel.font                 = [UIFont systemFontOfSize:FontListContent];
+    contactLabel.textColor            = [UIColor colorWithHexString:ColorDeepGary];
+    contactLabel.text                 = [NSString stringWithFormat:@"通讯录：%@", self.contactDic[contact.phone]];;
     [cell.contentView addSubview:contactLabel];
-
-    CustomButton * addBtn   = [[CustomButton alloc] initWithFontSize:15];
-    addBtn.frame            = CGRectMake(self.viewWidth-60, 15, 50, 30);
+    
+    //添加按钮
+    CustomButton * addBtn          = [[CustomButton alloc] initWithFontSize:15];
+    addBtn.frame                   = CGRectMake(self.viewWidth-65, 17, 50, 23);
     //如果已经添加了
     if (contact.is_friend == GroupHasAdd) {
-        addBtn.backgroundColor = [UIColor darkGrayColor];
-        [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [addBtn setTitle:@"已添加" forState:UIControlStateNormal];
+        [addBtn setImage:[UIImage imageNamed:@"friend_btn_isadd"] forState:UIControlStateNormal];
+        addBtn.enabled = NO;
     }else{
-        addBtn.backgroundColor = [UIColor yellowColor];
-        addBtn.tag             = indexPath.row;
-        [addBtn addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
-        [addBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [addBtn setTitle:@"添加" forState:UIControlStateNormal];
+        addBtn.enabled = YES;
+        [addBtn setImage:[UIImage imageNamed:@"friend_btn_add"] forState:UIControlStateNormal];
     }
-    
     [cell.contentView addSubview:addBtn];
     
-//    cell.textLabel.text     = [contact.name stringByAppendingString:contact.phone];
+    UIView * lineView        = [[UIView alloc] initWithFrame:CGRectMake(10, 64, [DeviceManager getDeviceWidth], 1)];
+    lineView.backgroundColor = [UIColor colorWithHexString:ColorLightGary];
+    [cell.contentView addSubview:lineView];
     
     return cell;
 }
@@ -228,7 +237,7 @@
 {
     
     [self showLoading:@"数据同步中+_+"];
-//    [self.contactDic setObject:@"测试一" forKey:@"13736661234"];
+//    [self.contactDic setObject:@"测试一" forKey:@"13500065922"];
 //    [self.contactDic setObject:@"测试二" forKey:@"13244448888"];
     
     NSMutableArray * tmpPhoneArr = [[NSMutableArray alloc] initWithArray:self.contactDic.allKeys];
@@ -285,36 +294,15 @@
         int status = [responseData[HttpStatus] intValue];
         
         if (status == HttpStatusCodeSuccess) {
-            IMGroupModel * group = [IMGroupModel findByGroupId:[ToolsManager getCommonGroupId:contactModel.uid]];
-            //如果存在
-            if (group) {
-                
-                group.groupTitle     = contactModel.name;
-                group.avatarPath     = contactModel.head_image;
-                group.isRead         = YES;
-                group.isNew          = NO;
-                group.currentState   = GroupHasAdd;
-                [group update];
-                
-            }else{
-                //保存群组信息
-                group = [[IMGroupModel alloc] init];
-                group.type           = ConversationType_PRIVATE;
-                //targetId
-                group.groupId        = [ToolsManager getCommonGroupId:contactModel.uid];
-                group.groupTitle     = contactModel.name;
-                group.isNew          = NO;
-                group.avatarPath     = contactModel.head_image;
-                group.isRead         = YES;
-                group.currentState   = GroupHasAdd;
-                group.owner          = [UserService sharedService].user.uid;
-                [group save];
-            }
+            //添加好友处理
+            IMGroupModel * group = [[IMGroupModel alloc] init];
+            group.groupId        = [ToolsManager getCommonGroupId:contactModel.uid];
+            group.groupTitle     = contactModel.name;
+            group.avatarPath     = contactModel.head_image;
+            [FindUtils addFriendWith:group];
             
             //添加成功
             [self showComplete:responseData[HttpMessage]];
-//            //发送消息通知
-//            [[PushService sharedInstance] pushAddFriendMessageWithTargetID:group.groupId];
             contactModel.is_friend = YES;
             
         }else{

@@ -24,6 +24,9 @@
     
     self.view.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
     
+    [self.navBar.rightBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
+    [self.navBar.rightBtn setTitleColor:[UIColor colorWithHexString:ColorDeepGary] forState:UIControlStateHighlighted];
+    
     //0姓名 1签名
     if (self.changeType == 0) {
         //姓名
@@ -42,6 +45,7 @@
 #pragma mark- layout
 - (void)createNameUI
 {
+    [self.navBar setNavTitle:@"修改昵称~"];
     __block typeof(_changeBlock) ccblock = _changeBlock;
     __weak typeof(self) sself = self;
     [self.navBar setRightBtnWithContent:StringCommonSave andBlock:^{
@@ -69,12 +73,13 @@
     self.nameTextFiled.font         = [UIFont systemFontOfSize:14];
     self.nameTextFiled.textColor    = [UIColor colorWithHexString:ColorDeepBlack];
     self.nameTextFiled.text         = self.content;
-    self.nameTextFiled.placeholder  = @"请输入姓名";
+    self.nameTextFiled.placeholder  = @"请输入爆炸昵称！";
     [self.view addSubview:self.nameTextFiled];
 }
 
 - (void)createSignUI
 {
+    [self.navBar setNavTitle:@"修改签名~"];
     __block typeof(_changeBlock) ccblock = _changeBlock;
     __weak typeof(self) sself = self;
     [self.navBar setRightBtnWithContent:StringCommonSave andBlock:^{
@@ -92,7 +97,7 @@
     CustomImageView * backImageView = [[CustomImageView alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+20, 300, 80)];
     backImageView.image             = [UIImage imageNamed:@"comment_border_view"];
     [self.view addSubview:backImageView];
-    self.signTextView               = [[PlaceHolderTextView alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+20, 300, 80) andPlaceHolder:@"在这里写签名~"];
+    self.signTextView               = [[PlaceHolderTextView alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+20, 300, 80) andPlaceHolder:@"好像是在这里写签名~"];
     self.signTextView.font          = [UIFont systemFontOfSize:14];
     self.signTextView.textColor     = [UIColor colorWithHexString:ColorDeepBlack];
     self.signTextView.text          = self.content;

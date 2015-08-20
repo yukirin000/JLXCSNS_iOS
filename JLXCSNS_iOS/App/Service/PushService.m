@@ -104,9 +104,9 @@ static PushService *_shareInstance=nil;
     NSString * topic = [ToolsManager getCommonGroupId:[UserService sharedService].user.uid];
     [YunBaService subscribe:topic resultBlock:^(BOOL succ, NSError *error) {
         debugLog(@"==================================yunba Subscribe:%d %@", succ, topic);
-        [YunBaService getTopicList:^(NSArray *res, NSError *error) {
-            debugLog(@"yunba topic: %@", res);
-        }];
+//        [YunBaService getTopicList:^(NSArray *res, NSError *error) {
+//            debugLog(@"yunba topic: %@", res);
+//        }];
     }];
 }
 
@@ -203,6 +203,7 @@ static PushService *_shareInstance=nil;
     push.news_user_name  = pushDic[@"news_user_name"];
     push.is_read         = NO;
     push.push_time       = pushDic[@"push_time"];
+    push.owner           = [UserService sharedService].user.uid;
     [push save];
     
     //发送通知

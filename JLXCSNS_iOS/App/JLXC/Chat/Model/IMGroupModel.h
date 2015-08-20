@@ -76,7 +76,7 @@ enum {
 
 /*!
  @property
- @brief 添加时间
+ @brief 添加时间 暂时只用于存储 对方推送过来的添加时间
  */
 @property (nonatomic,copy) NSString * addDate;
 

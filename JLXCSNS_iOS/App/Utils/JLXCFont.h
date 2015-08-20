@@ -24,4 +24,11 @@
 //个人主页 标题字体
 #define FontPersonalTitle 14
 
+//列表姓名字体
+#define FontListName 14
+//列表内容字体
+#define FontListContent 12
+//列表时间字体
+#define FontListTime 12
+
 #endif

@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.view.backgroundColor = [UIColor colorWithHexString:ColorYellow];
     
     //自动登录
@@ -90,7 +90,7 @@
     self.loginBtn.backgroundColor             = [UIColor colorWithHexString:ColorYellow];
     [self.loginBtn setTitle:@"登录/注册" forState:UIControlStateNormal];
     
-    self.loginTextField.text         = @"13500065922";
+    self.loginTextField.text         = @"18888888888";
     
 }
 

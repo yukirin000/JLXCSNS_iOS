@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 JLXC. All rights reserved.
 
 #import "MyNewsListViewController.h"
+#import "NewsUtils.h"
 #import "PublishNewsViewController.h"
 #import "NewsModel.h"
 #import "ImageModel.h"
@@ -106,7 +107,7 @@
         //一张图片 大图
         ImageModel * imageModel = news.image_arr[0];
         CGSize size             = CGSizeMake(imageModel.width, imageModel.height);
-        CGRect rect             = [self getRectWithSize:size];
+        CGRect rect             = [NewsUtils getRectWithSize:size];
         height                  = cellOtherHeight+contentSize.height+rect.size.height;
     }else{
         //多张图片九宫格
@@ -231,21 +232,6 @@
     
 }
 
-//获取合适的比例
-- (CGRect)getRectWithSize:(CGSize) size
-{
-    CGFloat x,y,width,height;
-    if (size.width > size.height) {
-        width  = 200;
-        height = size.height*(200/size.width);
-    }else{
-        width  = 100;
-        height = size.height*(100/size.width);
-    }
-    CGRect rect = CGRectMake(x, y, width, height);
-    
-    return rect;
-}
 
 /*
  #pragma mark - Navigation

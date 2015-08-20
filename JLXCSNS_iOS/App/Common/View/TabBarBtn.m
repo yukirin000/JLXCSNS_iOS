@@ -20,9 +20,9 @@
     if (self) {
         //创建徽标图片
         _badgeImage = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_badgeImage setBackgroundImage:[UIImage imageNamed:@"ch_tv_count_bg"] forState:UIControlStateNormal];
+        [_badgeImage setImage:[UIImage imageNamed:@"small_unread"] forState:UIControlStateNormal];
         _badgeImage.titleLabel.font = [UIFont systemFontOfSize:12];
-        _badgeImage.frame = CGRectMake(CGRectGetWidth(frame)-25, 8, 15, 15);
+        _badgeImage.frame = CGRectMake(CGRectGetWidth(frame)/2+12, 5, 10, 10);
         [self addSubview:_badgeImage];
         _badgeImage.hidden = YES;
         
@@ -55,9 +55,9 @@
             _badgeImage.hidden = YES;
             return ;
         }
-        
-        NSString * title = [NSString stringWithFormat:@"%ld", num];
-        [_badgeImage setTitle:title forState:UIControlStateNormal];
+//暂时隐藏数量
+//        NSString * title = [NSString stringWithFormat:@"%ld", num];
+//        [_badgeImage setTitle:title forState:UIControlStateNormal];
         _badgeImage.hidden = NO;
     });
 

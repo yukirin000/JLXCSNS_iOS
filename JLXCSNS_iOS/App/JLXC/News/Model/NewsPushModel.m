@@ -16,7 +16,7 @@
  */
 - (int)save
 {
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO jlxc_news_push values (null,'%ld','%@','%@' , '%@','%ld','%ld','%@','%@','%@','%d', '%@')",self.uid, self.head_image, self.name, self.comment_content,self.type, self.news_id, self.news_content, self.news_image, self.news_user_name, self.is_read, self.push_time];
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO jlxc_news_push values (null,'%ld','%@','%@' , '%@','%ld','%ld','%@','%@','%@','%d', '%@', '%ld')",self.uid, self.head_image, self.name, self.comment_content,self.type, self.news_id, self.news_content, self.news_image, self.news_user_name, self.is_read, self.push_time, self.owner];
     return [[DatabaseService sharedInstance] executeUpdate:sql];
 }
 
@@ -52,13 +52,22 @@
 
 + (NSMutableArray *)findAll
 {
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_news_push ORDER BY id DESC;"];
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_news_push WHERE owner='%ld' ORDER BY id DESC;", [UserService sharedService].user.uid];
+    return [self findBySql:sql];
+}
+
++ (NSMutableArray *)findWithPage:(NSInteger)page size:(NSInteger)size
+{
+    NSInteger start = (page-1)*size;
+    NSInteger end   = size;
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_news_push WHERE owner='%ld' ORDER BY id DESC LIMIT %ld,%ld;", [UserService sharedService].user.uid, start, end];
+    
     return [self findBySql:sql];
 }
 
 + (NSMutableArray *)findUnreadCount
 {
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_news_push WHERE is_read=0 ORDER BY id DESC;"];
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_news_push WHERE owner='%ld' and is_read=0 ORDER BY id DESC;", [UserService sharedService].user.uid];
     return [self findBySql:sql];
 }
 

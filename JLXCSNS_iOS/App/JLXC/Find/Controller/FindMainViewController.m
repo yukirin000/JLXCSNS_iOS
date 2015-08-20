@@ -16,6 +16,7 @@
 #import "QRcodeViewController.h"
 #import "ContactViewController.h"
 #import "RecommendCell.h"
+#import "FindUtils.h"
 
 @interface FindMainViewController ()<RefreshDataDelegate,RecommendDelegate>
 
@@ -28,11 +29,7 @@
 
     self.refreshTableView.frame = CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight-kTabBarHeight);
     
-    __weak typeof(self) sself = self;
-    [self.navBar setRightBtnWithContent:@"扫一扫" andBlock:^{
-        QRcodeViewController * qrVC = [[QRcodeViewController alloc] init];
-        [sself pushVC:qrVC];
-    }];
+    [self configUI];
     
     [self loadAndhandleData];
 }
@@ -40,6 +37,82 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark- layout
+- (void)configUI
+{
+    [self setNavBarTitle:@"找同学"];
+    
+    __weak typeof(self) sself = self;
+    [self.navBar setRightBtnWithContent:@"" andBlock:^{
+        QRcodeViewController * qrVC = [[QRcodeViewController alloc] init];
+        [sself pushVC:qrVC];
+    }];
+    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"qrcode_scan_btn_normal"] forState:UIControlStateNormal];
+    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"qrcode_scan_btn_press"] forState:UIControlStateHighlighted];
+    
+    //顶部背景
+    UIView * backView                   = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, 0)];
+    backView.backgroundColor            = [UIColor colorWithHexString:ColorLightWhite];
+
+    //搜索框按钮
+    CustomButton * searchBtn            = [[CustomButton alloc] initWithFontSize:14];
+    searchBtn.backgroundColor           = [UIColor colorWithHexString:ColorWhite];
+    searchBtn.frame                     = CGRectMake(kCenterOriginX((self.viewWidth-40)), 10, self.viewWidth-40, 30);
+    [searchBtn setTitle:@"搜索昵称、HelloHa号" forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchClick:) forControlEvents:UIControlEventTouchUpInside];
+    [searchBtn setTitleColor:[UIColor colorWithHexString:ColorLightBlack] forState:UIControlStateNormal];
+    [backView addSubview:searchBtn];
+
+    //通讯录按钮
+    CustomButton * contactBtn           = [[CustomButton alloc] init];
+    [contactBtn setImage:[UIImage imageNamed:@"friend_btn_phonebook_normal"] forState:UIControlStateNormal];
+    [contactBtn setImage:[UIImage imageNamed:@"friend_btn_phonebook_click"] forState:UIControlStateHighlighted];
+    contactBtn.backgroundColor          = [UIColor colorWithHexString:ColorWhite];
+    contactBtn.imageEdgeInsets          = UIEdgeInsetsMake(10, 0, 0, 0);
+    contactBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
+    contactBtn.frame                    = CGRectMake(0, 50, self.viewWidth/2, 80);
+    [backView addSubview:contactBtn];
+
+    CustomLabel * contactLabel          = [[CustomLabel alloc] initWithFontSize:15];
+    contactLabel.frame                  = CGRectMake(0, contactBtn.height-30, contactBtn.width, 20);
+    contactLabel.textAlignment          = NSTextAlignmentCenter;
+    contactLabel.text                   = @"通讯录中的小伙伴";
+    contactLabel.textColor              = [UIColor colorWithHexString:ColorLightBlack];
+    [contactBtn addSubview:contactLabel];
+
+    //同校按钮
+    CustomButton * schoolBtn            = [[CustomButton alloc] init];
+    [schoolBtn setImage:[UIImage imageNamed:@"friend_btn_schoolmate_normal"] forState:UIControlStateNormal];
+    [schoolBtn setImage:[UIImage imageNamed:@"friend_btn_schoolmate_click"] forState:UIControlStateHighlighted];
+    schoolBtn.backgroundColor           = [UIColor colorWithHexString:ColorWhite];
+    schoolBtn.imageEdgeInsets           = UIEdgeInsetsMake(10, 0, 0, 0);
+    schoolBtn.contentVerticalAlignment  = UIControlContentVerticalAlignmentTop;
+    schoolBtn.frame                     = CGRectMake(self.viewWidth/2, 50, self.viewWidth/2, 80);
+    [backView addSubview:schoolBtn];
+    CustomLabel * schoolLabel           = [[CustomLabel alloc] initWithFontSize:15];
+    schoolLabel.frame                   = CGRectMake(0, contactBtn.height-30, contactBtn.width, 20);
+    schoolLabel.textAlignment           = NSTextAlignmentCenter;
+    schoolLabel.textColor               = [UIColor colorWithHexString:ColorLightBlack];
+    schoolLabel.text                    = @"同校中的小伙伴";
+    [schoolBtn addSubview:schoolLabel];
+
+    UIView * verticalLine               = [[UIView alloc] initWithFrame:CGRectMake(self.viewWidth/2, schoolBtn.y+5, 1, schoolBtn.height-10)];
+    verticalLine.backgroundColor        = [UIColor colorWithHexString:ColorLightGary];
+    [backView addSubview:verticalLine];
+
+    //标题
+    CustomLabel * listTitleLabel        = [[CustomLabel alloc] initWithFontSize:15];
+    listTitleLabel.frame                = CGRectMake(15, schoolBtn.bottom+10, 200, 20);
+    listTitleLabel.text                 = @"可能认识的同学 ╭(′▽`)╯";
+    listTitleLabel.textColor            = [UIColor colorWithHexString:ColorLightBlack];
+    [backView addSubview:listTitleLabel];
+    
+    backView.height = listTitleLabel.bottom+3;
+    [self.refreshTableView setTableHeaderView:backView];
+    
+    [contactBtn addTarget:self action:@selector(contactClick:) forControlEvents:UIControlEventTouchUpInside];
+    [schoolBtn addTarget:self action:@selector(sameSchoolClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma override
@@ -56,24 +129,6 @@
     [self loadAndhandleData];
 }
 
-
-#pragma mark- override
-- (void)createRefreshView
-{
-    //展示数据的列表
-    if ([DeviceManager getDeviceSystem] >= 7.0) {
-        self.refreshTableView                 = [[RefreshTableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight) style:UITableViewStyleGrouped];
-    }else{
-        self.refreshTableView                 = [[RefreshTableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight) style:UITableViewStylePlain];
-    }
-    
-    self.refreshTableView.delegate        = self;
-    self.refreshTableView.dataSource      = self;
-    self.refreshTableView.refreshDelegate = self;
-    self.refreshTableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
-    [self.view addSubview:self.refreshTableView];
-    self.refreshTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.refreshTableView.bounds.size.width, 0.01f)];
-}
 
 #pragma mark- UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -106,66 +161,17 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 100;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RecommendFriendModel * recommendModel = self.dataArr[indexPath.row];
     
     if (recommendModel.imageArr.count > 0) {
-        return 140;
+        return 85+self.viewWidth/4.5;
     }
     
-    return 60;
+    return 80;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0.01;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView * backView        = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, 100)];
-    backView.backgroundColor = [UIColor whiteColor];
-    
-    //搜索框按钮
-    CustomButton * searchBtn  = [[CustomButton alloc] initWithFontSize:15];
-    searchBtn.backgroundColor = [UIColor darkGrayColor];
-    searchBtn.frame           = CGRectMake(kCenterOriginX(200), 0, 200, 30);
-    [searchBtn addTarget:self action:@selector(searchClick:) forControlEvents:UIControlEventTouchUpInside];
-    [searchBtn setTitle:@"搜索昵称/哈哈号" forState:UIControlStateNormal];
-    [backView addSubview:searchBtn];
-    
-    //通讯录按钮
-    CustomButton * contactBtn  = [[CustomButton alloc] initWithFontSize:15];
-    [contactBtn addTarget:self action:@selector(contactClick:) forControlEvents:UIControlEventTouchUpInside];
-    contactBtn.backgroundColor = [UIColor lightGrayColor];
-    contactBtn.frame           = CGRectMake(0, 30, self.viewWidth/2, 70);
-    [backView addSubview:contactBtn];
-    CustomLabel * contactLabel = [[CustomLabel alloc] initWithFontSize:12];
-    contactLabel.frame         = CGRectMake(0, 40, contactBtn.width, 20);
-    contactLabel.textAlignment = NSTextAlignmentCenter;
-    contactLabel.text          = @"添加通讯录好友";
-    [contactBtn addSubview:contactLabel];
-    
-    //同校按钮
-    CustomButton * schoolBtn  = [[CustomButton alloc] initWithFontSize:15];
-    [schoolBtn addTarget:self action:@selector(sameSchoolClick:) forControlEvents:UIControlEventTouchUpInside];
-    schoolBtn.backgroundColor = [UIColor lightGrayColor];
-    schoolBtn.frame           = CGRectMake(contactBtn.right, 30, self.viewWidth/2, 70);
-    [backView addSubview:schoolBtn];
-    CustomLabel * schoolLabel = [[CustomLabel alloc] initWithFontSize:12];
-    schoolLabel.frame         = CGRectMake(0, 40, contactBtn.width, 20);
-    schoolLabel.textAlignment = NSTextAlignmentCenter;
-    schoolLabel.text          = @"添加同校的好友";
-    [schoolBtn addSubview:schoolLabel];
-    
-    return backView;
-}
 #pragma mark- RecommendDelegate
 - (void)addFriendClick:(RecommendFriendModel *)model
 {
@@ -262,36 +268,15 @@
         
         if (status == HttpStatusCodeSuccess) {
             
-            IMGroupModel * group = [IMGroupModel findByGroupId:[ToolsManager getCommonGroupId:recommentModel.uid]];
-            //如果存在
-            if (group) {
-                
-                group.groupTitle     = recommentModel.name;
-                group.avatarPath     = recommentModel.head_image;
-                group.isRead         = YES;
-                group.isNew          = NO;
-                group.currentState   = GroupHasAdd;
-                [group update];
-                
-            }else{
-                //保存群组信息
-                group = [[IMGroupModel alloc] init];
-                group.type           = ConversationType_PRIVATE;
-                //targetId
-                group.groupId        = [ToolsManager getCommonGroupId:recommentModel.uid];
-                group.groupTitle     = recommentModel.name;
-                group.isNew          = NO;
-                group.avatarPath     = recommentModel.head_image;
-                group.isRead         = YES;
-                group.currentState   = GroupHasAdd;
-                group.owner          = [UserService sharedService].user.uid;
-                [group save];
-            }
+            //添加好友处理
+            IMGroupModel * group = [[IMGroupModel alloc] init];
+            group.groupId        = [ToolsManager getCommonGroupId:recommentModel.uid];
+            group.groupTitle     = recommentModel.name;
+            group.avatarPath     = recommentModel.head_image;
+            [FindUtils addFriendWith:group];
             
             //添加成功
             [self showComplete:responseData[HttpMessage]];
-//            //发送消息通知
-//            [[PushService sharedInstance] pushAddFriendMessageWithTargetID:group.groupId];
             recommentModel.addFriend = YES;
             
         }else{

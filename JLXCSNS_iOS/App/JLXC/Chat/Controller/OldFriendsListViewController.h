@@ -9,7 +9,7 @@
 //#import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 
-/*! 好友列表*/
-@interface FriendsListViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
+/*! 好友列表 弃用*/
+@interface OldFriendsListViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate>
 
 @end

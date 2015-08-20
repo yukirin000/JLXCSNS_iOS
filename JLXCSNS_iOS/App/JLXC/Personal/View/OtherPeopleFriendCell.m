@@ -50,26 +50,31 @@
 
 - (void)configUI
 {
-    self.headImageView.frame      = CGRectMake(5, 5, 40, 40);
-    self.nameLabel.frame          = CGRectMake(self.headImageView.right+10, self.headImageView.y, 0, 20);
-    self.schoolLabel.frame          = CGRectMake(self.headImageView.right+10, self.nameLabel.bottom, 250, 20);
+    self.headImageView.frame               = CGRectMake(10, 10, 45, 45);
+    self.headImageView.layer.cornerRadius  = 2;
+    self.headImageView.layer.masksToBounds = YES;
     
-    self.lineView.frame           = CGRectMake(5, 49, [DeviceManager getDeviceWidth], 1);
-    self.lineView.backgroundColor = [UIColor darkGrayColor];
+    self.nameLabel.frame                   = CGRectMake(self.headImageView.right+10, self.headImageView.y+3, 200, 20);
+    self.nameLabel.font                    = [UIFont systemFontOfSize:FontListName];
+    self.nameLabel.textColor               = [UIColor colorWithHexString:ColorDeepBlack];
+    
+    self.schoolLabel.frame                   = CGRectMake(self.headImageView.right+10, self.nameLabel.bottom+1, 220, 20);
+    self.schoolLabel.font                    = [UIFont systemFontOfSize:FontListContent];
+    self.schoolLabel.textColor               = [UIColor colorWithHexString:ColorDeepGary];
+    
+    self.lineView.frame                    = CGRectMake(10, 64, [DeviceManager getDeviceWidth], 1);
+    self.lineView.backgroundColor          = [UIColor colorWithHexString:ColorLightGary];
     
 }
 
 - (void)setContentWithModel:(OtherPeopleFriendModel *)model
 {
     //头像
-    NSURL * imageUrl = [NSURL URLWithString:[ToolsManager completeUrlStr:model.head_sub_image]];
-    [self.headImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:@"testimage"]];
+    NSURL * imageUrl      = [NSURL URLWithString:[ToolsManager completeUrlStr:model.head_sub_image]];
+    [self.headImageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     //姓名
-    NSString * name      = [ToolsManager getRemarkOrOriginalNameWithUid:model.uid andOriginalName:model.name];
-    CGSize size          = [ToolsManager getSizeWithContent:name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 30)];
-    self.nameLabel.text  = name;
-    self.nameLabel.width = size.width;
-    //签名
+    self.nameLabel.text   = model.name;
+    //学校
     self.schoolLabel.text = model.school;
     
 }

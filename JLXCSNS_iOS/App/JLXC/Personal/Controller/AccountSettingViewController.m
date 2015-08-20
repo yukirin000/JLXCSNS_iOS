@@ -8,6 +8,7 @@
 
 #import "AccountSettingViewController.h"
 #import "RCDRCIMDataSource.h"
+#import "YSAlertView.h"
 
 @interface AccountSettingViewController ()
 
@@ -29,10 +30,16 @@
 #pragma mark- layout
 - (void)configUI
 {
+    [self setNavBarTitle:@"账号设置"];
+    
+    self.view.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    
     CustomButton * logoutBtn  = [[CustomButton alloc] init];
-    logoutBtn.frame           = CGRectMake(kCenterOriginX(280), kNavBarAndStatusHeight+230, 280, 30);
-    logoutBtn.backgroundColor = [UIColor grayColor];
-    [logoutBtn setTitle:@"退出" forState:UIControlStateNormal];
+    logoutBtn.frame           = CGRectMake(kCenterOriginX(300), 50+kNavBarAndStatusHeight, 300, 45);
+    [logoutBtn setBackgroundImage:[UIImage imageNamed:@"logout_btn"] forState:UIControlStateNormal];
+    [logoutBtn setTitle:@"退出当前账号" forState:UIControlStateNormal];
+    logoutBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [logoutBtn setTitleColor:[UIColor colorWithHexString:ColorWhite] forState:UIControlStateNormal];
     [logoutBtn addTarget:self action:@selector(logout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:logoutBtn];
 }
@@ -40,19 +47,16 @@
 #pragma mark- method response
 - (void)logout:(id)sender
 {
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"确认要退出吗？？" message:nil delegate:self cancelButtonTitle:StringCommonCancel otherButtonTitles:StringCommonConfirm, nil];
-    [alert show];
-}
-
-#pragma mark- UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
+    
+    YSAlertView * alert = [[YSAlertView alloc] initWithTitle:@"确认要退出吗？？" contentText:@"" leftButtonTitle:StringCommonConfirm rightButtonTitle:StringCommonCancel showView:self.view];
+    [alert setLeftBlock:^{
         //清空
         [[UserService sharedService] clear];
         [[RCDRCIMDataSource shareInstance] closeClient];
         [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    }];
+    [alert show];
+    
 }
 
 

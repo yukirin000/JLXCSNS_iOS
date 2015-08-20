@@ -80,7 +80,7 @@
     IMGroupModel * model    = self.recentFriendsArr[indexPath.row];
     //头像
     CustomImageView * headImageView = [[CustomImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
-    [headImageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:model.avatarPath]] placeholderImage:[UIImage imageNamed:@"testimage"]];
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:model.avatarPath]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     [cell.contentView addSubview:headImageView];
     //姓名
     CustomLabel * nameLabel = [[CustomLabel alloc] initWithFontSize:15];

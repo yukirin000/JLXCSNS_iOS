@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 /*! 账号设置*/
-@interface AccountSettingViewController : BaseViewController<UIAlertViewDelegate>
+@interface AccountSettingViewController : BaseViewController
 
 @end

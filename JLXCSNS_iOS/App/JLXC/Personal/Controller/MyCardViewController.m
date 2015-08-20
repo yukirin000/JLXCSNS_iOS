@@ -8,6 +8,7 @@
 
 #import "MyCardViewController.h"
 #import "UIImageView+WebCache.h"
+#import "YSAlertView.h"
 @interface MyCardViewController ()
 
 //头像
@@ -62,50 +63,56 @@
     [self.view addSubview:self.setHelloHaTextField];
     [self.view addSubview:self.hellohaLabel];
     [self.view addSubview:self.saveBtn];
-    
+   
+    [self.setHelloHaBtn addTarget:self action:@selector(setHelloBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.saveBtn addTarget:self action:@selector(saveHelloClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)configUI
 {
+    [self setNavBarTitle:@"我的名片"];
+    
     //头像
     self.headImageView.frame               = CGRectMake(kCenterOriginX(100), kNavBarAndStatusHeight+30, 100, 100);
     self.headImageView.layer.cornerRadius  = self.headImageView.width/2;
     self.headImageView.layer.masksToBounds = YES;
     NSURL * url = [NSURL URLWithString:[ToolsManager completeUrlStr:[UserService sharedService].user.head_image]];
-    [self.headImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"testimage"]];
+    [self.headImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     
     //昵称
     self.nameLabel.frame                 = CGRectMake(0, self.headImageView.bottom+5, self.viewWidth, 30);
     self.nameLabel.text                  = [UserService sharedService].user.name;
-    self.nameLabel.textColor             = [UIColor blackColor];
+    self.nameLabel.textColor             = [UIColor colorWithHexString:ColorDeepBlack];
+    self.nameLabel.font                  = [UIFont systemFontOfSize:16];
     self.nameLabel.textAlignment         = NSTextAlignmentCenter;
 
     //设置账号
-    self.setHelloHaBtn.frame             = CGRectMake(kCenterOriginX(100), self.nameLabel.bottom+10, 100, 20);
-    [self.setHelloHaBtn addTarget:self action:@selector(setHelloBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    self.setHelloHaBtn.frame             = CGRectMake(kCenterOriginX(180), self.nameLabel.bottom+10, 180, 30);
     [self.setHelloHaBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.setHelloHaBtn setTitle:@"设置账号" forState:UIControlStateNormal];
-    [self.setHelloHaBtn setBackgroundColor:[UIColor greenColor]];
+    [self.setHelloHaBtn setTitle:@"设置HelloHa账号名称" forState:UIControlStateNormal];
+    [self.setHelloHaBtn setBackgroundColor:[UIColor colorWithHexString:ColorBrown]];
+    [self.setHelloHaBtn setTitleColor:[UIColor colorWithHexString:ColorWhite] forState:UIControlStateNormal];
 
     //设置账号textField 默认隐藏
-    self.setHelloHaTextField.frame       = CGRectMake(kCenterOriginX(200), self.nameLabel.bottom+10, 150, 20);
-    self.setHelloHaTextField.font        = [UIFont systemFontOfSize:13];
-    self.setHelloHaTextField.borderStyle = UITextBorderStyleRoundedRect;
-    self.setHelloHaTextField.placeholder = @"请设置号码poi~";
-    self.setHelloHaTextField.delegate    = self;
-    self.setHelloHaTextField.hidden      = YES;
+    self.setHelloHaTextField.frame           = CGRectMake(kCenterOriginX(200), self.nameLabel.bottom+10, 150, 30);
+    self.setHelloHaTextField.font            = [UIFont systemFontOfSize:14];
+    self.setHelloHaTextField.backgroundColor = [UIColor colorWithHexString:ColorLightGary];
+    self.setHelloHaTextField.placeholder     = @"请设置号码poi~";
+    self.setHelloHaTextField.delegate        = self;
+    self.setHelloHaTextField.hidden          = YES;
 
     //保存helloHa号按钮 默认隐藏
-    self.saveBtn.frame                   = CGRectMake(self.setHelloHaTextField.right+10, self.nameLabel.bottom+10, 40, 20);
+    self.saveBtn.frame                   = CGRectMake(self.setHelloHaTextField.right+10, self.nameLabel.bottom+10, 50, 30);
     self.saveBtn.hidden                  = YES;
-    [self.saveBtn addTarget:self action:@selector(saveHelloClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.saveBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.saveBtn.titleLabel.font         = [UIFont systemFontOfSize:14];
+    [self.saveBtn setTitleColor:[UIColor colorWithHexString:ColorWhite] forState:UIControlStateNormal];
     [self.saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-    [self.saveBtn setBackgroundColor:[UIColor greenColor]];
+    [self.saveBtn setBackgroundColor:[UIColor colorWithHexString:ColorCardGreen]];
     
     //helloHa号label 默认隐藏
     self.hellohaLabel.frame              = CGRectMake(0, self.nameLabel.bottom+10, self.viewWidth, 20);
-    self.hellohaLabel.textColor          = [UIColor blackColor];
+    self.hellohaLabel.textColor          = [UIColor colorWithHexString:ColorDeepBlack];
+    self.hellohaLabel.font               = [UIFont systemFontOfSize:16];
     self.hellohaLabel.textAlignment      = NSTextAlignmentCenter;
     self.hellohaLabel.hidden             = YES;
     
@@ -115,7 +122,7 @@
         self.setHelloHaTextField.hidden = YES;
         self.setHelloHaBtn.hidden       = YES;
         self.hellohaLabel.hidden        = NO;
-        self.hellohaLabel.text = [NSString stringWithFormat:@"HelloHa号%@",[UserService sharedService].user.helloha_id];
+        self.hellohaLabel.text = [NSString stringWithFormat:@"HelloHa号：%@",[UserService sharedService].user.helloha_id];
     }
     
     //二维码
@@ -133,14 +140,6 @@
     [self.view addSubview:qrcodeLabel];
     
 }
-#pragma mark- UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        [self setHelloHaId];
-    }
-}
-
 #pragma mark- override
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -160,12 +159,17 @@
 {
     if (![ToolsManager validateUserName:self.setHelloHaTextField.text]) {
         
-        ALERT_SHOW(@"注意", @"账号只能由6-20位字母数字下划线组成╮(╯_╰)╭");
+        [self showWarn:(@"账号只能由6-20位字母数字下划线组成╮(╯_╰)╭")];
         return;
     };
     
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"注意" message:@"账号设置后不能更改，你愿意和它相伴一生吗" delegate:self cancelButtonTitle:StringCommonCancel otherButtonTitles:StringCommonConfirm, nil];
+    YSAlertView * alert = [[YSAlertView alloc] initWithTitle:@"注意" contentText:@"账号设置后不能更改，你愿意和它相伴一生吗" leftButtonTitle:StringCommonConfirm rightButtonTitle:StringCommonCancel showView:self.view];
+    [alert setLeftBlock:^{
+       [self setHelloHaId];
+    }];
     [alert show];
+//    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"注意" message:@"账号设置后不能更改，你愿意和它相伴一生吗" delegate:self cancelButtonTitle:StringCommonCancel otherButtonTitles:StringCommonConfirm, nil];
+//    [alert show];
 }
 
 #pragma mark- private method

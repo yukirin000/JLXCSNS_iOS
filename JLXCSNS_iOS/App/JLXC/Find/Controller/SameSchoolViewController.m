@@ -10,6 +10,7 @@
 #import "IMGroupModel.h"
 #import "UIImageView+WebCache.h"
 #import "OtherPersonalViewController.h"
+#import "FindUtils.h"
 
 //同校人Model
 @interface SameSchoolModel : NSObject
@@ -50,6 +51,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setNavBarTitle:@"同校的好友~"];
     
     //如果自己没填学校
     if ([UserService sharedService].user.school_code.length < 1) {
@@ -96,60 +99,60 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.selectionStyle          = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle            = UITableViewCellSelectionStyleNone;
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
-    SameSchoolModel * sameSchool = self.dataArr[indexPath.row];
+    SameSchoolModel * sameSchool   = self.dataArr[indexPath.row];
     //头像
-    CustomImageView * imageView  = [[CustomImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
-    imageView.backgroundColor    = [UIColor grayColor];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:sameSchool.head_sub_image]]];
+    CustomImageView * imageView    = [[CustomImageView alloc] initWithFrame:CGRectMake(10, 10, 45, 45)];
+    imageView.layer.cornerRadius   = 2;
+    imageView.layer.masksToBounds  = YES;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:sameSchool.head_sub_image]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     [cell.contentView addSubview:imageView];
 
     //昵称
-    CustomLabel * nameLabel = [[CustomLabel alloc] initWithFontSize:15];
-    CGSize size             = [ToolsManager getSizeWithContent:sameSchool.name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
-    nameLabel.frame         = CGRectMake(imageView.right+10, imageView.y+5, size.width, 20);
-    nameLabel.text          = sameSchool.name;
+    CustomLabel * nameLabel        = [[CustomLabel alloc] initWithFontSize:15];
+    CGSize size                    = [ToolsManager getSizeWithContent:sameSchool.name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
+    nameLabel.frame                = CGRectMake(imageView.right+10, imageView.y+3, size.width, 20);
+    nameLabel.font                 = [UIFont systemFontOfSize:FontListName];
+    nameLabel.textColor            = [UIColor colorWithHexString:ColorDeepBlack];
+    nameLabel.text                 = sameSchool.name;
     [cell.contentView addSubview:nameLabel];
 
     //性别
-    CustomLabel * sexLabel  = [[CustomLabel alloc] initWithFontSize:15];
-    sexLabel.frame          = CGRectMake(nameLabel.right+10, imageView.y+5, 50, 20);
-    [cell.contentView addSubview:sexLabel];
-
+    CustomImageView * sexImageView = [[CustomImageView alloc] init];
+    sexImageView.frame             = CGRectMake(nameLabel.right+5, imageView.y+5, 15, 15);
     if (sameSchool.sex == SexBoy) {
-        sexLabel.text      = @"男";
-        sexLabel.textColor = [UIColor blueColor];
+        sexImageView.image             = [UIImage imageNamed:@"sex_boy"];
     }else if (sameSchool.sex == SexGirl) {
-        sexLabel.text      = @"女";
-        sexLabel.textColor = [UIColor colorWithRed:1 green:204/255.f blue:204/255.f alpha:1.0];
+        sexImageView.image             = [UIImage imageNamed:@"sex_girl"];
     }
-
+    [cell.contentView addSubview:sexImageView];
+    
     //签名
-    CustomLabel * signLabel = [[CustomLabel alloc] initWithFontSize:14];
-    signLabel.frame         = CGRectMake(nameLabel.x, nameLabel.bottom, 200, 20);
-    signLabel.text          = sameSchool.sign;
+    CustomLabel * signLabel        = [[CustomLabel alloc] initWithFontSize:14];
+    signLabel.frame                = CGRectMake(nameLabel.x, nameLabel.bottom+1, 200, 20);
+    signLabel.font                 = [UIFont systemFontOfSize:FontListContent];
+    signLabel.textColor            = [UIColor colorWithHexString:ColorDeepGary];
+    signLabel.text                 = sameSchool.sign;
     [cell.contentView addSubview:signLabel];
 
     //添加按钮
-    CustomButton * addBtn   = [[CustomButton alloc] initWithFontSize:15];
-    addBtn.frame            = CGRectMake(self.viewWidth-60, 15, 50, 30);
+    CustomButton * addBtn          = [[CustomButton alloc] initWithFontSize:15];
+    addBtn.frame                   = CGRectMake(self.viewWidth-65, 17, 50, 23);
     //如果已经添加了
     if (sameSchool.is_friend == GroupHasAdd) {
-        addBtn.backgroundColor = [UIColor darkGrayColor];
-        [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [addBtn setTitle:@"已添加" forState:UIControlStateNormal];
+        [addBtn setImage:[UIImage imageNamed:@"friend_btn_isadd"] forState:UIControlStateNormal];
+        addBtn.enabled = NO;
     }else{
-        addBtn.backgroundColor = [UIColor yellowColor];
-        addBtn.tag             = indexPath.row;
-        [addBtn addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
-        [addBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [addBtn setTitle:@"添加" forState:UIControlStateNormal];
-        
+        addBtn.enabled = YES;
+        [addBtn setImage:[UIImage imageNamed:@"friend_btn_add"] forState:UIControlStateNormal];
     }
-    
     [cell.contentView addSubview:addBtn];
+    
+    UIView * lineView        = [[UIView alloc] initWithFrame:CGRectMake(10, 64, [DeviceManager getDeviceWidth], 1)];
+    lineView.backgroundColor = [UIColor colorWithHexString:ColorLightGary];
+    [cell.contentView addSubview:lineView];
     
     return cell;
 }
@@ -165,7 +168,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.0f;
+    return 65.0f;
 }
 
 #pragma mark- method response
@@ -181,7 +184,6 @@
 {
     
     NSString * url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&school_code=%@", kGetSameSchoolListPath, self.currentPage, [UserService sharedService].user.uid, [UserService sharedService].user.school_code];
-    debugLog(@"%@", url);
     [HttpService getWithUrlString:url andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
         debugLog(@"%@", responseData);
         int status = [responseData[HttpStatus] intValue];
@@ -236,35 +238,16 @@
         int status = [responseData[HttpStatus] intValue];
         
         if (status == HttpStatusCodeSuccess) {
-            
-            IMGroupModel * group = [IMGroupModel findByGroupId:[ToolsManager getCommonGroupId:sameSchool.uid]];
-            //如果存在
-            if (group) {
-                group.groupTitle     = sameSchool.name;
-                group.avatarPath     = sameSchool.head_image;
-                group.isRead         = YES;
-                group.isNew          = NO;
-                group.currentState   = GroupHasAdd;
-                [group update];
-            }else{
-                //保存群组信息
-                group = [[IMGroupModel alloc] init];
-                group.type           = ConversationType_PRIVATE;
-                //targetId
-                group.groupId        = [ToolsManager getCommonGroupId:sameSchool.uid];
-                group.groupTitle     = sameSchool.name;
-                group.isNew          = NO;
-                group.avatarPath     = sameSchool.head_image;
-                group.isRead         = YES;
-                group.currentState   = GroupHasAdd;
-                group.owner          = [UserService sharedService].user.uid;
-                [group save];
-            }
+
+            //添加好友处理
+            IMGroupModel * group = [[IMGroupModel alloc] init];
+            group.groupId        = [ToolsManager getCommonGroupId:sameSchool.uid];
+            group.groupTitle     = sameSchool.name;
+            group.avatarPath     = sameSchool.head_image;
+            [FindUtils addFriendWith:group];
             
             //添加成功
             [self showComplete:responseData[HttpMessage]];
-//            //发送消息通知
-//            [[PushService sharedInstance] pushAddFriendMessageWithTargetID:group.groupId];
             sameSchool.is_friend = YES;
             
         }else{

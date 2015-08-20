@@ -30,8 +30,9 @@
         [_refreshHeaderView removeFromSuperview];
     }
     _refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:
-                          CGRectMake(0.0f, 0.0f - self.bounds.size.height,
-                                     self.frame.size.width, self.bounds.size.height)];
+                          CGRectMake(0.0f, 0.0f - 100,
+                                     self.frame.size.width, 100)];
+    _refreshHeaderView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
     _refreshHeaderView.delegate = self;
     
     [self addSubview:_refreshHeaderView];

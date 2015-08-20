@@ -9,6 +9,6 @@
 #import "BaseViewController.h"
 
 /*! 我的名片*/
-@interface MyCardViewController : BaseViewController<UIAlertViewDelegate,UITextFieldDelegate>
+@interface MyCardViewController : BaseViewController<UITextFieldDelegate>
 
 @end

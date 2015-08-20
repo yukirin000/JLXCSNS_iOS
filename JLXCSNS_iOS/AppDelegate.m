@@ -47,9 +47,11 @@
     //高德地图
     [MAMapServices sharedServices].apiKey = GAODE_AppKey;
     //初始化融云SDK
-    [[RCIM sharedRCIM] initWithAppKey:Rong_AppKey deviceToken:nil];
+    [[RCIM sharedRCIM] initWithAppKey:Rong_AppKey];
+    [[RCIM sharedRCIM] setGlobalConversationAvatarStyle:RC_USER_AVATAR_RECTANGLE];
+    [[RCIM sharedRCIM] setGlobalMessageAvatarStyle:RC_USER_AVATAR_RECTANGLE];
+    
 //    [RCIM sharedRCIM].messageBeep = YES;
-
     //云巴推送
     [YunBaService setupWithAppkey:YunBa_AppKey];
     

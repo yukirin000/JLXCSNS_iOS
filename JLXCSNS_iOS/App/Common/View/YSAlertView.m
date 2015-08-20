@@ -2,14 +2,14 @@
 //  YSAlterview.h
 //  new
 //
-//  Created by chinat2t on 14-11-6.
+//  Created by chinat2t on 14-9-6.
 //  Copyright (c) 2014年 chinat2t. All rights reserved.
 //
 
 #import "YSAlertView.h"
 // 设置警告框的长和宽
 
-#define Alertwidth 220.0f
+#define Alertwidth 250.0f
 #define AlertHeight 130.0f
 #define Titlegap 15.0f
 #define TitleOfHeight 25.0f
@@ -19,7 +19,7 @@
 //        双个按钮的高度
 #define ButtonHeigth 30.0f
 //        按钮的高度
-#define ButtonBottomgap 10.0f
+#define ButtonBottomgap 15.0f
 //        设置按钮距离底部的边距
 
 
@@ -81,6 +81,7 @@
     if (self = [super init]) {
         
         self.showView                        = view;
+        
         //自己的位置
         self.frame                           = CGRectMake((CGRectGetWidth(view.bounds) - Alertwidth) * 0.5-30, (CGRectGetHeight(view.bounds) - AlertHeight) * 0.5-20, Alertwidth, AlertHeight);
 
@@ -104,9 +105,9 @@
         self.alertTitleLabel.text            = title;
         self.alertContentLabel.text          = content;
 
-        CGRect leftbtnFrame                  = CGRectMake((Alertwidth - 2 * DoubleButtonWidth - ButtonBottomgap) * 0.5, AlertHeight - ButtonBottomgap - ButtonHeigth, DoubleButtonWidth, ButtonHeigth);
+        CGRect leftbtnFrame                  = CGRectMake((Alertwidth - 2 * DoubleButtonWidth - 20) * 0.5, AlertHeight - ButtonBottomgap - ButtonHeigth, DoubleButtonWidth, ButtonHeigth);
 
-        CGRect rightbtnFrame                 = CGRectMake(CGRectGetMaxX(leftbtnFrame) + ButtonBottomgap, AlertHeight - ButtonBottomgap - ButtonHeigth, DoubleButtonWidth, ButtonHeigth);
+        CGRect rightbtnFrame                 = CGRectMake(CGRectGetMaxX(leftbtnFrame) + 20, AlertHeight - ButtonBottomgap - ButtonHeigth, DoubleButtonWidth, ButtonHeigth);
 
         self.leftbtn                         = [UIButton buttonWithType:UIButtonTypeCustom];
         self.rightbtn                        = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -191,8 +192,8 @@
     
     if (!self.backimageView) {
         self.backimageView = [[UIView alloc] initWithFrame:self.showView.bounds];
-        self.backimageView.backgroundColor = [UIColor clearColor];
-        self.backimageView.alpha = 0.6f;
+        self.backimageView.backgroundColor = [UIColor blackColor];
+        self.backimageView.alpha = 0.1f;
         self.backimageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissAlert)];
         [self.backimageView addGestureRecognizer:tap];
@@ -202,7 +203,7 @@
     CGRect afterFrame = CGRectMake((CGRectGetWidth(self.showView.bounds) - Alertwidth) * 0.5, (CGRectGetHeight(self.showView.bounds) - AlertHeight) * 0.5, Alertwidth, AlertHeight);
     [UIView animateWithDuration:0.3f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.frame = afterFrame;
-        self.alpha=0.9;
+        self.alpha=0.95;
     } completion:^(BOOL finished) {
     }];
     [super willMoveToSuperview:newSuperview];

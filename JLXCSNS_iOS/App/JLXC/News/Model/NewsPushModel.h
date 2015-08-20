@@ -58,6 +58,9 @@ enum {
 //发布时间
 @property (nonatomic, copy) NSString * push_time;
 
+//所有者
+@property (nonatomic, assign) NSInteger owner;
+
 
 /**
  * 保存数据
@@ -92,6 +95,13 @@ enum {
  * @param pageCount 每页数据数
  */
 + (NSMutableArray *)findAll;
+
+/**
+ * 从数据库中查出所有的通知
+ * @param page 页数
+ * @param size 每页数据数
+ */
++ (NSMutableArray *)findWithPage:(NSInteger)page size:(NSInteger)size;
 
 /**
  * 从数据库中查出所有某种类型未读的数据

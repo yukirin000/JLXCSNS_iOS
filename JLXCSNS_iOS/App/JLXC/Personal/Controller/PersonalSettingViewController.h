@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 /*! 个人设置*/
-@interface PersonalSettingViewController : BaseViewController<UIAlertViewDelegate>
+@interface PersonalSettingViewController : BaseViewController
 
 @end

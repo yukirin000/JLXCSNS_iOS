@@ -44,9 +44,10 @@
 #pragma mark- layout
 - (void)createNavBar
 {
-
     self.navBar = [[NavBar alloc] init];
     [self.view addSubview:self.navBar];
+    self.navBar.titleLabel.text = self.userName;
+    
     __weak typeof(self) sself = self;
     //返回按钮
     [self.navBar.leftBtn setImage:[UIImage imageNamed:@"back_btn"] forState:UIControlStateNormal];
@@ -64,6 +65,7 @@
 
 - (void)initPlugin
 {
+    [self.pluginBoardView removeItemAtIndex:2];
 //    [self.pluginBoardView.allItems removeObjectAtIndex:3];    
 //    [self.pluginBoardView.allItems removeObjectAtIndex:2];
 
@@ -72,13 +74,17 @@
 - (void)presentImagePreviewController:(RCMessageModel *)model
 {
     [super presentImagePreviewController:model];
-    
 }
 
 #pragma mark- override
 - (void)willDisplayConversationTableCell:(RCMessageBaseCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-
+    if ([cell isKindOfClass:[RCMessageCell class]]) {
+        RCMessageCell *messageCell = (RCMessageCell *)cell;
+        //messageCell.portraitImageView
+        UIImageView *portraitImageView= (UIImageView *)messageCell.portraitImageView;
+        portraitImageView.layer.cornerRadius = 2;
+    }
     
 }
 

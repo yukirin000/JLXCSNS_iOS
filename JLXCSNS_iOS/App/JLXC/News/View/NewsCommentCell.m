@@ -61,10 +61,10 @@
     [self.headImageView addGestureRecognizer:headTap];
     
     NSURL * headUrl                          = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, comment.head_sub_image]];
-    [self.headImageView sd_setImageWithURL:headUrl placeholderImage:[UIImage imageNamed:@"testimage"]];
+    [self.headImageView sd_setImageWithURL:headUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
 
     //姓名 好友查看备注
-    NSString * name = [ToolsManager getRemarkOrOriginalNameWithUid:comment.user_id andOriginalName:comment.name];
+    NSString * name                          = comment.name;
     CGSize nameSize                          = [ToolsManager getSizeWithContent:name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
     self.nameLabel.frame                     = CGRectMake(self.headImageView.right+10, self.headImageView.y, nameSize.width, 20);
     self.nameLabel.text                      = name;
@@ -102,8 +102,8 @@
         secondLabel.font                       = [UIFont systemFontOfSize:15];
         secondLabel.textColor                  = [UIColor grayColor];
         //是好友显示备注
-        NSString * name = [ToolsManager getRemarkOrOriginalNameWithUid:secondComment.user_id andOriginalName:secondComment.name];
-        NSString * reply_name = [ToolsManager getRemarkOrOriginalNameWithUid:secondComment.reply_uid andOriginalName:secondComment.reply_name];
+        NSString * name                        = secondComment.name;
+        NSString * reply_name                  = secondComment.reply_name;
         secondLabel.text                       = [NSString stringWithFormat:@"%@ 回复:%@", name, reply_name];
         [self.contentView addSubview:secondLabel];
         

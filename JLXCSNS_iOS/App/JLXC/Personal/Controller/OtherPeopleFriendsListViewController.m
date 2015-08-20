@@ -23,8 +23,8 @@
     [super viewDidLoad];
     //    self.revealSideViewController.delegate = self;
     
+    [self setNavBarTitle:@"TA的朋友们 (｡・`ω´･)"];
     self.refreshTableView.frame = CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight);
-    
     [self loadAndhandleData];
     
 }
@@ -62,7 +62,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 65;
 }
 
 #pragma mark- UITableViewDataSource

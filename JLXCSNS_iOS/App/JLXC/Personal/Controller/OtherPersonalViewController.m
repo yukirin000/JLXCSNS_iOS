@@ -162,16 +162,6 @@ enum {
     //背景滚动视图
     self.backScrollView             = [[UIScrollView alloc] init];
 
-    //默认三图片隐藏
-    self.newsImageView1.hidden      = YES;
-    self.newsImageView2.hidden      = YES;
-    self.newsImageView3.hidden      = YES;
-
-    self.hisFriendImageView1.hidden = YES;
-    self.hisFriendImageView2.hidden = YES;
-    self.hisFriendImageView3.hidden = YES;
-    self.hisFriendImageView4.hidden = YES;
-
     self.navBar.backgroundColor     = [UIColor clearColor];
 
     //背景图
@@ -398,7 +388,6 @@ enum {
     UIView * lineView2                          = [[UIView alloc] initWithFrame:CGRectMake(0, self.hisFriendBackView.bottom, self.viewWidth, 10)];
     lineView2.backgroundColor                   = [UIColor colorWithHexString:ColorLightWhite];
     [self.backScrollView addSubview:lineView2];
-
     
     //共同好友部分
     self.commonFriendBtn.frame                  = CGRectMake(0, lineView2.bottom, self.viewWidth, 45);
@@ -504,11 +493,7 @@ enum {
     //内容
     switch (indexPath.row) {
         case ContentName:
-            if (self.isFriend) {
-                content = [ToolsManager getRemarkOrOriginalNameWithUid:self.uid andOriginalName:self.otherUser.name];
-            }else{
-                content = user.name;
-            }
+            content = user.name;
 
             break;
         case ContentSign:
@@ -618,15 +603,6 @@ enum {
     
 }
 
-////添加好友
-//- (void)addFriendsPress:(id)sender {
-//
-//    NSString * message = [NSString stringWithFormat:@"确认要添加%@为好友吗?", self.otherUser.name];
-//    UIAlertView * friendAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:StringCommonCancel otherButtonTitles:StringCommonConfirm, nil];
-//    [friendAlert show];
-//    
-//}
-
 //头像点击
 - (void)headImageClick:(id)sender {
     
@@ -645,7 +621,7 @@ enum {
     [self pushVC:vlvc];
     
 }
-
+//好友列表
 - (void)friendClick:(id)sender {
     
     OtherPeopleFriendsListViewController * opflvc = [[OtherPeopleFriendsListViewController alloc] init];
@@ -653,7 +629,7 @@ enum {
     [self pushVC:opflvc];
     
 }
-
+//共同好友
 - (void)commonFriendsClick:(id)sender {
     
     CommonFriendsListViewController * cflvc = [[CommonFriendsListViewController alloc] init];
@@ -686,7 +662,6 @@ enum {
                 group.groupTitle     = self.otherUser.name;
                 group.avatarPath     = self.otherUser.head_image;
                 group.currentState   = GroupHasAdd;
-                group.addDate        = [NSString stringWithFormat:@"%f", [NSDate date].timeIntervalSince1970];
                 [group update];
                 
             }else{
@@ -701,23 +676,13 @@ enum {
                 group.isRead         = YES;
                 group.currentState   = GroupHasAdd;
                 group.owner          = [UserService sharedService].user.uid;
-                group.addDate        = [NSString stringWithFormat:@"%f", [NSDate date].timeIntervalSince1970];
                 [group save];
             }
             
             //添加成功
             [self showComplete:responseData[HttpMessage]];
-            self.isFriend             = YES;
-            //添加成功不能在添加了
-            self.addFriendsBtn.hidden = YES;
-            self.sendMessageBtn.frame = CGRectMake(25, 15, self.viewWidth-50, 40);
-            [self configPositionWithImageView:self.sendMessageImageView andLabel:self.sendMessageLabel andFather:self.sendMessageBtn];
-            //重置右上点击事件
-            __weak typeof(self) sself = self;
-            [self.navBar setRightBtnWithContent:@"" andBlock:^{
-                UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多" delegate:sself cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"举报TA",@"删除好友", nil];
-                [actionSheet showInView:sself.view];
-            }];
+            //修改布局
+            [self setIsFriendLayout:YES];
             
         }else{
             [self showWarn:responseData[HttpMessage]];
@@ -753,18 +718,7 @@ enum {
             
             //清除会话
             [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_PRIVATE targetId:[ToolsManager getCommonGroupId:self.uid]];
-            //不再是好友
-            self.isFriend             = NO;
-            //恢复添加按钮
-            self.addFriendsBtn.hidden = NO;
-            self.sendMessageBtn.frame = CGRectMake(15, 15, self.viewWidth/2-30, 40);
-            [self configPositionWithImageView:self.sendMessageImageView andLabel:self.sendMessageLabel andFather:self.sendMessageBtn];
-            //重置右上点击事件
-            __weak typeof(self) sself = self;
-            [self.navBar setRightBtnWithContent:@"" andBlock:^{
-                UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多" delegate:sself cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"举报TA", nil];
-                [actionSheet showInView:sself.view];
-            }];
+            [self setIsFriendLayout:NO];
             
         }else{
             [self showWarn:responseData[HttpMessage]];
@@ -784,7 +738,6 @@ enum {
     [HttpService getWithUrlString:path andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
         int status = [responseData[HttpStatus] intValue];
         if (status == HttpStatusCodeSuccess) {
-            debugLog(@"%@", responseData);
             [self handleDataWithDic:responseData];
             
         }else{
@@ -884,27 +837,11 @@ enum {
     }
     
     //恢复事件
-    self.addFriendsBtn.enabled = YES;
-    self.addFriendsBtn.enabled = YES;
-    //如果已经是好友了
-    if (self.isFriend == YES) {
-        self.addFriendsBtn.hidden = YES;
-        self.sendMessageBtn.frame = CGRectMake(25, 15, self.viewWidth-50, 40);
-        [self configPositionWithImageView:self.sendMessageImageView andLabel:self.sendMessageLabel andFather:self.sendMessageBtn];
-    }
+    self.addFriendsBtn.enabled  = YES;
+    self.sendMessageBtn.enabled = YES;
     
-    //有好友可以删好友
-    __weak typeof(self) sself = self;
-    [self.navBar setRightBtnWithContent:@"" andBlock:^{
-        UIActionSheet * actionSheet;
-        if (sself.isFriend) {
-            actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多" delegate:sself cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"举报TA",@"删除好友", nil];
-        }else{
-            actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多" delegate:sself cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"举报TA", nil];            
-        }
-
-        [actionSheet showInView:sself.view];
-    }];
+    //设置发消息布局
+    [self setIsFriendLayout:self.isFriend];
     
 }
 //共同好友和来访
@@ -962,15 +899,46 @@ enum {
     }else{
         //不是自己 先禁止事件
         self.addFriendsBtn.enabled = NO;
-        self.addFriendsBtn.enabled = NO;
+        self.sendMessageBtn.enabled = NO;
     }
 }
-
+//配置加好友和发消息的位置
 - (void)configPositionWithImageView:(CustomImageView *)imageView andLabel:(CustomLabel *)label andFather:(UIView *)view
 {
     CGFloat start   = (view.width-90)/2;
     imageView.frame = CGRectMake(start, 10, 25, 20);
     label.frame     = CGRectMake(imageView.right+5, 10, 60, 20);
+}
+
+//设置是否是好友的布局
+- (void)setIsFriendLayout:(BOOL)isFriend
+{
+    self.isFriend = isFriend;
+    
+    //如果已经是好友了
+    if (self.isFriend == YES) {
+        self.addFriendsBtn.hidden = YES;
+        self.sendMessageBtn.frame = CGRectMake(25, 15, self.viewWidth-50, 40);
+    }else{
+        //恢复添加按钮
+        self.addFriendsBtn.hidden = NO;
+        self.sendMessageBtn.frame = CGRectMake(15, 15, self.viewWidth/2-30, 40);
+    }
+    //修改位置
+    [self configPositionWithImageView:self.sendMessageImageView andLabel:self.sendMessageLabel andFather:self.sendMessageBtn];
+    
+    //有好友可以删好友
+    __weak typeof(self) sself = self;
+    [self.navBar setRightBtnWithContent:@"" andBlock:^{
+        UIActionSheet * actionSheet;
+        if (sself.isFriend) {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多" delegate:sself cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"举报TA",@"删除好友", nil];
+        }else{
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多" delegate:sself cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"举报TA", nil];
+        }
+        
+        [actionSheet showInView:sself.view];
+    }];
 }
 
 @end

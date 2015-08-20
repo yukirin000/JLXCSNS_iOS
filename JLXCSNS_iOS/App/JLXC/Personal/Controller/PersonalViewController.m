@@ -15,7 +15,7 @@
 #import "ChoiceSchoolViewController.h"
 #import "MyNewsListViewController.h"
 #import "MyCardViewController.h"
-#import "FriendsListViewController.h"
+#import "MyFriendsListViewController.h"
 #import "PersonalSettingViewController.h"
 #import "NSData+ImageCache.h"
 
@@ -775,7 +775,7 @@ enum {
 //好友列表
 - (void)myFriendClick:(id)sender {
     
-    FriendsListViewController * flVC = [[FriendsListViewController alloc] init];
+    MyFriendsListViewController * flVC = [[MyFriendsListViewController alloc] init];
     [self pushVC:flVC];
     
 }

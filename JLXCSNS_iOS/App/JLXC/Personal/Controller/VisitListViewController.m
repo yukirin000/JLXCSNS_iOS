@@ -24,8 +24,8 @@
     [super viewDidLoad];
     //    self.revealSideViewController.delegate = self;
     
+    [self configUI];
     self.refreshTableView.frame = CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight);
-    
     [self loadAndhandleData];
     
 }
@@ -36,6 +36,16 @@
 }
 
 #pragma mark- layout
+- (void)configUI
+{
+    //如果是自己
+    if (self.uid == [UserService sharedService].user.uid) {
+        [self setNavBarTitle:@"谁来看过我 (●´ω｀●)φ"];
+    }else {
+        [self setNavBarTitle:@"谁来看过TA (●´ω｀●)φ"];
+    }
+}
+
 #pragma override
 //下拉刷新
 - (void)refreshData
@@ -62,7 +72,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 65;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath

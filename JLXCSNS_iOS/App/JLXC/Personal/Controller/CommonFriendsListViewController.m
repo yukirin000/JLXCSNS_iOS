@@ -65,12 +65,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdetifier forIndexPath:indexPath];
+    UICollectionViewCell * cell   = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdetifier forIndexPath:indexPath];
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
-    CommonFriendModel * model   = self.dataSource[indexPath.row];
-    CustomImageView * imageView = [[CustomImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:model.head_sub_image]] placeholderImage:[UIImage imageNamed:@"testimage"]];
+    CommonFriendModel * model     = self.dataSource[indexPath.row];
+    CustomImageView * imageView   = [[CustomImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+    imageView.layer.cornerRadius  = 2;
+    imageView.layer.masksToBounds = YES;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:model.head_sub_image]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     [cell.contentView addSubview:imageView];
     
     return cell;
