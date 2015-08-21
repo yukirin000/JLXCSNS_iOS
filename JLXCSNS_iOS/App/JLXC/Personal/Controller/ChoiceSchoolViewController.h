@@ -8,7 +8,7 @@
 
 #import "RefreshViewController.h"
 
-typedef void (^ChoiceSchoolBlock) (NSString * city);
+typedef void (^ChoiceSchoolBlock) (NSString * school);
 
 /*! 选择学校*/
 @interface ChoiceSchoolViewController : RefreshViewController

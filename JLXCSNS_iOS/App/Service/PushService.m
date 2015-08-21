@@ -68,6 +68,9 @@ static PushService *_shareInstance=nil;
     debugLog(@"data: %@", payloadString);
     
     NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:message.data options:NSJSONReadingMutableContainers error:nil];
+    if (dic == nil || ![dic isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
     
     NSInteger type = [dic[@"type"] intValue];
     
@@ -153,12 +156,17 @@ static PushService *_shareInstance=nil;
     
     if (group) {
         //如果没加好友 但是有新朋友
-        if (group.currentState == GroupNotAdd) {
-            group.isNew = YES;
+        if (group.isNew == NO) {
+            group.groupTitle = pushDic[@"name"];
+            group.avatarPath = pushDic[@"avatar"];
+            group.addDate    = pushDic[@"time"];
+            group.isNew      = YES;
+            group.isRead     = NO;
             [group update];
-        }else{
             //发送通知
-            //                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_ADD_GROUP object:group];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_NEW_GROUP object:group];
+            //顶部刷新
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_MESSAGE_REFRESH object:nil];
         }
     }else{
         //保存群组信息
@@ -168,7 +176,7 @@ static PushService *_shareInstance=nil;
         group.groupId        = pushDic[@"uid"];
         group.groupTitle     = pushDic[@"name"];
         group.avatarPath     = pushDic[@"avatar"];
-        group.addDate        = [NSString stringWithFormat:@"%d", (int)[[NSDate date] timeIntervalSince1970]];
+        group.addDate        = pushDic[@"time"];
         group.isNew          = YES;
         group.currentState   = GroupNotAdd;
         group.isRead         = NO;

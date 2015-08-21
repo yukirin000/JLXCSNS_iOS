@@ -74,12 +74,12 @@
 //    CusTabBarViewController * tab = (CusTabBarViewController *)self.tabBarController;
 //    [tab setLeftBtnSlideWithNavBar:self.navBar];
 
-    __weak typeof(self) sself = self;
-    [self.navBar setRightBtnWithContent:@"清空" andBlock:^{
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:StringCommonPrompt message:@"确认要清空么?" delegate:sself cancelButtonTitle:StringCommonCancel otherButtonTitles:StringCommonConfirm, nil];
-        [alert show];
-    }];
-    sself.navBar.rightBtn.hidden = YES;
+//    __weak typeof(self) sself = self;
+//    [self.navBar setRightBtnWithContent:@"清空" andBlock:^{
+//        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:StringCommonPrompt message:@"确认要清空么?" delegate:sself cancelButtonTitle:StringCommonCancel otherButtonTitles:StringCommonConfirm, nil];
+//        [alert show];
+//    }];
+//    sself.navBar.rightBtn.hidden = YES;
 
     //创建segment
     self.segmentedControl.autoresizingMask            = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
@@ -134,11 +134,11 @@
     
     if (segment.selectedSegmentIndex == 0) {
         toViewController = self.chatListVC;
-        self.navBar.rightBtn.hidden = YES;
+//        self.navBar.rightBtn.hidden = YES;
     }else{
 //        toViewController = self.friendsListVC;
         toViewController = self.newsNotifyVC;
-        self.navBar.rightBtn.hidden = NO;
+//        self.navBar.rightBtn.hidden = NO;
     }
     
     [self transitionFromViewController:self.currentVC toViewController:toViewController duration:0 options:UIViewAnimationOptionTransitionNone animations:^{

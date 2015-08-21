@@ -102,7 +102,7 @@
 - (void)detailClick:(id)sender
 {
     //详情点击
-    [self.revealSideViewController popViewControllerAnimated:YES];
+//    [self.revealSideViewController popViewControllerAnimated:YES];
     PersonalViewController * pvc = [[PersonalViewController alloc] init];
     [[CusTabBarViewController sharedService].navigationController pushViewController:pvc animated:NO];
     
@@ -111,7 +111,7 @@
 - (void)myCardClick:(id)sender
 {
     //我的名片点击
-    [self.revealSideViewController popViewControllerAnimated:YES];
+//    [self.revealSideViewController popViewControllerAnimated:YES];
     MyCardViewController * cardVC = [[MyCardViewController alloc] init];
     [[CusTabBarViewController sharedService].navigationController pushViewController:cardVC animated:NO];
 }

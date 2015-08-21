@@ -9,6 +9,6 @@
 #import "BaseViewController.h"
 
 /*! 注册用户信息填写*/
-@interface RegisterInformationViewController : BaseViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate, UIActionSheetDelegate>
+@interface RegisterInformationViewController : BaseViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate>
 
 @end

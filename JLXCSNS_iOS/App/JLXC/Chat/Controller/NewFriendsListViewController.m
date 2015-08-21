@@ -25,6 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setNavBarTitle:@"新的好友"];
+    
     //初始化列表
     [self initTableView];
 }
@@ -45,9 +47,11 @@
 - (void)initTableView
 {
     //列表
-    self.recentFriendsTableView            = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, [DeviceManager getDeviceWidth], self.viewHeight-kNavBarAndStatusHeight) style:UITableViewStylePlain];
-    self.recentFriendsTableView.delegate   = self;
-    self.recentFriendsTableView.dataSource = self;
+    self.recentFriendsTableView                 = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, [DeviceManager getDeviceWidth], self.viewHeight-kNavBarAndStatusHeight) style:UITableViewStylePlain];
+    self.recentFriendsTableView.delegate        = self;
+    self.recentFriendsTableView.dataSource      = self;
+    self.recentFriendsTableView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    self.recentFriendsTableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.recentFriendsTableView];
     [self.recentFriendsTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
 }
@@ -73,40 +77,66 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    cell.selectionStyle    = UITableViewCellSelectionStyleNone;
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     //好友列表部分
-    IMGroupModel * model    = self.recentFriendsArr[indexPath.row];
+    IMGroupModel * model          = self.recentFriendsArr[indexPath.row];
+
     //头像
-    CustomImageView * headImageView = [[CustomImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
-    [headImageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:model.avatarPath]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
-    [cell.contentView addSubview:headImageView];
-    //姓名
-    CustomLabel * nameLabel = [[CustomLabel alloc] initWithFontSize:15];
-    nameLabel.textColor     = [UIColor blackColor];
-    nameLabel.text          = model.groupTitle;
-    nameLabel.frame         = CGRectMake(headImageView.right+10, 10, 200, 20);
+    CustomImageView * imageView   = [[CustomImageView alloc] initWithFrame:CGRectMake(10, 10, 45, 45)];
+    imageView.layer.cornerRadius  = 2;
+    imageView.layer.masksToBounds = YES;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:model.avatarPath]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
+    [cell.contentView addSubview:imageView];
+
+    //昵称
+    CustomLabel * nameLabel       = [[CustomLabel alloc] initWithFontSize:15];
+    nameLabel.frame               = CGRectMake(imageView.right+10, imageView.y+3, 200, 20);
+    nameLabel.font                = [UIFont systemFontOfSize:FontListName];
+    nameLabel.textColor           = [UIColor colorWithHexString:ColorDeepBlack];
+    nameLabel.text                = model.groupTitle;
     [cell.contentView addSubview:nameLabel];
+    //时间
+    CustomLabel * timeLabel       = [[CustomLabel alloc] init];
+    NSString * timeStr            = [ToolsManager compareCurrentTime:model.addDate];
+    CGSize size                   = [ToolsManager getSizeWithContent:timeStr andFontSize:12 andFrame:CGRectMake(0, 0, 200, 20)];
+    timeLabel.frame               = CGRectMake(nameLabel.x, nameLabel.bottom+1, size.width, 20);
+    timeLabel.font                = [UIFont systemFontOfSize:FontListContent];
+    timeLabel.textColor           = [UIColor colorWithHexString:ColorDeepGary];
+    timeLabel.text                = timeStr;
+    [cell.contentView addSubview:timeLabel];
     
-    CustomButton * addBtn   = [[CustomButton alloc] initWithFontSize:15];
-    addBtn.frame            = CGRectMake(self.viewWidth-60, 15, 50, 30);
-    //如果已经添加了
-    if (model.currentState == GroupHasAdd) {
-        addBtn.backgroundColor = [UIColor darkGrayColor];
-        [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [addBtn setTitle:@"已添加" forState:UIControlStateNormal];
-        
-    }else{
-        addBtn.backgroundColor = [UIColor yellowColor];
-        addBtn.tag             = indexPath.row;
-        [addBtn addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
-        [addBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [addBtn setTitle:@"添加" forState:UIControlStateNormal];
-        
-    }
+    CustomLabel * signLabel       = [[CustomLabel alloc] initWithFontSize:14];
+    signLabel.frame               = CGRectMake(timeLabel.right+5, nameLabel.bottom+1, 200, 20);
+    signLabel.font                = [UIFont systemFontOfSize:FontListContent];
+    signLabel.textColor           = [UIColor colorWithHexString:ColorDeepGary];
+    signLabel.text                = @"添加了你为好友";
+    [cell.contentView addSubview:signLabel];
+
+
+    UIView * lineView             = [[UIView alloc] initWithFrame:CGRectMake(10, 64, [DeviceManager getDeviceWidth], 1)];
+    lineView.backgroundColor      = [UIColor colorWithHexString:ColorLightGary];
+    [cell.contentView addSubview:lineView];
     
-    [cell.contentView addSubview:addBtn];
+//    CustomButton * addBtn   = [[CustomButton alloc] initWithFontSize:15];
+//    addBtn.frame            = CGRectMake(self.viewWidth-60, 15, 50, 30);
+//    
+//    //如果已经添加了
+//    if (model.currentState == GroupHasAdd) {
+//        addBtn.backgroundColor = [UIColor darkGrayColor];
+//        [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        [addBtn setTitle:@"已添加" forState:UIControlStateNormal];
+//        
+//    }else{
+//        addBtn.backgroundColor = [UIColor yellowColor];
+//        addBtn.tag             = indexPath.row;
+//        [addBtn addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
+//        [addBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [addBtn setTitle:@"添加" forState:UIControlStateNormal];
+//        
+//    }
+//    
+//    [cell.contentView addSubview:addBtn];
     
     return cell;
 }
@@ -138,11 +168,12 @@
     opvc.uid                           = [model.groupId stringByReplacingOccurrencesOfString:JLXC withString:@""].integerValue;
     [self pushVC:opvc];
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.0f;
+    return 65.0f;
 }
 
 #pragma mark- method response

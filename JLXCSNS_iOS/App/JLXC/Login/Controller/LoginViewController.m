@@ -205,13 +205,8 @@
             //登录成功进入主页
             CusTabBarViewController * ctbvc = [CusTabBarViewController sharedService];
             UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:ctbvc];
-            //侧滑
-            PPRevealSideViewController * revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
-            //设置状态栏背景颜色
-            [revealSideViewController setFakeiOS7StatusBarColor:[UIColor clearColor]];
-            //    [revealSlideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
-            [revealSideViewController setPanInteractionsWhenClosed:PPRevealSideInteractionNone];
-            [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:revealSideViewController animated:NO completion:^{
+
+            [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:nav animated:NO completion:^{
                 //自动登录成功 初始化这个页面
                 [self createWidget];
                 [self configUI];

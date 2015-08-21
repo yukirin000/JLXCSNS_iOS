@@ -644,8 +644,9 @@ enum {
             {
                 ChoiceSchoolViewController * csvc = [[ChoiceSchoolViewController alloc] init];
                 csvc.notRegister = YES;
-                [csvc setChoickBlock:^(NSString *city) {
-                    contentLabel.text = city;
+                [csvc setChoickBlock:^(NSString *school) {
+                    contentLabel.text     = school;
+                    self.schoolLabel.text = school;
                 }];
                 [self pushVC:csvc];
             }
@@ -677,10 +678,12 @@ enum {
     NSString * sexStr = @"0";
     if (buttonIndex == SexBoy) {
         contentLabel.text = @"男孩纸";
+        self.sexImageView.image = [UIImage imageNamed:@"sex_boy"];
         sexStr = @"0";
     }
     if (buttonIndex == SexGirl) {
         contentLabel.text = @"女孩纸";
+        self.sexImageView.image = [UIImage imageNamed:@"sex_girl"];
         sexStr = @"1";
     }
     

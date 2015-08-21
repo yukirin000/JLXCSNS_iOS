@@ -31,7 +31,7 @@ enum Tab{
     TabMe       = 3
 };
 
-@interface CusTabBarViewController ()<PPRevealSideViewControllerDelegate>
+@interface CusTabBarViewController ()
 
 //@property (nonatomic, strong) LeftPersonalViewController * leftVC;
 

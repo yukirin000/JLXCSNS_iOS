@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <RongIMKit/RongIMKit.h>
-#import "PPRevealSideViewController.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, strong) PPRevealSideViewController * revealSideViewController;
 
 @end
 

@@ -51,7 +51,7 @@
 //装载HPTextView的容器
 @property (nonatomic, strong) UIView * containerView;
 //HPTextView 回复评论时弹出
-@property (nonatomic, strong) HPGrowingTextView * secondTextView;
+@property (nonatomic, strong) HPGrowingTextView * commentTextView;
 //当前点击的二级评论
 @property (nonatomic, strong) SecondCommentModel * currentSecondComment;
 //当前点击的最上级评论
@@ -111,7 +111,7 @@
     
 }
 
-- (void)initSecondTextView
+- (void)initCommentTextView
 {
     
     //评论遮罩
@@ -125,23 +125,23 @@
     self.isDefaultComment = YES;
     
     //回复评论的textView
-    self.containerView                                         = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-40, 320, 40)];
+    self.containerView                                         = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-40, self.viewWidth, 40)];
     self.containerView.backgroundColor                         = [UIColor grayColor];
-    self.secondTextView                                        = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, 240, 40)];
-    self.secondTextView.isScrollable                           = NO;
-    self.secondTextView.minNumberOfLines                       = 1;
-    self.secondTextView.maxNumberOfLines                       = 6;
-    self.secondTextView.returnKeyType                          = UIReturnKeySend;
-    self.secondTextView.font                                   = [UIFont systemFontOfSize:15.0f];
-    self.secondTextView.delegate                               = self;
-    self.secondTextView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
-    self.secondTextView.backgroundColor                        = [UIColor whiteColor];
-    self.secondTextView.placeholder                            = @"来条神评论吧~";
-    [self.containerView addSubview:self.secondTextView];
+    self.commentTextView                                        = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, self.viewWidth-80, 40)];
+    self.commentTextView.isScrollable                           = NO;
+    self.commentTextView.minNumberOfLines                       = 1;
+    self.commentTextView.maxNumberOfLines                       = 6;
+    self.commentTextView.returnKeyType                          = UIReturnKeySend;
+    self.commentTextView.font                                   = [UIFont systemFontOfSize:15.0f];
+    self.commentTextView.delegate                               = self;
+    self.commentTextView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
+    self.commentTextView.backgroundColor                        = [UIColor whiteColor];
+    self.commentTextView.placeholder                            = @"来条神评论吧~";
+    [self.containerView addSubview:self.commentTextView];
     [self.view addSubview:self.containerView];
     
     //发送按钮
-    CustomButton * sendCommentBtn = [[CustomButton alloc] initWithFrame:CGRectMake(self.secondTextView.right+5, 3, 60, 40)];
+    CustomButton * sendCommentBtn = [[CustomButton alloc] initWithFrame:CGRectMake(self.commentTextView.right+5, 3, 60, 40)];
     [sendCommentBtn addTarget:self action:@selector(sendCommentPress) forControlEvents:UIControlEventTouchUpInside];
     [sendCommentBtn setTitle:@"发送" forState:UIControlStateNormal];
     [self.containerView addSubview:sendCommentBtn];
@@ -165,7 +165,7 @@
     [self.view addSubview:self.newsTable];
     
     //加载回复评论的textView
-    [self initSecondTextView];
+    [self initCommentTextView];
 }
 
 #pragma mark- UITableViewDelegate
@@ -376,7 +376,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self.secondTextView resignFirstResponder];
+    [self.commentTextView resignFirstResponder];
 }
 
 #pragma mark- HPGrowingTextViewDelegate
@@ -397,13 +397,13 @@
 
 -(void) keyboardWillHide:(NSNotification *)note{
 
-    self.commentCoverView.hidden    = YES;
-    self.secondTextView.placeholder = @"来条神评论吧~";
-    self.secondTextView.text        = @"";
-    self.isDefaultComment           = YES;
+    self.commentCoverView.hidden     = YES;
+    self.commentTextView.placeholder = @"来条神评论吧~";
+    self.commentTextView.text        = @"";
+    self.isDefaultComment            = YES;
 
-    CGRect containerFrame           = self.containerView.frame;
-    containerFrame.origin.y         = self.view.bounds.size.height-40;
+    CGRect containerFrame            = self.containerView.frame;
+    containerFrame.origin.y          = self.view.bounds.size.height-40;
     [UIView animateWithDuration:0.3f animations:^{
         self.containerView.frame = containerFrame;
     }];
@@ -411,17 +411,17 @@
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
-    float diff = (growingTextView.frame.size.height - height);
-    CGRect r = self.containerView.frame;
-    r.size.height -= diff;
-    r.origin.y += diff;
+    float diff               = (growingTextView.frame.size.height - height);
+    CGRect r                 = self.containerView.frame;
+    r.size.height            -= diff;
+    r.origin.y               += diff;
     self.containerView.frame = r;
 }
 
 //判断发送
 - (BOOL)growingTextView:(HPGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if (growingTextView == self.secondTextView) {
+    if (growingTextView == self.commentTextView) {
         if ([text isEqualToString:@"\n"]) {
             //发送评论
             [self sendCommentPress];
@@ -494,9 +494,9 @@
     
     //是好友查看备注
     NSString * name = secondComment.name;
-    self.secondTextView.placeholder = [NSString stringWithFormat:@"回复：%@",name];
+    self.commentTextView.placeholder = [NSString stringWithFormat:@"回复：%@",name];
     
-    [self.secondTextView becomeFirstResponder];
+    [self.commentTextView becomeFirstResponder];
 }
 
 //#pragma mark- UITextViewDelegate
@@ -588,7 +588,7 @@
 - (void)tapTableView:(UITapGestureRecognizer *)ges
 {
 //    [self.commentTextView resignFirstResponder];
-    [self.secondTextView resignFirstResponder];
+    [self.commentTextView resignFirstResponder];
 }
 //点赞头像点击
 - (void)likeHeadClick:(CustomButton *)sender
@@ -606,22 +606,22 @@
 //发送评论
 - (void)sendCommentPress
 {
-    if (self.secondTextView.text.length < 1) {
+    if (self.commentTextView.text.length < 1) {
         return;
     }
     
     //如果是默认评论
     if (self.isDefaultComment) {
         [self publishCommentClick];
-        [self.secondTextView resignFirstResponder];
-        self.secondTextView.text = @"";
+        [self.commentTextView resignFirstResponder];
+        self.commentTextView.text = @"";
         return;
     }
     
     //如果不是 发送二级评论
     [self publishSecondCommentClick];
-    [self.secondTextView resignFirstResponder];
-    self.secondTextView.text = @"";
+    [self.commentTextView resignFirstResponder];
+    self.commentTextView.text = @"";
 }
 
 //浏览其他人的主页
@@ -686,19 +686,19 @@
 //评论
 - (void)publishCommentClick
 {
-    if (self.secondTextView.text.length > 140) {
+    if (self.commentTextView.text.length > 140) {
         ALERT_SHOW(StringCommonPrompt, @"内容不能超过140字");
         return;
     }
     
-    if (self.secondTextView.text.length < 1) {
+    if (self.commentTextView.text.length < 1) {
         ALERT_SHOW(StringCommonPrompt, @"内容不能为空");
         return;
     }
     
     //[NSString stringWithFormat:@"%d", [UserService sharedService].user.uid]
     NSDictionary * params = @{@"user_id":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
-                              @"comment_content":self.secondTextView.text,
+                              @"comment_content":self.commentTextView.text,
                               @"news_id":[NSString stringWithFormat:@"%ld", self.newsId]};
     
     [self showLoading:nil];
@@ -741,14 +741,14 @@
 - (void)publishSecondCommentClick
 {
     
-    debugLog(@"%@", self.secondTextView.text);
-    if (self.secondTextView.text.length > 140) {
+    debugLog(@"%@", self.commentTextView.text);
+    if (self.commentTextView.text.length > 140) {
         ALERT_SHOW(StringCommonPrompt, @"内容不能超过140字");
         return;
     }
     
     NSDictionary * params = @{@"user_id":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
-                              @"comment_content":self.secondTextView.text,
+                              @"comment_content":self.commentTextView.text,
                               @"news_id":[NSString stringWithFormat:@"%ld", self.newsId],
                               @"reply_uid":[NSString stringWithFormat:@"%ld", self.currentSecondComment.user_id],
                               @"reply_comment_id":[NSString stringWithFormat:@"%ld", self.currentSecondComment.scid],
@@ -847,7 +847,7 @@
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 //    [self.commentTextView resignFirstResponder];
-    [self.secondTextView resignFirstResponder];
+    [self.commentTextView resignFirstResponder];
 }
 
 

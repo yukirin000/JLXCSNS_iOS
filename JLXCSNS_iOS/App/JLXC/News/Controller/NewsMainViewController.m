@@ -11,6 +11,7 @@
 #import "PublishNewsViewController.h"
 #import "SchoolNewsListViewController.h"
 #import "NotifyNewsViewController.h"
+#import "RegisterInformationViewController.h"
 
 @interface NewsMainViewController ()
 

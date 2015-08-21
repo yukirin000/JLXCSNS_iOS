@@ -22,8 +22,8 @@
 {
     self = [super init];
     if (self) {
-        //工具类初始化 初始化拼音转换汉字工具 该工具初始化需要0.3S左右的时间 提前初始化
-        [ChineseToPinyinResource getInstance];
+        //工具类初始化 初始化拼音转换汉字工具 该工具初始化需要0.3S左右的时间 提前初始化 不用了
+        //        [ChineseToPinyinResource getInstance];
     }
     return self;
 }

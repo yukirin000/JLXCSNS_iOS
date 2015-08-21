@@ -18,7 +18,7 @@
 #import "NewsDetailViewController.h"
 #import "BrowseImageListViewController.h"
 
-@interface MyNewsListViewController ()<MyNewsListDelegate, PPRevealSideViewControllerDelegate>
+@interface MyNewsListViewController ()<MyNewsListDelegate>
 
 //@property (nonatomic, strong) CustomLabel * currentCommentLabel;
 
@@ -29,14 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.refreshTableView.frame = CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight);
+    [self setNavBarTitle:@"生活小点滴  (●'◡'●)ﾉ♥"];
     
-//    //发状态
-//    __weak typeof(self) sself = self;
-//    [self.navBar setRightBtnWithContent:@"发状态" andBlock:^{
-//        PublishNewsViewController * pnvc = [[PublishNewsViewController alloc] init];
-//        [sself pushVC:pnvc];
-//    }];
+    self.refreshTableView.frame           = CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight);
+    self.refreshTableView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
     
     [self loadAndhandleData];
     
@@ -156,30 +152,30 @@
     }];
 }
 
-/*! 删除该条状态*/
+/*! 删除该条状态 暂时关闭*/
 - (void)deleteNewsClick:(NewsModel *)news
 {
-    NSDictionary * params = @{@"news_id":[NSString stringWithFormat:@"%ld", news.nid]};
-    debugLog(@"%@ %@", kDeleteNewsListPath, params);
-    [self showLoading:@"删除中"];
-    
-    [HttpService postWithUrlString:kDeleteNewsListPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-        debugLog(@"%@", responseData);
-        int status = [responseData[HttpStatus] intValue];
-        if (status == HttpStatusCodeSuccess) {
-            [self showComplete:responseData[HttpMessage]];
-            //成功之后更新
-            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.dataArr indexOfObject:news] inSection:0];
-            [self.dataArr removeObject:news];
-            [self.refreshTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            
-        }else{
-            
-            [self showWarn:responseData[HttpMessage]];
-        }
-    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self showWarn:StringCommonNetException];
-    }];
+//    NSDictionary * params = @{@"news_id":[NSString stringWithFormat:@"%ld", news.nid]};
+//    debugLog(@"%@ %@", kDeleteNewsListPath, params);
+//    [self showLoading:@"删除中"];
+//    
+//    [HttpService postWithUrlString:kDeleteNewsListPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
+//        debugLog(@"%@", responseData);
+//        int status = [responseData[HttpStatus] intValue];
+//        if (status == HttpStatusCodeSuccess) {
+//            [self showComplete:responseData[HttpMessage]];
+//            //成功之后更新
+//            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.dataArr indexOfObject:news] inSection:0];
+//            [self.dataArr removeObject:news];
+//            [self.refreshTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            
+//        }else{
+//            
+//            [self showWarn:responseData[HttpMessage]];
+//        }
+//    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [self showWarn:StringCommonNetException];
+//    }];
 
 }
 

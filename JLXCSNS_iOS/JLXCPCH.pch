@@ -111,7 +111,6 @@
 //helper
 #import "DeviceManager.h"
 #import "ToolsManager.h"
-#import "PPRevealSideViewController.h"
 #import "NSString+Expand.h"
 #import "Colors.h"
 #import "UIColor+Hexadecimal.h"

@@ -24,6 +24,10 @@
 @property (nonatomic, strong) NSMutableArray * recentFriendsArr;
 //没有点进添加列表看的新朋友
 @property (nonatomic ,assign) NSInteger unReadNum;
+//页数
+@property (nonatomic, assign) NSInteger page;
+//尺寸
+@property (nonatomic, assign) NSInteger size;
 
 @end
 
@@ -31,6 +35,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.size = 30;
     
     //初始化列表
     [self initTable];
@@ -44,8 +50,16 @@
     [NewsPushModel setIsRead];
     //顶部消息通知未读提示更新
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_MESSAGE_REFRESH object:nil];
-    
     [self refreshData];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [NewsPushModel setIsRead];
+    //顶部消息通知未读提示更新
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_MESSAGE_REFRESH object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_TAB_BADGE object:nil];
     
 }
 
@@ -93,11 +107,13 @@
 
 - (void)initTable
 {
-    self.dataArr = [[NSMutableArray alloc] init];
-    
-    self.pushTableView            = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth], [DeviceManager getDeviceHeight]-kNavBarAndStatusHeight-kTabBarHeight) style:UITableViewStylePlain];
-    self.pushTableView.delegate   = self;
-    self.pushTableView.dataSource = self;
+    self.dataArr                       = [[NSMutableArray alloc] init];
+
+    self.pushTableView                 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth], [DeviceManager getDeviceHeight]-kNavBarAndStatusHeight-kTabBarHeight) style:UITableViewStylePlain];
+    self.pushTableView.delegate        = self;
+    self.pushTableView.dataSource      = self;
+    self.pushTableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
+    self.pushTableView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
     [self.view addSubview:self.pushTableView];
 }
 
@@ -120,19 +136,31 @@
         }
         [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         
+        CustomImageView * newFriendIconImageView = [[CustomImageView alloc] initWithImage:[UIImage imageNamed:@"msg_icon_newinfo"]];
+        newFriendIconImageView.frame             = CGRectMake(8, 8, 50, 50);
+        [cell.contentView addSubview:newFriendIconImageView];
+
         //标题
-        CustomLabel * titleLabel = [[CustomLabel alloc] initWithFontSize:15];
-        titleLabel.textColor     = [UIColor blackColor];
-        titleLabel.text          = @"新的请求";
-        titleLabel.frame         = CGRectMake(10, 20, 80, 20);
+        CustomLabel * titleLabel                 = [[CustomLabel alloc] initWithFontSize:14];
+        titleLabel.textColor                     = [UIColor colorWithHexString:ColorDeepBlack];
+        titleLabel.text                          = @"新的好友";
+        titleLabel.frame                         = CGRectMake(newFriendIconImageView.right+5, 22, 57, 20);
         [cell.contentView addSubview:titleLabel];
+        //深灰色
+        UIView * lineView                        = [[UIView alloc] initWithFrame:CGRectMake(0, 66, [DeviceManager getDeviceWidth], 10)];
+        lineView.backgroundColor                 = [UIColor colorWithHexString:ColorLightWhite];
+        [cell.contentView addSubview:lineView];
+        
         //循环列表
         for (int i=0; i<self.recentFriendsArr.count; i++) {
             //新好友
             IMGroupModel * newModel    = self.recentFriendsArr[i];
-            CGRect frame = CGRectMake(titleLabel.right + 10 + 60*i, 5, 50, 50);
+            CGRect frame = CGRectMake(titleLabel.right + 5 + 55*i, 8, 50, 50);
             CustomImageView * newHeadImageView = [[CustomImageView alloc] initWithFrame:frame];
-            [newHeadImageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:newModel.avatarPath]] placeholderImage:[UIImage imageNamed:@"testimage"]];
+            newHeadImageView.backgroundColor = [UIColor colorWithHexString:ColorDeepGary];
+            newHeadImageView.layer.cornerRadius = 2;
+            newHeadImageView.layer.masksToBounds = YES;
+            [newHeadImageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:newModel.avatarPath]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
             [cell.contentView addSubview:newHeadImageView];
         }
 
@@ -142,7 +170,7 @@
             unReadLabel.layer.cornerRadius  = 10;
             unReadLabel.layer.masksToBounds = YES;
             unReadLabel.textAlignment       = NSTextAlignmentCenter;
-            unReadLabel.frame               = CGRectMake([DeviceManager getDeviceWidth]-40, 20, 20, 20);
+            unReadLabel.frame               = CGRectMake([DeviceManager getDeviceWidth]-30, 22, 20, 20);
             NSInteger num = self.unReadNum;
             if (num > 99) {
                 num = 99;
@@ -187,7 +215,22 @@
 #pragma mark- UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.0f;
+    if (indexPath.row == 0) {
+        return 75;
+    }
+    NewsPushModel * model = self.dataArr[indexPath.row-1];
+    NSString * content = model.comment_content;
+    if (model.type == PushLikeNews) {
+        //内容
+        content = @"为你点了赞";
+    }
+    //动态修改content
+    CGSize contentSize       = [ToolsManager getSizeWithContent:content andFontSize:13 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-140, 100)];
+    if (contentSize.height < 20) {
+        contentSize.height = 20;
+    }
+    
+    return 55.0f+contentSize.height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -207,16 +250,32 @@
 //    [self pushVC:ndvc];
     [self.navigationController pushViewController:ndvc animated:YES];
 }
-
-#pragma mark- UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (buttonIndex == 1) {
-        [NewsPushModel removeAll];
-        
-        [self.pushTableView reloadData];
+    if (self.dataArr.count > 0) {
+        if (indexPath.row == self.dataArr.count) {
+            self.page++;
+            NSMutableArray * array = [NewsPushModel findWithPage:self.page size:self.size];
+            if (array.count < 1) {
+                return;
+            }
+            [self.dataArr addObjectsFromArray:array];
+            [self.pushTableView reloadData];
+        }
     }
+
 }
+
+
+//#pragma mark- UIAlertViewDelegate
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex == 1) {
+//        [NewsPushModel removeAll];
+//        
+//        [self.pushTableView reloadData];
+//    }
+//}
 
 #pragma mark- private method
 - (void)refreshData
@@ -224,8 +283,9 @@
     if (self.dataArr.count > 0) {
         [self.dataArr removeAllObjects];
     }
+    self.page = 1;
     [self initNewsFriends];
-    [self.dataArr addObjectsFromArray:[NewsPushModel findAll]];
+    [self.dataArr addObjectsFromArray:[NewsPushModel findWithPage:self.page size:self.size]];
     [self.pushTableView reloadData];
     
     //徽标跟新

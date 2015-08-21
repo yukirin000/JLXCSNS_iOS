@@ -13,6 +13,8 @@
 #import "UIImageView+WebCache.h"
 #import "UIButton+WebCache.h"
 #import "LikeModel.h"
+#import "NewsUtils.h"
+
 @interface MyNewsListCell()
 
 //新闻模型
@@ -27,8 +29,7 @@
 //@property (nonatomic, strong) CustomLabel * schoolLabel;
 //内容
 @property (nonatomic, strong) CustomLabel * contentLabel;
-//线view
-@property (nonatomic, strong) UIView * lineView;
+
 //地址按钮
 @property (nonatomic, strong) CustomButton * locationBtn;
 //评论按钮
@@ -36,7 +37,7 @@
 //点赞按钮
 @property (nonatomic, strong) CustomButton * likeBtn;
 //删除新闻的功能
-@property (nonatomic, strong) CustomButton * deleteNewsBtn;
+//@property (nonatomic, strong) CustomButton * deleteNewsBtn;
 
 //可变视图数组 比如评论 图片
 @property (nonatomic, strong) NSMutableArray * viewArr;
@@ -49,44 +50,36 @@
 {
     
     if (self) {
-        self                            = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-        self.viewArr                    = [[NSMutableArray alloc] init];
-//        //头像
-//        self.headImageView              = [[CustomImageView alloc] init];
-//        [self.contentView addSubview:self.headImageView];
+        self                             = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+        self.contentView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+
+        self.viewArr                     = [[NSMutableArray alloc] init];
         //姓名
-        self.nameLabel                  = [[CustomLabel alloc] initWithFontSize:15];
+        self.nameLabel                   = [[CustomLabel alloc] initWithFontSize:15];
         [self.contentView addSubview:self.nameLabel];
         //时间
-        self.timeLabel                  = [[CustomLabel alloc] initWithFontSize:15];
+        self.timeLabel                   = [[CustomLabel alloc] initWithFontSize:15];
         [self.contentView addSubview:self.timeLabel];
-//        //学校
-//        self.schoolLabel                = [[CustomLabel alloc] initWithFontSize:15];
-//        [self.contentView addSubview:self.schoolLabel];
         //内容
-        self.contentLabel               = [[CustomLabel alloc] initWithFontSize:15];
-        self.contentLabel.numberOfLines = 0;
+        self.contentLabel                = [[CustomLabel alloc] initWithFontSize:15];
+        self.contentLabel.numberOfLines  = 0;
         [self.contentView addSubview:self.contentLabel];
         //地址
-        self.locationBtn                = [[CustomButton alloc] initWithFontSize:15];
+        self.locationBtn                 = [[CustomButton alloc] initWithFontSize:15];
         [self.locationBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.contentView addSubview:self.locationBtn];
         //评论
-        self.commentBtn                 = [[CustomButton alloc] initWithFontSize:15];
+        self.commentBtn                  = [[CustomButton alloc] initWithFontSize:15];
         [self.commentBtn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
         [self.contentView addSubview:self.commentBtn];
         //点赞
-        self.likeBtn                    = [[CustomButton alloc] initWithFontSize:15];
+        self.likeBtn                     = [[CustomButton alloc] initWithFontSize:15];
         [self.likeBtn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
         [self.contentView addSubview:self.likeBtn];
         //删除新闻功能
-        self.deleteNewsBtn              = [[CustomButton alloc] initWithFontSize:15];
-        [self.deleteNewsBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [self.contentView addSubview:self.deleteNewsBtn];
-        //线
-        self.lineView                   = [[UIView alloc] init];
-        self.lineView.backgroundColor   = [UIColor darkGrayColor];
-        [self.contentView addSubview:self.lineView];
+//        self.deleteNewsBtn              = [[CustomButton alloc] initWithFontSize:15];
+//        [self.deleteNewsBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//        [self.contentView addSubview:self.deleteNewsBtn];
         
     }
     
@@ -96,18 +89,11 @@
 /*! 内容填充*/
 - (void)setConentWithModel:(NewsModel *)news
 {
-    self.selectionStyle             = UITableViewCellSelectionStyleNone;
-    self.news = news;
-    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.news           = news;
     //清空可变数组
     [self.viewArr makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.viewArr removeAllObjects];
-    
-    //头像
-    //加载头像
-//    self.headImageView.frame = CGRectMake(15, 8, 60, 60);
-//    NSURL * headUrl          = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, news.head_sub_image]];
-//    [self.headImageView sd_setImageWithURL:headUrl placeholderImage:[UIImage imageNamed:@"testimage"]];
     
     //姓名
     CGSize nameSize          = [ToolsManager getSizeWithContent:news.name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
@@ -120,13 +106,13 @@
     self.timeLabel.frame     = CGRectMake(self.nameLabel.x, self.nameLabel.bottom, timeSize.width, 20);
     self.timeLabel.text      = timeStr;
     
-    //如果是自己看
-    if (!self.isOther) {
-        //删除
-        self.deleteNewsBtn.frame = CGRectMake([DeviceManager getDeviceWidth]-60, self.nameLabel.y, 40, 20);
-        [self.deleteNewsBtn addTarget:self action:@selector(deleteNewsPress) forControlEvents:UIControlEventTouchUpInside];
-        [self.deleteNewsBtn setTitle:@"删除" forState:UIControlStateNormal];
-    }
+//    //如果是自己看
+//    if (!self.isOther) {
+//        //删除
+//        self.deleteNewsBtn.frame = CGRectMake([DeviceManager getDeviceWidth]-60, self.nameLabel.y, 40, 20);
+//        [self.deleteNewsBtn addTarget:self action:@selector(deleteNewsPress) forControlEvents:UIControlEventTouchUpInside];
+//        [self.deleteNewsBtn setTitle:@"删除" forState:UIControlStateNormal];
+//    }
 
 //    //学校
 //    CGSize schoolSize        = [ToolsManager getSizeWithContent:news.school andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
@@ -144,12 +130,12 @@
     if (news.image_arr.count == 1) {
         //一张图片放大
         ImageModel * imageModel = news.image_arr[0];
-        CGRect rect             = [self getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
+        CGRect rect             = [NewsUtils getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
         rect.origin.x           = self.nameLabel.x;
         rect.origin.y           = self.contentLabel.bottom+10;
         CustomButton * imageBtn = [[CustomButton alloc] init];
         //加载单张大图
-        NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.url]];
+        NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
         [imageBtn addGestureRecognizer:tap];
         [imageBtn sd_setImageWithURL:imageUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
@@ -217,24 +203,6 @@
     [self.likeBtn addTarget:self action:@selector(sendLikeClick) forControlEvents:UIControlEventTouchUpInside];
     [self.likeBtn setTitle:likeTitle forState:UIControlStateNormal];
     
-    //线
-    self.lineView.frame        = CGRectMake(5, self.likeBtn.bottom, [DeviceManager getDeviceWidth], 1);
-}
-
-//获取合适的比例
-- (CGRect)getRectWithSize:(CGSize) size
-{
-    CGFloat x,y,width,height;
-    if (size.width > size.height) {
-        width  = 200;
-        height = size.height*(200/size.width);
-    }else{
-        width  = 100;
-        height = size.height*(100/size.width);
-    }
-    CGRect rect = CGRectMake(x, y, width, height);
-    
-    return rect;
 }
 
 //图片点击
@@ -270,23 +238,23 @@
 }
 
 //删除这条新闻
-- (void)deleteNewsPress
-{
-    UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"删除", nil];
-    [sheet showInView:[(UIViewController *)self.delegate view]];
-}
-
-#pragma mark- Action Delegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    //删除该条
-    if (buttonIndex == 0) {
-        if ([self.delegate respondsToSelector:@selector(deleteNewsClick:)]) {
-            [self.delegate deleteNewsClick:self.news];
-        }
-    }
-    
-}
+//- (void)deleteNewsPress
+//{
+//    UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"删除", nil];
+//    [sheet showInView:[(UIViewController *)self.delegate view]];
+//}
+//
+//#pragma mark- Action Delegate
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    //删除该条
+//    if (buttonIndex == 0) {
+//        if ([self.delegate respondsToSelector:@selector(deleteNewsClick:)]) {
+//            [self.delegate deleteNewsClick:self.news];
+//        }
+//    }
+//    
+//}
 
 //- (void)awakeFromNib {
 //    // Initialization code
