@@ -54,11 +54,10 @@
             [sself showWarn:@"昵称不能为空"];
             return ;
         }
-        if (sself.nameTextFiled.text.length>8) {
-            [sself showWarn:@"昵称不能超过八个字"];
+        if (sself.nameTextFiled.text.length>10) {
+            [sself showWarn:@"昵称不能超过10个字"];
             return ;
         }
-        
         if (ccblock) {
             ccblock(sself.nameTextFiled.text);
         }

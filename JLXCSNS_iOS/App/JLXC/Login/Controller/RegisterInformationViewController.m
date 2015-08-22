@@ -183,8 +183,8 @@
 - (void)finishClick:(id)sender {
     
 
-    if (self.nameTextField.text.length>8) {
-        [self showWarn:@"昵称不能超过八个字"];
+    if (self.nameTextField.text.length>10) {
+        [self showWarn:@"昵称不能超过10个字"];
         return ;
     }
     

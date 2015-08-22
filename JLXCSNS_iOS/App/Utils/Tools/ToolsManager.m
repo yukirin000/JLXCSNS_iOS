@@ -234,9 +234,11 @@
             [dateFormatter setDateFormat: @"HH:mm"];
             result = [dateFormatter stringFromDate:compareDate];
         }else if (dayTag == 1) {
-            result = @"昨天";
+            [dateFormatter setDateFormat: @"HH:mm"];
+            result = [NSString stringWithFormat:@"昨天 %@",[dateFormatter stringFromDate:compareDate]];
         }else if (dayTag<7 && dayTag>1) {
-            result = [self GetWeekDay:compareDate];
+            [dateFormatter setDateFormat: @"HH:mm"];
+            result = [NSString stringWithFormat:@"%@ %@", [self GetWeekDay:compareDate], [dateFormatter stringFromDate:compareDate]];
         }else {
             [dateFormatter setDateFormat: @"yy-MM-dd HH:mm"];
             result = [dateFormatter stringFromDate:compareDate];

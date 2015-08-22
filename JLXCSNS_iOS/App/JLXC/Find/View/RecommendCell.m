@@ -80,7 +80,7 @@
     
     self.headImageView.layer.cornerRadius  = 2;
     self.headImageView.layer.masksToBounds = YES;
-    self.nameLabel.font                    = [UIFont systemFontOfSize:15];
+    self.nameLabel.font                    = [UIFont systemFontOfSize:FontListName];
     self.nameLabel.textColor               = [UIColor colorWithHexString:ColorDeepBlack];
     self.descLabel.font                    = [UIFont systemFontOfSize:11];
     self.descLabel.textColor               = [UIColor colorWithHexString:ColorFlesh];

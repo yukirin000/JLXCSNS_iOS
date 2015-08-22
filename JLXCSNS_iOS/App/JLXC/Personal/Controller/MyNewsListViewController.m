@@ -91,9 +91,12 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NewsModel * news          = self.dataArr[indexPath.row];
-    CGSize contentSize        = [ToolsManager getSizeWithContent:news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, self.viewWidth-30, MAXFLOAT)];
-    //名字20 评论按钮30 还有10的底线
-    NSInteger cellOtherHeight = 55+30+10;
+    CGSize contentSize        = [ToolsManager getSizeWithContent:news.content_text andFontSize:16 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
+    if (news.content_text == nil || news.content_text.length < 1) {
+        contentSize.height = 0;
+    }
+    //名字20 时间30 顶部背景图15 底部操作部分50
+    NSInteger cellOtherHeight = 30+20+15+50;
     
     CGFloat height;
     if (news.image_arr.count < 1) {
@@ -104,7 +107,7 @@
         ImageModel * imageModel = news.image_arr[0];
         CGSize size             = CGSizeMake(imageModel.width, imageModel.height);
         CGRect rect             = [NewsUtils getRectWithSize:size];
-        height                  = cellOtherHeight+contentSize.height+rect.size.height;
+        height                  = cellOtherHeight+contentSize.height+rect.size.height+5;
     }else{
         //多张图片九宫格
         NSInteger lineNum   = news.image_arr.count/3;
@@ -112,7 +115,10 @@
         if (columnNum > 0) {
             lineNum++;
         }
-        height              = cellOtherHeight+contentSize.height+lineNum*65;
+        CGFloat itemWidth = [DeviceManager getDeviceWidth]/5.0;
+        height            = cellOtherHeight+contentSize.height+lineNum*(itemWidth+10)+5;
+        //减去第一行的10
+        height           -= 10;
     }
 
     //地址
@@ -146,7 +152,6 @@
     
     //成功失败都没反应
     [HttpService postWithUrlString:kLikeOrCancelPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-        debugLog(@"%@", responseData);
     } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
         
     }];
@@ -195,7 +200,6 @@
     
     debugLog(@"%@", url);
     [HttpService getWithUrlString:url andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-        debugLog(@"%@", responseData);
         int status = [responseData[HttpStatus] intValue];
         if (status == HttpStatusCodeSuccess) {
             

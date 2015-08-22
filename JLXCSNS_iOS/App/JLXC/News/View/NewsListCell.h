@@ -14,8 +14,8 @@
 @optional
 /*! 图片点击*/
 - (void)imageClick:(NewsModel *)news index:(NSInteger)index;
-/*! 删除评论*/
-- (void)deleteCommentClick:(NewsModel *)news index:(NSInteger)index;
+///*! 删除评论*/
+//- (void)deleteCommentClick:(NewsModel *)news index:(NSInteger)index;
 /*! 发送评论*/
 - (void)sendCommentClick:(NewsModel *)news;
 /*! 点赞或者取消赞点击*/

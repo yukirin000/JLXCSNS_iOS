@@ -27,7 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.navBar.hidden = YES;
     self.refreshTableView.frame = CGRectMake(0, 0, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight-kTabBarHeight);
     
@@ -134,38 +134,38 @@
 
     }];
 }
-//删除评论
-- (void)deleteCommentClick:(NewsModel *)news index:(NSInteger)index
-{
-    NSArray * commentArr     = news.comment_arr;
-    CommentModel * model     = commentArr[index];
-    
-    NSDictionary * params = @{@"cid":[NSString stringWithFormat:@"%ld", model.cid],
-                              @"news_id":[NSString stringWithFormat:@"%ld", news.nid]};
-    debugLog(@"%@ %@", kDeleteCommentPath, params);
-    [self showLoading:@"删除中"];
-    
-    [HttpService postWithUrlString:kDeleteCommentPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-//        debugLog(@"%@", responseData);
-        int status = [responseData[HttpStatus] intValue];
-        if (status == HttpStatusCodeSuccess) {
-            [self showComplete:responseData[HttpMessage]];
-            //成功之后更新
-            [news.comment_arr removeObject:model];
-            if (news.comment_quantity > 0) {
-                news.comment_quantity --;
-            }
-            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.dataArr indexOfObject:news] inSection:0];
-            [self.refreshTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            
-        }else{
-            
-            [self showWarn:responseData[HttpMessage]];
-        }
-    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self showWarn:StringCommonNetException];
-    }];
-}
+////删除评论
+//- (void)deleteCommentClick:(NewsModel *)news index:(NSInteger)index
+//{
+//    NSArray * commentArr     = news.comment_arr;
+//    CommentModel * model     = commentArr[index];
+//    
+//    NSDictionary * params = @{@"cid":[NSString stringWithFormat:@"%ld", model.cid],
+//                              @"news_id":[NSString stringWithFormat:@"%ld", news.nid]};
+//    debugLog(@"%@ %@", kDeleteCommentPath, params);
+//    [self showLoading:@"删除中"];
+//    
+//    [HttpService postWithUrlString:kDeleteCommentPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
+////        debugLog(@"%@", responseData);
+//        int status = [responseData[HttpStatus] intValue];
+//        if (status == HttpStatusCodeSuccess) {
+//            [self showComplete:responseData[HttpMessage]];
+//            //成功之后更新
+//            [news.comment_arr removeObject:model];
+//            if (news.comment_quantity > 0) {
+//                news.comment_quantity --;
+//            }
+//            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.dataArr indexOfObject:news] inSection:0];
+//            [self.refreshTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//            
+//        }else{
+//            
+//            [self showWarn:responseData[HttpMessage]];
+//        }
+//    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [self showWarn:StringCommonNetException];
+//    }];
+//}
 
 
 #pragma mark- method response
@@ -261,19 +261,22 @@
 - (CGFloat)getCellHeightWith:(NewsModel *)news
 {
     CGSize contentSize        = [ToolsManager getSizeWithContent:news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, self.viewWidth-30, MAXFLOAT)];
-    //头像80 评论按钮30 还有10的底线
-    NSInteger cellOtherHeight = 80+30+10;
+    if (news.content_text == nil || news.content_text.length < 1) {
+        contentSize.height = 0;
+    }
+    //头像60 时间25 评论按钮30 还有15的底线
+    NSInteger cellOtherHeight = 55+25+30+15;
     
     CGFloat height;
     if (news.image_arr.count < 1) {
         //没有图片
-        height = cellOtherHeight+contentSize.height;
+        height = cellOtherHeight+contentSize.height+5;
     }else if (news.image_arr.count == 1) {
         //一张图片 大图
         ImageModel * imageModel = news.image_arr[0];
         CGSize size             = CGSizeMake(imageModel.width, imageModel.height);
         CGRect rect             = [NewsUtils getRectWithSize:size];
-        height                  = cellOtherHeight+contentSize.height+rect.size.height;
+        height                  = cellOtherHeight+contentSize.height+rect.size.height+10;
     }else{
         //多张图片九宫格
         NSInteger lineNum   = news.image_arr.count/3;
@@ -281,15 +284,8 @@
         if (columnNum > 0) {
             lineNum++;
         }
-        height              = cellOtherHeight+contentSize.height+lineNum*65;
-    }
-    
-    //评论
-    for (int i=0; i<news.comment_arr.count; i++) {
-        CommentModel * comment = news.comment_arr[i];
-        NSString * commentStr  = [NSString stringWithFormat:@"%@:%@", comment.name, comment.comment_content];
-        CGSize nameSize        = [ToolsManager getSizeWithContent:commentStr andFontSize:15 andFrame:CGRectMake(0, 0, self.viewWidth-30, MAXFLOAT)];
-        height                 = height + nameSize.height+5;
+        CGFloat itemWidth = [DeviceManager getDeviceWidth]/5.0;
+        height            = cellOtherHeight+contentSize.height+lineNum*(itemWidth+10);
     }
     
     //地址
@@ -298,8 +294,16 @@
     }
     //点赞列表
     if (news.like_arr.count > 0) {
-        CGFloat width = ([DeviceManager getDeviceWidth]-60)/8;
+        CGFloat width = ([DeviceManager getDeviceWidth]-53-27)/8;
         height += width+5;
+    }
+    
+    //评论
+    for (int i=0; i<news.comment_arr.count; i++) {
+        CommentModel * comment = news.comment_arr[i];
+        NSString * commentStr  = [NSString stringWithFormat:@"%@:%@", comment.name, comment.comment_content];
+        CGSize nameSize        = [ToolsManager getSizeWithContent:commentStr andFontSize:14 andFrame:CGRectMake(0, 0, self.viewWidth-30, MAXFLOAT)];
+        height                 = height + nameSize.height+5;
     }
     
     return height;

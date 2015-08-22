@@ -36,11 +36,17 @@
 @property (nonatomic, strong) CustomButton * commentBtn;
 //点赞按钮
 @property (nonatomic, strong) CustomButton * likeBtn;
+//中部背景
+@property (nonatomic, strong) CustomImageView * midImageView;
+//底部背景
+@property (nonatomic, strong) CustomImageView * bottomImageView;
 //删除新闻的功能
 //@property (nonatomic, strong) CustomButton * deleteNewsBtn;
 
 //可变视图数组 比如评论 图片
 @property (nonatomic, strong) NSMutableArray * viewArr;
+//时间线
+@property (nonatomic, strong) UIView * timeLineView;
 
 @end
 
@@ -55,35 +61,100 @@
 
         self.viewArr                     = [[NSMutableArray alloc] init];
         //姓名
-        self.nameLabel                   = [[CustomLabel alloc] initWithFontSize:15];
+        self.nameLabel                   = [[CustomLabel alloc] init];
         [self.contentView addSubview:self.nameLabel];
         //时间
-        self.timeLabel                   = [[CustomLabel alloc] initWithFontSize:15];
+        self.timeLabel                   = [[CustomLabel alloc] init];
         [self.contentView addSubview:self.timeLabel];
+        
+        //中部背景
+        self.midImageView              = [[CustomImageView alloc] init];
+        [self.contentView addSubview:self.midImageView];
+        
+        //底部背景
+        self.bottomImageView           = [[CustomImageView alloc] init];
+        [self.contentView addSubview:self.bottomImageView];
+        
         //内容
-        self.contentLabel                = [[CustomLabel alloc] initWithFontSize:15];
+        self.contentLabel                = [[CustomLabel alloc] init];
         self.contentLabel.numberOfLines  = 0;
         [self.contentView addSubview:self.contentLabel];
         //地址
-        self.locationBtn                 = [[CustomButton alloc] initWithFontSize:15];
-        [self.locationBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        self.locationBtn                 = [[CustomButton alloc] init];
         [self.contentView addSubview:self.locationBtn];
         //评论
-        self.commentBtn                  = [[CustomButton alloc] initWithFontSize:15];
-        [self.commentBtn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        self.commentBtn                  = [[CustomButton alloc] init];
         [self.contentView addSubview:self.commentBtn];
         //点赞
-        self.likeBtn                     = [[CustomButton alloc] initWithFontSize:15];
-        [self.likeBtn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        self.likeBtn                     = [[CustomButton alloc] init];
         [self.contentView addSubview:self.likeBtn];
-        //删除新闻功能
-//        self.deleteNewsBtn              = [[CustomButton alloc] initWithFontSize:15];
-//        [self.deleteNewsBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//        [self.contentView addSubview:self.deleteNewsBtn];
+        
+        //时间线
+        self.timeLineView                = [[UIView alloc] init];
+        [self.contentView addSubview:self.timeLineView];
+        
+        [self.likeBtn addTarget:self action:@selector(sendLikeClick) forControlEvents:UIControlEventTouchUpInside];
+        [self configUI];
         
     }
     
     return self;
+}
+
+- (void)configUI
+{
+    //时间
+    self.timeLabel.frame                = CGRectMake(35, 10, 200, 20);
+    self.timeLabel.font                 = [UIFont systemFontOfSize:14];
+    self.timeLabel.textColor            = [UIColor colorWithHexString:ColorLightBlack];
+
+    //姓名
+    self.nameLabel.frame                = CGRectMake(self.timeLabel.x, self.timeLabel.bottom, 200, 20);
+    self.nameLabel.font                 = [UIFont systemFontOfSize:16];
+    self.nameLabel.textColor            = [UIColor colorWithHexString:ColorDeepBlack];
+    //时间线
+    CustomImageView * timeLineImageView = [[CustomImageView alloc] initWithImage:[UIImage imageNamed:@"time_point"]];
+    timeLineImageView.frame             = CGRectMake(13, self.nameLabel.y+2, 15, 15);
+    [self.contentView addSubview:timeLineImageView];
+
+    self.timeLineView.frame             = CGRectMake(20, 0, 1, 0);
+    self.timeLineView.backgroundColor   = [UIColor colorWithHexString:ColorDeepGary];
+    
+    self.contentLabel.font              = [UIFont systemFontOfSize:16];
+    self.contentLabel.textColor         = [UIColor colorWithHexString:ColorDeepBlack];
+
+    //顶部背景
+    CustomImageView * topImageView      = [[CustomImageView alloc] initWithFrame:CGRectMake(self.timeLabel.x, self.nameLabel.bottom, [DeviceManager getDeviceWidth]-10-self.timeLabel.x, 15)];
+    topImageView.image                  = [UIImage imageNamed:@"back_head"];
+    [self.contentView addSubview:topImageView];
+    [self.contentView sendSubviewToBack:topImageView];
+
+    //中部背景
+    self.midImageView.frame             = CGRectMake(self.timeLabel.x, topImageView.bottom, topImageView.width, 0);
+    self.midImageView.image             = [UIImage imageNamed:@"back_body"];
+
+    //底部背景
+    self.bottomImageView.frame          = CGRectMake(self.timeLabel.x, self.midImageView.bottom, topImageView.width, 50);
+    self.bottomImageView.image          = [UIImage imageNamed:@"back_bottom"];
+
+    //地理位置
+    [self.locationBtn setTitleColor:[UIColor colorWithHexString:ColorLightBlue] forState:UIControlStateNormal];
+    [self.locationBtn setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
+    self.locationBtn.titleLabel.font            = [UIFont systemFontOfSize:14];
+    self.locationBtn.frame                      = CGRectMake(self.nameLabel.x+10, 0, 190, 20);
+    self.locationBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    
+    //评论按钮
+    self.commentBtn.titleLabel.font     = [UIFont systemFontOfSize:14];
+    self.commentBtn.titleEdgeInsets     = UIEdgeInsetsMake(0, 15, 0, 0);
+    [self.commentBtn setBackgroundImage:[UIImage imageNamed:@"btn_comment_normal"] forState:UIControlStateNormal];
+    [self.commentBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
+
+    //点赞
+    self.likeBtn.titleLabel.font        = [UIFont systemFontOfSize:14];
+    self.likeBtn.titleEdgeInsets        = UIEdgeInsetsMake(0, 15, 0, 0);
+    [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_normal"] forState:UIControlStateNormal];
+    [self.likeBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
 }
 
 /*! 内容填充*/
@@ -95,16 +166,9 @@
     [self.viewArr makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.viewArr removeAllObjects];
     
-    //姓名
-    CGSize nameSize          = [ToolsManager getSizeWithContent:news.name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
-    self.nameLabel.frame     = CGRectMake(15, 8, nameSize.width, 20);
     self.nameLabel.text      = news.name;
     
-    //时间
-    NSString * timeStr       = [ToolsManager compareCurrentTime:news.publish_date];
-    CGSize timeSize          = [ToolsManager getSizeWithContent:timeStr andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
-    self.timeLabel.frame     = CGRectMake(self.nameLabel.x, self.nameLabel.bottom, timeSize.width, 20);
-    self.timeLabel.text      = timeStr;
+    self.timeLabel.text      = [ToolsManager compareCurrentTime:news.publish_date];
     
 //    //如果是自己看
 //    if (!self.isOther) {
@@ -120,29 +184,33 @@
 //    self.schoolLabel.text    = news.school;
     
     //内容
-    CGSize contentSize       = [ToolsManager getSizeWithContent:news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
-    self.contentLabel.frame  = CGRectMake(self.nameLabel.x, self.timeLabel.bottom+5, contentSize.width, contentSize.height);
+    CGSize contentSize       = [ToolsManager getSizeWithContent:news.content_text andFontSize:16 andFrame:CGRectMake(0, 0, self.midImageView.width-20, MAXFLOAT)];
+    self.contentLabel.frame  = CGRectMake(self.nameLabel.x+10, self.nameLabel.bottom+15, contentSize.width, contentSize.height);
+    if (news.content_text == nil || news.content_text.length < 1) {
+        self.contentLabel.height = 0;
+    }
     self.contentLabel.text   = news.content_text;
     
     //底部位置
     NSInteger bottomPosition = self.contentLabel.bottom ;
+    
     //图片处理
     if (news.image_arr.count == 1) {
         //一张图片放大
-        ImageModel * imageModel = news.image_arr[0];
-        CGRect rect             = [NewsUtils getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
-        rect.origin.x           = self.nameLabel.x;
-        rect.origin.y           = self.contentLabel.bottom+10;
-        CustomButton * imageBtn = [[CustomButton alloc] init];
+        ImageModel * imageModel      = news.image_arr[0];
+        CGRect rect                  = [NewsUtils getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
+        rect.origin.x                = self.contentLabel.x;
+        rect.origin.y                = self.contentLabel.bottom+5;
+        CustomButton * imageBtn      = [[CustomButton alloc] init];
         //加载单张大图
-        NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
+        NSURL * imageUrl             = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
         [imageBtn addGestureRecognizer:tap];
         [imageBtn sd_setImageWithURL:imageUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
-        imageBtn.frame          = rect;
+        imageBtn.frame               = rect;
         [self.contentView addSubview:imageBtn];
         //底部位置
-        bottomPosition          = imageBtn.bottom;
+        bottomPosition               = imageBtn.bottom;
         //插入
         [self.viewArr addObject:imageBtn];
     }else{
@@ -157,7 +225,9 @@
             imageView.userInteractionEnabled = YES;
             imageView.contentMode    = UIViewContentModeScaleAspectFill;
             imageView.layer.masksToBounds = YES;
-            imageView.frame          = CGRectMake(20+75*columnNum, self.contentLabel.bottom+20+65*lineNum, 55, 55);
+            //width
+            CGFloat itemWidth = [DeviceManager getDeviceWidth]/5.0;
+            imageView.frame          = CGRectMake(self.contentLabel.x+(itemWidth+10)*columnNum, self.contentLabel.bottom+5+(itemWidth+10)*lineNum, itemWidth, itemWidth);
             //加载缩略图
             NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
             
@@ -178,31 +248,40 @@
     
     //地址按钮 没有不显示
     if (news.location.length > 0) {
-        self.locationBtn.frame                    = CGRectMake(self.nameLabel.x, bottomPosition+5, 190, 20);
-        self.locationBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-        NSString * locationTitle                  = news.location;
+        NSString * locationTitle                  = [NSString stringWithFormat:@" %@", news.location];
         [self.locationBtn setTitle:locationTitle forState:UIControlStateNormal];
+        self.locationBtn.y                        = bottomPosition+5;
         bottomPosition                            = self.locationBtn.bottom;
     }else{
         self.locationBtn.hidden = YES;
     }
     
+    //背景
+    self.midImageView.height     = bottomPosition - self.midImageView.y;
+    self.bottomImageView.y       = self.midImageView.bottom;
+    
     //评论按钮
-    self.commentBtn.frame    = CGRectMake(kCenterOriginX(90), bottomPosition+10, 90, 20);
-    NSString * commentTitle  = [@"评论" stringByAppendingFormat:@"%ld", news.comment_quantity];
+    self.commentBtn.frame    = CGRectMake(self.midImageView.right-150, bottomPosition+10, 60, 25);
+    NSString * commentTitle  = [NSString stringWithFormat:@"%ld", news.comment_quantity];
+    if (news.comment_quantity > 10000) {
+        commentTitle = @"1w+";
+    }
     [self.commentBtn setTitle:commentTitle forState:UIControlStateNormal];
     
     //点赞按钮
-    self.likeBtn.frame      = CGRectMake([DeviceManager getDeviceWidth]-100, bottomPosition+10, 90, 20);
-    NSString * likeTitle;
-    if (self.news.is_like) {
-        likeTitle    = [@"已赞" stringByAppendingFormat:@"%ld", news.like_quantity];
-    }else{
-        likeTitle    = [@"点赞" stringByAppendingFormat:@"%ld", news.like_quantity];
+    self.likeBtn.frame      = CGRectMake(self.midImageView.right-75, bottomPosition+10, 60, 25);
+    NSString * likeTitle    = [NSString stringWithFormat:@"%ld", news.like_quantity];
+    if (news.like_quantity > 10000) {
+        likeTitle = @"1w+";
     }
-    [self.likeBtn addTarget:self action:@selector(sendLikeClick) forControlEvents:UIControlEventTouchUpInside];
+    if (self.news.is_like) {
+        [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_selected"] forState:UIControlStateNormal];
+    }else{
+        [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_normal"] forState:UIControlStateNormal];
+    }
     [self.likeBtn setTitle:likeTitle forState:UIControlStateNormal];
     
+    self.timeLineView.height = self.bottomImageView.bottom;
 }
 
 //图片点击
@@ -219,17 +298,21 @@
     
     if ([self.delegate respondsToSelector:@selector(likeClick:likeOrCancel:)]) {
         BOOL likeOrCancel = YES;
-        NSString * likeTitle;
         //先修改在进行网络请求
         if (self.news.is_like) {
             self.news.is_like = NO;
             likeOrCancel     = NO;
             self.news.like_quantity --;
-            likeTitle        = [@"点赞" stringByAppendingFormat:@"%ld", self.news.like_quantity];
+            [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_normal"] forState:UIControlStateNormal];
         }else{
             self.news.is_like = YES;
             self.news.like_quantity ++;
-            likeTitle        = [@"已赞" stringByAppendingFormat:@"%ld", self.news.like_quantity];
+            [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_selected"] forState:UIControlStateNormal];
+        }
+        
+        NSString * likeTitle    = [NSString stringWithFormat:@"%ld", self.news.like_quantity];
+        if (self.news.like_quantity > 10000) {
+            likeTitle = @"1w+";
         }
         [self.likeBtn setTitle:likeTitle forState:UIControlStateNormal];
         
