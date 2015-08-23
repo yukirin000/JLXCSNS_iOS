@@ -75,6 +75,8 @@
     NewsModel * news                = self.dataArr[indexPath.row];
     ndvc.newsId                     = news.nid;
     [self pushVC:ndvc];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

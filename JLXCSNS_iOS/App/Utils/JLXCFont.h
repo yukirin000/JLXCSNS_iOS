@@ -31,4 +31,7 @@
 //部分列表时间字体
 #define FontListTime 12
 
+//评论用字体
+#define FontComment 13
+
 #endif

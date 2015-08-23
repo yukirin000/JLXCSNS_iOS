@@ -36,14 +36,12 @@
 @property (nonatomic, strong) CustomLabel * schoolLabel;
 //内容
 @property (nonatomic, strong) CustomLabel * contentLabel;
-//线view
-@property (nonatomic, strong) UIView * lineView;
 //地址按钮
 @property (nonatomic, strong) CustomButton * locationBtn;
 ////评论tv
 //@property (nonatomic, strong) PlaceHolderTextView * commentTextView;
 //浏览数
-@property (nonatomic, strong) CustomButton * browseCountBtn;
+//@property (nonatomic, strong) CustomButton * browseCountBtn;
 //点赞按钮
 @property (nonatomic, strong) CustomButton * likeBtn;
 //评论table
@@ -71,9 +69,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
     [self registerNotify];
     [self initWidget];
+    [self configUI];
     [self getData];
 }
 
@@ -88,26 +87,65 @@
     //头像
     self.headImageView              = [[CustomImageView alloc] init];
     //姓名
-    self.nameLabel                  = [[CustomLabel alloc] initWithFontSize:15];
+    self.nameLabel                  = [[CustomLabel alloc] init];
     //时间
-    self.timeLabel                  = [[CustomLabel alloc] initWithFontSize:15];
+    self.timeLabel                  = [[CustomLabel alloc] init];
     //学校
-    self.schoolLabel                = [[CustomLabel alloc] initWithFontSize:15];
+    self.schoolLabel                = [[CustomLabel alloc] init];
     //内容
-    self.contentLabel               = [[CustomLabel alloc] initWithFontSize:15];
-    self.contentLabel.numberOfLines = 0;
+    self.contentLabel               = [[CustomLabel alloc] init];
     //地址
-    self.locationBtn                = [[CustomButton alloc] initWithFontSize:15];
-    [self.locationBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.locationBtn                = [[CustomButton alloc] init];
     //评论
 //    self.commentTextView                 = [[PlaceHolderTextView alloc] initWithFrame:CGRectMake(0, 0, 300, 30) andPlaceHolder:@"请输入"];
-    self.browseCountBtn             = [[CustomButton alloc] initWithFontSize:15];
+//    self.browseCountBtn             = [[CustomButton alloc] initWithFontSize:15];
     //点赞
-    self.likeBtn                    = [[CustomButton alloc] initWithFontSize:15];
-    [self.likeBtn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-    //线
-    self.lineView                   = [[UIView alloc] init];
-    self.lineView.backgroundColor   = [UIColor darkGrayColor];
+    self.likeBtn                    = [[CustomButton alloc] init];
+    
+    UITapGestureRecognizer * tap              = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(newsHeadClick:)];
+    [self.headImageView addGestureRecognizer:tap];
+    
+    [self.likeBtn addTarget:self action:@selector(sendLikeClick) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)configUI
+{
+    [self setNavBarTitle:@"详情"];
+    //头像
+    self.headImageView.frame                  = CGRectMake(12, 10, 45, 45);
+    self.headImageView.layer.cornerRadius     = 2;
+    self.headImageView.layer.masksToBounds    = YES;
+    self.headImageView.userInteractionEnabled = YES;
+    
+    //姓名
+    self.nameLabel.font                   = [UIFont systemFontOfSize:FontListName];
+    self.nameLabel.textColor              = [UIColor colorWithHexString:ColorDeepBlack];
+    //学校
+    self.schoolLabel.font                 = [UIFont systemFontOfSize:13];
+    self.schoolLabel.textColor            = [UIColor colorWithHexString:ColorGary];
+    
+    self.contentLabel.frame               = CGRectMake(self.headImageView.x, self.headImageView.bottom+5, [DeviceManager getDeviceWidth]-30, 0);
+    self.contentLabel.numberOfLines       = 0;
+    self.contentLabel.font                = [UIFont systemFontOfSize:15];
+    self.contentLabel.textColor           = [UIColor colorWithHexString:ColorDeepBlack];
+    
+    //地理位置
+    [self.locationBtn setTitleColor:[UIColor colorWithHexString:ColorLightBlue] forState:UIControlStateNormal];
+    [self.locationBtn setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
+    self.locationBtn.titleLabel.font            = [UIFont systemFontOfSize:14];
+    self.locationBtn.frame                      = CGRectMake(self.nameLabel.x+10, 0, 190, 20);
+    self.locationBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    //时间
+    self.timeLabel.frame                  = CGRectMake(self.headImageView.x, 0, 250, 20);
+    self.timeLabel.font                   = [UIFont systemFontOfSize:12];
+    self.timeLabel.textColor              = [UIColor colorWithHexString:ColorGary];
+    
+    //点赞
+    self.likeBtn.frame                  = CGRectMake([DeviceManager getDeviceWidth]-75, 20, 60, 25);
+    self.likeBtn.titleLabel.font        = [UIFont systemFontOfSize:14];
+    self.likeBtn.titleEdgeInsets        = UIEdgeInsetsMake(0, 15, 0, 0);
+    [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_normal"] forState:UIControlStateNormal];
+    [self.likeBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
     
 }
 
@@ -157,10 +195,11 @@
         self.newsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight) style:UITableViewStylePlain];
     }
     
-    self.newsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.newsTable.delegate       = self;
-    self.newsTable.dataSource     = self;
-    UITapGestureRecognizer * tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableView:)];
+    self.newsTable.separatorStyle  = UITableViewCellSeparatorStyleNone;
+    self.newsTable.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    self.newsTable.delegate        = self;
+    self.newsTable.dataSource      = self;
+    UITapGestureRecognizer * tap   = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableView:)];
     [self.newsTable addGestureRecognizer:tap];
     [self.view addSubview:self.newsTable];
     
@@ -176,63 +215,54 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, [self getHeadNewsHeight])];
+    UIView * backView        = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, [self getHeadNewsHeight])];
+    backView.backgroundColor = [UIColor colorWithHexString:ColorWhite];
     [backView addSubview:self.headImageView];
     [backView addSubview:self.nameLabel];
     [backView addSubview:self.timeLabel];
     [backView addSubview:self.schoolLabel];
     [backView addSubview:self.contentLabel];
-    [backView addSubview:self.lineView];
     [backView addSubview:self.locationBtn];
-//    [backView addSubview:self.commentTextView];
     [backView addSubview:self.likeBtn];
-    [backView addSubview:self.browseCountBtn];
     
     //头像
-    //加载头像
-    self.headImageView.frame                  = CGRectMake(15, 18, 60, 60);
-    self.headImageView.userInteractionEnabled = YES;
     NSURL * headUrl                           = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, self.news.head_sub_image]];
-    UITapGestureRecognizer * tap              = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(newsHeadClick:)];
-    [self.headImageView addGestureRecognizer:tap];
     [self.headImageView sd_setImageWithURL:headUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
 
-    NSString * name = self.news.name;
-    
     //姓名
+    NSString * name = self.news.name;
     CGSize nameSize              = [ToolsManager getSizeWithContent:name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
     self.nameLabel.frame         = CGRectMake(self.headImageView.right+10, self.headImageView.y, nameSize.width, 20);
     self.nameLabel.text          = name;
     
-    //时间
-    NSString * timeStr           = [ToolsManager compareCurrentTime:self.news.publish_date];
-    CGSize timeSize              = [ToolsManager getSizeWithContent:timeStr andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
-    self.timeLabel.frame         = CGRectMake(self.nameLabel.right+10, self.headImageView.y, timeSize.width, 20);
-    self.timeLabel.text          = timeStr;
-    
     //学校
-    CGSize schoolSize            = [ToolsManager getSizeWithContent:self.news.school andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
-    self.schoolLabel.frame       = CGRectMake(self.headImageView.right+10, self.nameLabel.bottom+5, schoolSize.width, 20);
+    CustomImageView * schoolImageView      = [[CustomImageView alloc] init];
+    schoolImageView.frame                  = CGRectMake(self.headImageView.right+10, self.nameLabel.bottom+7, 15, 15);
+    schoolImageView.image                  = [UIImage imageNamed:@"school_icon"];
+    [backView addSubview:schoolImageView];
+    self.schoolLabel.frame                = CGRectMake(schoolImageView.right+3, schoolImageView.y-3, 250, 20);
     self.schoolLabel.text        = self.news.school;
     
     //内容
-    CGSize contentSize           = [ToolsManager getSizeWithContent:self.news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
-    self.contentLabel.frame      = CGRectMake(self.headImageView.x, self.headImageView.bottom+5, contentSize.width, contentSize.height);
-    self.contentLabel.text       = self.news.content_text;
+    CGSize contentSize       = [ToolsManager getSizeWithContent:self.news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
+    if (self.news.content_text == nil || self.news.content_text.length < 1) {
+        contentSize.height = 0;
+    }
+    self.contentLabel.height = contentSize.height;
+    self.contentLabel.text   = self.news.content_text;
     
     //底部位置
-    NSInteger bottomPosition = self.contentLabel.bottom ;
+    CGFloat bottomPosition = self.contentLabel.bottom ;
     //图片处理
     if (self.news.image_arr.count == 1) {
         //一张图片放大
         ImageModel * imageModel = self.news.image_arr[0];
         CGRect rect             = [NewsUtils getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
         rect.origin.x           = self.headImageView.x;
-        rect.origin.y           = self.contentLabel.bottom+10;
+        rect.origin.y           = self.contentLabel.bottom+5;
         CustomButton * imageBtn = [[CustomButton alloc] init];
-        //加载单张大图
-        NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.url]];
-        //点击手势
+        //加载单张
+        NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
         [imageBtn addGestureRecognizer:tap];
         [imageBtn sd_setBackgroundImageWithURL:imageUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
@@ -244,21 +274,24 @@
         //多张图片九宫格
         NSArray * btnArr        = self.news.image_arr;
         for (int i=0; i<btnArr.count; i++) {
-            ImageModel * imageModel          = self.news.image_arr[i];
-            NSInteger columnNum              = i%3;
-            NSInteger lineNum                = i/3;
-            CustomImageView * imageView      = [[CustomImageView alloc] init];
-            imageView.tag                    = i;
-            imageView.contentMode            = UIViewContentModeScaleAspectFill;
-            imageView.layer.masksToBounds    = YES;
+            ImageModel * imageModel = self.news.image_arr[i];
+            NSInteger columnNum     = i%3;
+            NSInteger lineNum       = i/3;
+            CustomImageView * imageView = [[CustomImageView alloc] init];
+            imageView.tag            = i;
             imageView.userInteractionEnabled = YES;
-            imageView.frame                  = CGRectMake(20+75*columnNum, self.contentLabel.bottom+20+65*lineNum, 55, 55);
+            imageView.contentMode    = UIViewContentModeScaleAspectFill;
+            imageView.layer.masksToBounds = YES;
+            CGFloat itemWidth = [DeviceManager getDeviceWidth]/5.0;
+            imageView.frame          = CGRectMake(self.headImageView.x+(itemWidth+10)*columnNum, self.contentLabel.bottom+5+(itemWidth+10)*lineNum, itemWidth, itemWidth);
+            
             //加载缩略图
-            NSURL * imageUrl                 = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
-            //点击手势
-            UITapGestureRecognizer * tap     = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
+            NSURL * imageUrl        = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
+            
+            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
             [imageView addGestureRecognizer:tap];
             [imageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
+            
             [backView addSubview:imageView];
             //底部位置
             if (btnArr.count == i+1) {
@@ -269,71 +302,75 @@
     
     //地址按钮 没有不显示
     if (self.news.location.length > 0) {
-        self.locationBtn.frame   = CGRectMake(self.headImageView.x, bottomPosition+5, 190, 20);
-        NSString * locationTitle = self.news.location;
+        NSString * locationTitle                  = [NSString stringWithFormat:@" %@", self.news.location];
         [self.locationBtn setTitle:locationTitle forState:UIControlStateNormal];
-        bottomPosition           = self.locationBtn.bottom;
+        self.locationBtn.y                        = bottomPosition+5;
+        bottomPosition                            = self.locationBtn.bottom;
+    }else{
+        self.locationBtn.hidden = YES;
     }
+    
+    //时间
+    NSString * timeStr       = [ToolsManager compareCurrentTime:self.news.publish_date];
+    self.timeLabel.y         = bottomPosition+5;
+    self.timeLabel.text      = timeStr;
+    
+    bottomPosition           += 20;
     
     //点赞按钮
-    self.likeBtn.frame      = CGRectMake([DeviceManager getDeviceWidth]-100, bottomPosition+10, 90, 20);
-    NSString * likeTitle;
     if (self.news.is_like) {
-        likeTitle    = [@"已赞" stringByAppendingFormat:@"%ld", self.news.like_quantity];
+        [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_selected"] forState:UIControlStateNormal];
+        [self.likeBtn setTitle:@"已赞" forState:UIControlStateNormal];
     }else{
-        likeTitle    = [@"点赞" stringByAppendingFormat:@"%ld", self.news.like_quantity];
+        [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_normal"] forState:UIControlStateNormal];
+        [self.likeBtn setTitle:@"点赞" forState:UIControlStateNormal];
     }
-    [self.likeBtn addTarget:self action:@selector(sendLikeClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.likeBtn setTitle:likeTitle forState:UIControlStateNormal];
-    //游标
-    bottomPosition = self.likeBtn.bottom+5;
     
-//    //评论TextView
-//    self.commentTextView.frame                   = CGRectMake(kCenterOriginX(200), bottomPosition, 200, 50);
-//    self.commentTextView.delegate                = self;
-//    self.commentTextView.returnKeyType           = UIReturnKeySend;
-//
-//    //游标
-//    bottomPosition                               = self.commentTextView.bottom+5;
-
-    self.browseCountBtn.frame                    = CGRectMake(self.headImageView.x, bottomPosition, 100, 20);
-    self.browseCountBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    NSString * browseStr                         = [NSString stringWithFormat:@"浏览%ld", self.news.browse_quantity];
-    [self.browseCountBtn addTarget:self action:@selector(browseClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.browseCountBtn setTitle:browseStr forState:UIControlStateNormal];
-    [self.browseCountBtn setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-
-    //游标
-    bottomPosition                               = self.browseCountBtn.bottom+5;
+    //计算点赞头像尺寸
+    CGFloat width  = 0;
+    CustomImageView * likeImageView;
+    //有点赞
+    if (self.news.like_arr.count > 0) {
+        bottomPosition      +=5;
+        //点赞
+        likeImageView = [[CustomImageView alloc] initWithImage:[UIImage imageNamed:@"like_icon"]];
+        likeImageView.frame = CGRectMake(self.headImageView.x, 0, 15, 15);
+        width = ([DeviceManager getDeviceWidth]-53-likeImageView.right)/8;
+        
+        [backView addSubview:likeImageView];
+        likeImageView.y      = bottomPosition+(width-5-likeImageView.width)/2;
+        likeImageView.hidden = NO;
+    }
     
-    //点赞头像 计算点赞头像大小
-    CGFloat width  = ([DeviceManager getDeviceWidth]-60)/8;
-    for (int i=0; i<self.news.like_arr.count; i++) {
+    //点赞头像 最多8个 大小根据分辨率算
+    NSInteger likeCout = self.news.like_arr.count;
+    if (likeCout > 8) {
+        likeCout = 8;
+    }
+    for (int i=0; i<likeCout; i++) {
+        
         LikeModel * like           = self.news.like_arr[i];
-        CustomButton * likeHeadBtn = [[CustomButton alloc] initWithFrame:CGRectMake(10+width*i, bottomPosition, width-7, width-7)];
+        CustomButton * likeHeadBtn = [[CustomButton alloc] initWithFrame:CGRectMake(likeImageView.right+3+width*i, bottomPosition, width-5, width-5)];
+        NSURL * headUrl            = [NSURL URLWithString:[ToolsManager completeUrlStr:like.head_sub_image]];
+        [likeHeadBtn sd_setBackgroundImageWithURL:headUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
         likeHeadBtn.tag            = i;
-        NSURL * headUrl            = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, like.head_sub_image]];
         //点击事件
         [likeHeadBtn addTarget:self action:@selector(likeHeadClick:) forControlEvents:UIControlEventTouchUpInside];
-        [likeHeadBtn sd_setBackgroundImageWithURL:headUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
         [backView addSubview:likeHeadBtn];
     }
     
     //如果点赞超过7个 那么显示查看全部按钮
     if (self.news.like_arr.count > 7) {
-        //点过赞的人
-        CustomButton * likePeopleBtn  = [[CustomButton alloc] initWithFontSize:15];
-        likePeopleBtn.backgroundColor = [UIColor redColor];
+        CustomButton * likePeopleBtn = [[CustomButton alloc] init];
+        likePeopleBtn.hidden         = NO;
+        likePeopleBtn.y              = bottomPosition+(width-5-likePeopleBtn.height)/2;
+        [likePeopleBtn setTitle:[NSString stringWithFormat:@"%ld", self.news.like_quantity] forState:UIControlStateNormal];
         [likePeopleBtn addTarget:self action:@selector(likePeopleListClick:) forControlEvents:UIControlEventTouchUpInside];
-        likePeopleBtn.frame           = CGRectMake([DeviceManager getDeviceWidth]-50, bottomPosition, width-7, width-7);
-        [backView addSubview:likePeopleBtn];
     }
     
     if (self.news.like_arr.count > 0) {
         bottomPosition += width+5;
     }
-    //线
-    self.lineView.frame        = CGRectMake(5, bottomPosition, [DeviceManager getDeviceWidth], 1);
     
     return backView;
 }
@@ -348,7 +385,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
    CommentModel * comment = self.news.comment_arr[indexPath.row];
-   CGSize contentSize     = [ToolsManager getSizeWithContent:comment.comment_content andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
+   CGSize contentSize     = [ToolsManager getSizeWithContent:comment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-40, MAXFLOAT)];
     
     CGFloat second_comment_height = 0;
     //二级评论高度
@@ -356,11 +393,16 @@
         
         SecondCommentModel * secondComment = comment.second_comments[i];
         //内容
-        CGSize contentSize                = [ToolsManager getSizeWithContent:secondComment.comment_content andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-55, MAXFLOAT)];
+        CGSize contentSize                = [ToolsManager getSizeWithContent:secondComment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-55, MAXFLOAT)];
         second_comment_height += contentSize.height+20;
     }
     
-    return 55+contentSize.height+second_comment_height;
+    CGFloat total = 30+contentSize.height+second_comment_height;
+    if (total < 55) {
+        total = 55;
+    }
+    
+    return total;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -556,6 +598,8 @@
 //点赞或者取消赞点击
 - (void)sendLikeClick {
     
+    UserModel * user = [UserService sharedService].user;
+    
     BOOL likeOrCancel = YES;
     NSString * likeTitle;
     //先修改在进行网络请求
@@ -563,12 +607,33 @@
         self.news.is_like = NO;
         likeOrCancel     = NO;
         self.news.like_quantity --;
-        likeTitle        = [@"点赞" stringByAppendingFormat:@"%ld", self.news.like_quantity];
+        [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_normal"] forState:UIControlStateNormal];
+        [self.likeBtn setTitle:@"点赞" forState:UIControlStateNormal];
+        //页面刷新
+        for (LikeModel * likeModel in self.news.like_arr) {
+            if (likeModel.user_id == user.uid) {
+                [self.news.like_arr removeObject:likeModel];
+                [self.newsTable reloadData];
+                break;
+            }
+        }
+        
     }else{
         self.news.is_like = YES;
         self.news.like_quantity ++;
-        likeTitle        = [@"已赞" stringByAppendingFormat:@"%ld", self.news.like_quantity];
+        [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_selected"] forState:UIControlStateNormal];
+        [self.likeBtn setTitle:@"已赞" forState:UIControlStateNormal];
+        //界面刷新
+        LikeModel * like    = [[LikeModel alloc] init];
+        like.user_id        = user.uid;
+        like.name           = user.name;
+        like.head_image     = user.head_image;
+        like.head_sub_image = user.head_sub_image;
+        [self.news.like_arr insertObject:like atIndex:0];
+        [self.newsTable reloadData];
+        
     }
+    
     [self.likeBtn setTitle:likeTitle forState:UIControlStateNormal];
     
     NSDictionary * params = @{@"user_id":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
@@ -607,6 +672,11 @@
 - (void)sendCommentPress
 {
     if (self.commentTextView.text.length < 1) {
+        return;
+    }
+    
+    if (self.commentTextView.text.length > 100) {
+        [self showWarn:@"评论不能大于100字"];
         return;
     }
     
@@ -796,18 +866,22 @@
 - (CGFloat)getHeadNewsHeight
 {
     CGSize contentSize        = [ToolsManager getSizeWithContent:self.news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, self.viewWidth-30, MAXFLOAT)];
-    NSInteger cellOtherHeight = 30+30+10+60+25;
+    if (self.news.content_text == nil || self.news.content_text.length < 1) {
+        contentSize.height = 0;
+    }
+    //头像60 时间25 还有5的底线
+    NSInteger cellOtherHeight = 55+25;
     
     CGFloat height;
     if (self.news.image_arr.count < 1) {
         //没有图片
-        height = cellOtherHeight+contentSize.height;
+        height = cellOtherHeight+contentSize.height+5;
     }else if (self.news.image_arr.count == 1) {
         //一张图片 大图
         ImageModel * imageModel = self.news.image_arr[0];
         CGSize size             = CGSizeMake(imageModel.width, imageModel.height);
         CGRect rect             = [NewsUtils getRectWithSize:size];
-        height                  = cellOtherHeight+contentSize.height+rect.size.height;
+        height                  = cellOtherHeight+contentSize.height+rect.size.height+10;
     }else{
         //多张图片九宫格
         NSInteger lineNum   = self.news.image_arr.count/3;
@@ -815,16 +889,18 @@
         if (columnNum > 0) {
             lineNum++;
         }
-        height              = cellOtherHeight+contentSize.height+lineNum*65;
+        CGFloat itemWidth = [DeviceManager getDeviceWidth]/5.0;
+        height            = cellOtherHeight+contentSize.height+lineNum*(itemWidth+10);
     }
-
+    
     //地址
     if (self.news.location.length > 0) {
         height += 25;
     }
+    //点赞列表
     if (self.news.like_arr.count > 0) {
-        CGFloat width  = ([DeviceManager getDeviceWidth]-60)/8;
-        height += width + 5;
+        CGFloat width = ([DeviceManager getDeviceWidth]-53-27)/8;
+        height += width+5;
     }
     
     return height;

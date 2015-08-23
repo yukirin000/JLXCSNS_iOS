@@ -25,6 +25,8 @@
 @property (nonatomic, strong) CustomLabel * timeLabel;
 //内容
 @property (nonatomic, strong) CustomLabel * contentLabel;
+//可变view数组
+@property (nonatomic, strong) NSMutableArray * viewArr;
 
 @end
 
@@ -34,89 +36,119 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.contentView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
         
+        self.viewArr       = [[NSMutableArray alloc] init];
         self.headImageView = [[CustomImageView alloc] init];
-        self.nameLabel     = [[CustomLabel alloc] initWithFontSize:15];
-        self.timeLabel     = [[CustomLabel alloc] initWithFontSize:15];
-        self.contentLabel  = [[CustomLabel alloc] initWithFontSize:15];
+        self.nameLabel     = [[CustomLabel alloc] init];
+        self.timeLabel     = [[CustomLabel alloc] init];
+        self.contentLabel  = [[CustomLabel alloc] init];
+        
         [self.contentView addSubview:self.headImageView];
         [self.contentView addSubview:self.nameLabel];
         [self.contentView addSubview:self.timeLabel];
         [self.contentView addSubview:self.contentLabel];
+        
+        UITapGestureRecognizer * headTap          = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headImageViewTap:)];
+        [self.headImageView addGestureRecognizer:headTap];
+        
+        //删除或者其他动作
+        UITapGestureRecognizer * tap             = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTap:)];
+        [self.contentLabel addGestureRecognizer:tap];
+        
+        [self configUI];
     }
     
     return self;
 }
 
+- (void)configUI
+{
+    self.selectionStyle                       = UITableViewCellSelectionStyleNone;
+    //头像
+    self.headImageView.frame                  = CGRectMake(15, 5, 40, 40);
+    self.headImageView.layer.cornerRadius     = 2;
+    self.headImageView.layer.masksToBounds    = YES;
+    self.headImageView.userInteractionEnabled = YES;
+    //姓名
+    self.nameLabel.frame                      = CGRectMake(self.headImageView.right+10, self.headImageView.y, 150, 20);
+    self.nameLabel.textColor                  = [UIColor colorWithHexString:ColorBrown];
+    self.nameLabel.font                       = [UIFont systemFontOfSize:FontComment];
+    //时间
+    self.timeLabel.frame                      = CGRectMake([DeviceManager getDeviceWidth]-120, self.nameLabel.y, 100, 20);
+    self.timeLabel.textAlignment              = NSTextAlignmentRight;
+    self.timeLabel.font                       = [UIFont systemFontOfSize:11];
+    self.timeLabel.textColor                  = [UIColor colorWithHexString:ColorLightBlack];
+    //内容
+    self.contentLabel.frame                   = CGRectMake(self.nameLabel.x, self.nameLabel.bottom, [DeviceManager getDeviceWidth]-15-self.nameLabel.x, 0);
+    self.contentLabel.textColor               = [UIColor colorWithHexString:ColorLightBlack];
+    self.contentLabel.font                    = [UIFont systemFontOfSize:FontComment];
+    self.contentLabel.userInteractionEnabled  = YES;
+    self.contentLabel.numberOfLines           = 0;
+    self.contentLabel.lineBreakMode           = NSLineBreakByCharWrapping;
+    
+}
+
 - (void)setConentWithModel:(CommentModel *)comment
 {
+    [self.viewArr makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.viewArr removeAllObjects];
+    
     self.comment        = comment;
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    //头像
     //加载头像
-    self.headImageView.frame                  = CGRectMake(15, 5, 40, 40);
-    self.headImageView.userInteractionEnabled = YES;
-    UITapGestureRecognizer * headTap              = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headImageViewTap:)];
-    [self.headImageView addGestureRecognizer:headTap];
-    
     NSURL * headUrl                          = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, comment.head_sub_image]];
     [self.headImageView sd_setImageWithURL:headUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
 
-    //姓名 好友查看备注
-    NSString * name                          = comment.name;
-    CGSize nameSize                          = [ToolsManager getSizeWithContent:name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
-    self.nameLabel.frame                     = CGRectMake(self.headImageView.right+10, self.headImageView.y, nameSize.width, 20);
-    self.nameLabel.text                      = name;
-
+    //姓名
+    self.nameLabel.text                      = comment.name;
     //时间
     NSString * timeStr                       = [ToolsManager compareCurrentTime:comment.add_date];
-    CGSize timeSize                          = [ToolsManager getSizeWithContent:timeStr andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
-    self.timeLabel.frame                     = CGRectMake(self.nameLabel.x, self.nameLabel.bottom, timeSize.width, 20);
     self.timeLabel.text                      = timeStr;
-
     //内容
-    CGSize contentSize                       = [ToolsManager getSizeWithContent:comment.comment_content andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-self.headImageView.right, MAXFLOAT)];
-    self.contentLabel.frame                  = CGRectMake(self.headImageView.right, self.headImageView.bottom+5, [DeviceManager getDeviceWidth]-15-self.headImageView.right, contentSize.height);
-    self.contentLabel.userInteractionEnabled = YES;
-    self.contentLabel.numberOfLines          = 0;
-    self.contentLabel.backgroundColor        = [UIColor grayColor];
-    self.contentLabel.lineBreakMode          = NSLineBreakByCharWrapping;
-    self.contentLabel.text                   = comment.comment_content;
-    //删除或者其他动作
-    UITapGestureRecognizer * tap             = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTap:)];
-    [self.contentLabel addGestureRecognizer:tap];
+    CGSize contentSize                       = [ToolsManager getSizeWithContent:comment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-self.nameLabel.x, MAXFLOAT)];
     
+    self.contentLabel.height                 = contentSize.height;
+    self.contentLabel.text                   = comment.comment_content;
+
     CGFloat bottomLocation = self.contentLabel.bottom;
     
     for (int i=0; i<self.comment.second_comments.count; i++) {
 
         SecondCommentModel * secondComment     = self.comment.second_comments[i];
+        
         //名字
-        CustomLabel * secondLabel              = [[CustomLabel alloc] initWithFrame:CGRectMake(self.contentLabel.x, bottomLocation, self.contentLabel.width, 20)];
-        secondLabel.userInteractionEnabled     = YES;
-        secondLabel.tag                        = i;
+        CustomLabel * secondLabel               = [[CustomLabel alloc] initWithFrame:CGRectMake(self.contentLabel.x, bottomLocation, self.contentLabel.width, 20)];
+        [self commentLabelSet:secondLabel];
+        secondLabel.tag                         = i;
+        secondLabel.textColor                   = [UIColor colorWithHexString:ColorBrown];
+        NSString * nameStr                      = [NSString stringWithFormat:@"%@ 回复:%@", secondComment.name, secondComment.reply_name];
+        NSMutableAttributedString * attrNameStr = [[NSMutableAttributedString alloc] initWithString:nameStr];
+        [attrNameStr addAttribute:NSForegroundColorAttributeName value:[UIColor clearColor] range:NSMakeRange(0, secondComment.name.length+4)];
+        [attrNameStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:ColorLightBlack] range:NSMakeRange(secondComment.name.length, 4)];
+        secondLabel.attributedText              = attrNameStr;
+        //第一个名字
+        CustomLabel * secondFirstLabel = [[CustomLabel alloc] initWithFrame:CGRectMake(self.contentLabel.x, bottomLocation, 0, 20)];
+        [self commentLabelSet:secondFirstLabel];
+        secondFirstLabel.tag           = i;
+        secondFirstLabel.textColor     = [UIColor colorWithHexString:ColorBrown];
+        secondFirstLabel.text          = secondComment.name;
+        CGSize firstSize = [ToolsManager getSizeWithContent:secondComment.name andFontSize:FontComment andFrame:CGRectMake(0, 0, 200, 20)];
+        secondFirstLabel.width         = firstSize.width;
         //点击手势
-        UITapGestureRecognizer * secondNameTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(secondNameTap:)];
+        UITapGestureRecognizer * secondNameTap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(secondNameTap:)];
         [secondLabel addGestureRecognizer:secondNameTap];
-        secondLabel.font                       = [UIFont systemFontOfSize:15];
-        secondLabel.textColor                  = [UIColor grayColor];
-        //是好友显示备注
-        NSString * name                        = secondComment.name;
-        NSString * reply_name                  = secondComment.reply_name;
-        secondLabel.text                       = [NSString stringWithFormat:@"%@ 回复:%@", name, reply_name];
+        UITapGestureRecognizer * secondNameFirstTap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(secondNameFirstTap:)];
+        [secondFirstLabel addGestureRecognizer:secondNameFirstTap];
         [self.contentView addSubview:secondLabel];
+        [self.contentView addSubview:secondFirstLabel];
         
         //内容
-        CGSize contentSize                          = [ToolsManager getSizeWithContent:secondComment.comment_content andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-self.headImageView.right, MAXFLOAT)];
+        CGSize contentSize                          = [ToolsManager getSizeWithContent:secondComment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-self.headImageView.right, MAXFLOAT)];
         //二级评论
         CustomLabel * secondContentLabel          = [[CustomLabel alloc] initWithFrame:CGRectMake(self.contentLabel.x, secondLabel.bottom, self.contentLabel.width, contentSize.height)];
-        secondContentLabel.lineBreakMode          = NSLineBreakByCharWrapping;
-        secondContentLabel.userInteractionEnabled = YES;
-        secondContentLabel.font                   = [UIFont systemFontOfSize:15];
-        secondContentLabel.backgroundColor        = [UIColor grayColor];
+        [self commentLabelSet:secondContentLabel];
         secondContentLabel.numberOfLines          = 0;
-        secondContentLabel.textColor              = [UIColor blackColor];
         secondContentLabel.text                   = secondComment.comment_content;
         secondContentLabel.tag                    = i;
         //删除或者其他动作
@@ -125,6 +157,8 @@
         [self.contentView addSubview:secondContentLabel];
         bottomLocation = secondContentLabel.bottom;
         
+        [self.viewArr addObject:secondLabel];
+        [self.viewArr addObject:secondContentLabel];
     }
 
 }
@@ -190,6 +224,13 @@
 - (void)secondNameTap:(UITapGestureRecognizer *)tap
 {
     SecondCommentModel * secondComment = self.comment.second_comments[tap.view.tag];
+    [self browsePersonalHome:secondComment.reply_uid];
+}
+
+//二级评论姓名点击
+- (void)secondNameFirstTap:(UITapGestureRecognizer *)tap
+{
+    SecondCommentModel * secondComment = self.comment.second_comments[tap.view.tag];
     [self browsePersonalHome:secondComment.user_id];
 }
 
@@ -226,5 +267,13 @@
     
 }
 
+#pragma mark- private method
+- (void)commentLabelSet:(UILabel *)label
+{
+    label.lineBreakMode          = NSLineBreakByCharWrapping;
+    label.userInteractionEnabled = YES;
+    label.font                   = [UIFont systemFontOfSize:FontComment];
+    label.textColor              = [UIColor colorWithHexString:ColorLightBlack];
+}
 
 @end

@@ -441,6 +441,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 }
 
 - (void)start {
+
     [self.lock lock];
     if ([self isCancelled]) {
         [self performSelector:@selector(cancelConnection) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];

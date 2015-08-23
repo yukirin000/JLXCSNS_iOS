@@ -202,7 +202,6 @@
     self.schoolLabel.text    = news.school;
     
     if (news.typeDic[@"content"] != nil || [news.typeDic[@"content"] length]>0) {
-        CGSize nameSize      = [ToolsManager getSizeWithContent:news.name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 30)];
         self.nameLabel.width = nameSize.width;
         self.descLabel.x     = self.nameLabel.right;
         NSString * content   = [NSString stringWithFormat:@" %@", news.typeDic[@"content"]];

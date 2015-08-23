@@ -9,12 +9,25 @@
 #import "HttpService.h"
 #import "HttpCache.h"
 @implementation HttpService
+{
+    AFHTTPRequestOperationManager * _manager;
+}
+
+static HttpService * instance;
+
++ (instancetype)manager {
+    
+    if (!instance) {
+        instance = [[HttpService alloc] init];
+    }
+    return instance;
+}
 
 + (void)getWithUrlString:(NSString *)urlStr andCompletion:(SuccessBlock)success andFail:(FailBlock)fail
 {
-    AFHTTPRequestOperationManager * manager = [HttpService createAFEntity];
+    AFHTTPRequestOperationManager * manager = [[HttpService manager] createAFEntity];
     
-    [manager GET:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    AFHTTPRequestOperation * o = [manager GET:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             @try {
                 //缓存
@@ -32,11 +45,12 @@
             fail(operation, error);
         }
     }];
+
 }
 
 + (void)postWithUrlString:(NSString *)urlStr params:(NSDictionary *)params andCompletion:(SuccessBlock)success andFail:(FailBlock)fail
 {
-    AFHTTPRequestOperationManager * manager = [HttpService createAFEntity];
+    AFHTTPRequestOperationManager * manager = [[HttpService manager] createAFEntity];
     
     [manager POST:urlStr parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
@@ -57,7 +71,7 @@
     //files格式 @{FileDataKey:UIImageJPEGRepresentation(image, 0.8),FileNameKey:fileName}
 + (void)postFileWithUrlString:(NSString *)urlStr params:(NSArray *)params files:(NSDictionary *)files andCompletion:(SuccessBlock)success andFail:(FailBlock)fail
 {
-    AFHTTPRequestOperationManager * manager = [HttpService createAFEntity];
+    AFHTTPRequestOperationManager * manager = [[HttpService manager] createAFEntity];
 
     [manager POST:urlStr parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         if (files != nil && files.count >0) {
@@ -83,14 +97,16 @@
 }
 
 //创建AF实体
-+ (AFHTTPRequestOperationManager *)createAFEntity
+- (AFHTTPRequestOperationManager *)createAFEntity
 {
-    AFHTTPRequestOperationManager * manager           = [AFHTTPRequestOperationManager manager];
-    manager.requestSerializer                         = [AFHTTPRequestSerializer serializer];
-    manager.responseSerializer                        = [AFJSONResponseSerializer serializer];
-    manager.requestSerializer.timeoutInterval         = 30.0f;
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    return manager;
+    if (_manager == nil) {
+        _manager = [AFHTTPRequestOperationManager manager];
+    }
+    _manager.requestSerializer                         = [AFHTTPRequestSerializer serializer];
+    _manager.responseSerializer                        = [AFJSONResponseSerializer serializer];
+    _manager.requestSerializer.timeoutInterval         = 30.0f;
+    _manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    return _manager;
     
 }
 
