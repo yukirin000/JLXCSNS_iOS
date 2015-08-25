@@ -13,6 +13,7 @@
 #import "ChatRoomDetailViewController.h"
 #import "MyChatRoomListViewController.h"
 #import "ChatRoomChatController.h"
+
 @interface MyChatRoomListViewController ()
 
 @end
@@ -21,7 +22,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.refreshTableView.frame            = CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight-kTabBarHeight);
     self.refreshTableView.footLabel.hidden = YES;
     

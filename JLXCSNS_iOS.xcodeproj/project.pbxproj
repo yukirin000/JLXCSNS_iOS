@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		421F3B661B18053A00CE6837 /* NewFriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 421F3B651B18053A00CE6837 /* NewFriendsListViewController.m */; };
+		4234E6181B8C37D500823B68 /* publish_add_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4234E6171B8C37D500823B68 /* publish_add_btn@2x.png */; };
+		4234E61A1B8C400D00823B68 /* location_content_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4234E6191B8C400D00823B68 /* location_content_image@2x.png */; };
+		4234E6201B8C4AB100823B68 /* campus_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4234E61F1B8C4AB100823B68 /* campus_background@2x.png */; };
+		4234E65B1B8C8F4B00823B68 /* ZYQAssetPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234E65A1B8C8F4B00823B68 /* ZYQAssetPickerController.m */; };
+		4234E65D1B8C8F5700823B68 /* ZYQAssetPicker.Bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4234E65C1B8C8F5700823B68 /* ZYQAssetPicker.Bundle */; };
 		423DAB551B8A0B6400A57F68 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DAB401B8A0B6400A57F68 /* BaseViewController.m */; };
 		423DAB561B8A0B6400A57F68 /* CusTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DAB421B8A0B6400A57F68 /* CusTabBarViewController.m */; };
 		423DAB571B8A0B6400A57F68 /* RefreshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DAB441B8A0B6400A57F68 /* RefreshViewController.m */; };
@@ -319,6 +324,8 @@
 		42D090C21B42C60E007A51D8 /* PersonalSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D090C11B42C60E007A51D8 /* PersonalSettingViewController.m */; };
 		42D090C51B42CF70007A51D8 /* AccountSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D090C41B42CF70007A51D8 /* AccountSettingViewController.m */; };
 		42DECD111B3AD73400C85E9F /* NewsPushModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DECD101B3AD73400C85E9F /* NewsPushModel.m */; };
+		42EFD09A1B8B6BB600FB85B0 /* publish_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42EFD0981B8B6BB600FB85B0 /* publish_normal@2x.png */; };
+		42EFD09B1B8B6BB600FB85B0 /* publish_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42EFD0991B8B6BB600FB85B0 /* publish_highlight@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -334,6 +341,12 @@
 /* Begin PBXFileReference section */
 		421F3B641B18053A00CE6837 /* NewFriendsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewFriendsListViewController.h; sourceTree = "<group>"; };
 		421F3B651B18053A00CE6837 /* NewFriendsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewFriendsListViewController.m; sourceTree = "<group>"; };
+		4234E6171B8C37D500823B68 /* publish_add_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "publish_add_btn@2x.png"; sourceTree = "<group>"; };
+		4234E6191B8C400D00823B68 /* location_content_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_content_image@2x.png"; sourceTree = "<group>"; };
+		4234E61F1B8C4AB100823B68 /* campus_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "campus_background@2x.png"; sourceTree = "<group>"; };
+		4234E6591B8C8F4B00823B68 /* ZYQAssetPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYQAssetPickerController.h; sourceTree = "<group>"; };
+		4234E65A1B8C8F4B00823B68 /* ZYQAssetPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYQAssetPickerController.m; sourceTree = "<group>"; };
+		4234E65C1B8C8F5700823B68 /* ZYQAssetPicker.Bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZYQAssetPicker.Bundle; sourceTree = "<group>"; };
 		423DAB3F1B8A0B6400A57F68 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		423DAB401B8A0B6400A57F68 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		423DAB411B8A0B6400A57F68 /* CusTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusTabBarViewController.h; sourceTree = "<group>"; };
@@ -818,6 +831,8 @@
 		42D090C41B42CF70007A51D8 /* AccountSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountSettingViewController.m; sourceTree = "<group>"; };
 		42DECD0F1B3AD73400C85E9F /* NewsPushModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsPushModel.h; sourceTree = "<group>"; };
 		42DECD101B3AD73400C85E9F /* NewsPushModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsPushModel.m; sourceTree = "<group>"; };
+		42EFD0981B8B6BB600FB85B0 /* publish_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "publish_normal@2x.png"; sourceTree = "<group>"; };
+		42EFD0991B8B6BB600FB85B0 /* publish_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "publish_highlight@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -883,6 +898,8 @@
 		423DAB3E1B8A0B6400A57F68 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4234E6591B8C8F4B00823B68 /* ZYQAssetPickerController.h */,
+				4234E65A1B8C8F4B00823B68 /* ZYQAssetPickerController.m */,
 				423DAB3F1B8A0B6400A57F68 /* BaseViewController.h */,
 				423DAB401B8A0B6400A57F68 /* BaseViewController.m */,
 				423DAB411B8A0B6400A57F68 /* CusTabBarViewController.h */,
@@ -1196,6 +1213,11 @@
 		4257A6971B85BFCC002507C6 /* news */ = {
 			isa = PBXGroup;
 			children = (
+				4234E61F1B8C4AB100823B68 /* campus_background@2x.png */,
+				4234E6191B8C400D00823B68 /* location_content_image@2x.png */,
+				4234E6171B8C37D500823B68 /* publish_add_btn@2x.png */,
+				42EFD0981B8B6BB600FB85B0 /* publish_normal@2x.png */,
+				42EFD0991B8B6BB600FB85B0 /* publish_highlight@2x.png */,
 				4270A6F31B8877D4000F8B75 /* like_icon@2x.png */,
 				4270A6F11B885A4B000F8B75 /* location@2x.png */,
 				425AC9261B876B5A007EC6B8 /* back_body@2x.png */,
@@ -1466,11 +1488,11 @@
 				427AD7601AFE1F4B00103CAC /* AFHTTPRequestOperationManager.m */,
 				427AD7611AFE1F4B00103CAC /* AFHTTPSessionManager.h */,
 				427AD7621AFE1F4B00103CAC /* AFHTTPSessionManager.m */,
-				427AD7631AFE1F4B00103CAC /* AFNetworking.h */,
 				427AD7641AFE1F4B00103CAC /* AFNetworkReachabilityManager.h */,
 				427AD7651AFE1F4B00103CAC /* AFNetworkReachabilityManager.m */,
 				427AD7661AFE1F4B00103CAC /* AFSecurityPolicy.h */,
 				427AD7671AFE1F4B00103CAC /* AFSecurityPolicy.m */,
+				427AD7631AFE1F4B00103CAC /* AFNetworking.h */,
 				427AD7681AFE1F4B00103CAC /* AFURLConnectionOperation.h */,
 				427AD7691AFE1F4B00103CAC /* AFURLConnectionOperation.m */,
 				427AD76A1AFE1F4B00103CAC /* AFURLRequestSerialization.h */,
@@ -1973,6 +1995,7 @@
 		42CA20FD1AFD120C002A7273 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				4234E65C1B8C8F5700823B68 /* ZYQAssetPicker.Bundle */,
 				42CFFC1B1B862A1000A090F7 /* message */,
 				4257A67C1B85BFCC002507C6 /* common */,
 				4257A68E1B85BFCC002507C6 /* find */,
@@ -2110,6 +2133,8 @@
 				4257A6A41B85BFCC002507C6 /* home_btn_homepage_select@2x.png in Resources */,
 				4257A6A51B85BFCC002507C6 /* home_btn_me_normal@2x.png in Resources */,
 				4240CF261B8460E9002B09E2 /* my_visit_icon@2x.png in Resources */,
+				42EFD09A1B8B6BB600FB85B0 /* publish_normal@2x.png in Resources */,
+				42EFD09B1B8B6BB600FB85B0 /* publish_highlight@2x.png in Resources */,
 				4257A69D1B85BFCC002507C6 /* alert_dialog_confirm_btn_press@2x.png in Resources */,
 				4240CF3D1B84C41F002B09E2 /* send_message_btn_press@2.png in Resources */,
 				427AD81E1AFE21A800103CAC /* blueArrow@2x.png in Resources */,
@@ -2138,6 +2163,7 @@
 				425AC92A1B876B5A007EC6B8 /* back_bottom@2x.png in Resources */,
 				425173941B32A378005FAFA9 /* ScanQR3@2x.png in Resources */,
 				4257A6AA1B85BFCC002507C6 /* friend_btn_isadd@2x.png in Resources */,
+				4234E6181B8C37D500823B68 /* publish_add_btn@2x.png in Resources */,
 				4257A6B11B85BFCC002507C6 /* qrcode_scan_btn_press@2x.png in Resources */,
 				4249E2A91B81C16400F01B77 /* Icon@2x.png in Resources */,
 				425AC9211B8765FD007EC6B8 /* btn_comment_normal@2x.png in Resources */,
@@ -2157,6 +2183,7 @@
 				42B880B41AFDC42200B2C2F0 /* ToastFinish@2x.png in Resources */,
 				427AD8201AFE21A800103CAC /* grayArrow@2x.png in Resources */,
 				42B880B51AFDC42200B2C2F0 /* ToastWarn@2x.png in Resources */,
+				4234E61A1B8C400D00823B68 /* location_content_image@2x.png in Resources */,
 				4257A69A1B85BFCC002507C6 /* alert_dialog_cancel_btn_normal@2x.png in Resources */,
 				427AD8211AFE21A800103CAC /* whiteArrow.png in Resources */,
 				4240CF251B8460E9002B09E2 /* my_images_icon@2x.png in Resources */,
@@ -2196,6 +2223,7 @@
 				42A65C101B05EC810026E1F3 /* Empty.xib in Resources */,
 				425AC9231B8765FD007EC6B8 /* btn_like_normal@2x.png in Resources */,
 				4257A6A71B85BFCC002507C6 /* home_btn_msg_normal@2x.png in Resources */,
+				4234E65D1B8C8F5700823B68 /* ZYQAssetPicker.Bundle in Resources */,
 				425AC9241B8765FD007EC6B8 /* btn_like_selected@2x.png in Resources */,
 				4240CF391B84C41F002B09E2 /* add_friend_btn_normal@2x.png in Resources */,
 				429C6E281B82D34500776C9D /* LaunchImage-480.png in Resources */,
@@ -2205,6 +2233,7 @@
 				424B22D01B1ECD0A00E5BC71 /* unicode_to_hanyu_pinyin.txt in Resources */,
 				427AD81B1AFE21A800103CAC /* blackArrow.png in Resources */,
 				427AD81C1AFE21A800103CAC /* blackArrow@2x.png in Resources */,
+				4234E6201B8C4AB100823B68 /* campus_background@2x.png in Resources */,
 				4240CF221B8460E9002B09E2 /* my_card_selected@2x.png in Resources */,
 				4257A6791B85B308002507C6 /* logout_btn@2x.png in Resources */,
 				4257A6B01B85BFCC002507C6 /* qrcode_scan_btn_normal@2x.png in Resources */,
@@ -2263,6 +2292,7 @@
 				427AD7DE1AFE1F4B00103CAC /* AFURLSessionManager.m in Sources */,
 				428C8EC31B28085F0058D3EB /* NewsMainViewController.m in Sources */,
 				42CFFC1A1B86028600A090F7 /* FindUtils.m in Sources */,
+				4234E65B1B8C8F4B00823B68 /* ZYQAssetPickerController.m in Sources */,
 				427AD7D51AFE1F4B00103CAC /* DatabaseService.m in Sources */,
 				429C6E321B831A2F00776C9D /* VerifyViewController.m in Sources */,
 				429E86341B083F1600DB223D /* NewsListCell.m in Sources */,

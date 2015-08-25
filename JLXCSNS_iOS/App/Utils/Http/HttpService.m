@@ -27,7 +27,7 @@ static HttpService * instance;
 {
     AFHTTPRequestOperationManager * manager = [[HttpService manager] createAFEntity];
     
-    AFHTTPRequestOperation * o = [manager GET:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+   [manager GET:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             @try {
                 //缓存

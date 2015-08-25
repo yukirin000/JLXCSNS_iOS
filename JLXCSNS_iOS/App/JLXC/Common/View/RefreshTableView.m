@@ -148,6 +148,19 @@
     
 }
 
+- (void)refreshingTop
+{
+    if (_refreshHeaderView)
+    {
+        [UIView animateWithDuration:0.2 animations:^{
+            [self setContentOffset:CGPointMake(0, -65)];
+        } completion:^(BOOL finished) {
+            [_refreshHeaderView egoRefreshScrollViewDidEndDragging:self];        
+        }];
+    
+    }
+}
+
 
 
 @end

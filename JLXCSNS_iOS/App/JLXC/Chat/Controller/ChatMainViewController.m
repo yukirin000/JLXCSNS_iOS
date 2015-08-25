@@ -95,13 +95,17 @@
     self.segmentedControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:ColorBrown], NSFontAttributeName : [UIFont systemFontOfSize:FontNavBarTitle]};
     
 
-    self.chatUnreadLabel.frame             = CGRectMake(0, 0, 12, 12);
-    self.chatUnreadLabel.backgroundColor   = [UIColor redColor];
-    self.chatUnreadLabel.textAlignment     = NSTextAlignmentCenter;
+    self.chatUnreadLabel.frame                 = CGRectMake(0, 0, 12, 12);
+    self.chatUnreadLabel.layer.cornerRadius    = 6;
+    self.chatUnreadLabel.layer.masksToBounds   = YES;
+    self.chatUnreadLabel.backgroundColor       = [UIColor redColor];
+    self.chatUnreadLabel.textAlignment         = NSTextAlignmentCenter;
 
-    self.notifyUnreadLabel.frame           = CGRectMake(60, 0, 12, 12);
-    self.notifyUnreadLabel.backgroundColor = [UIColor redColor];
-    self.notifyUnreadLabel.textAlignment   = NSTextAlignmentCenter;
+    self.notifyUnreadLabel.frame               = CGRectMake(60, 0, 12, 12);
+    self.notifyUnreadLabel.layer.cornerRadius  = 6;
+    self.notifyUnreadLabel.layer.masksToBounds = YES;
+    self.notifyUnreadLabel.backgroundColor     = [UIColor redColor];
+    self.notifyUnreadLabel.textAlignment       = NSTextAlignmentCenter;
     
     [self refreshMessage];
 }
@@ -194,9 +198,9 @@
         self.notifyUnreadLabel.hidden = YES;
     }else{
         self.notifyUnreadLabel.hidden = NO;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.notifyUnreadLabel.text   = [NSString stringWithFormat:@"%ld", pushCount];
-        });
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.notifyUnreadLabel.text   = [NSString stringWithFormat:@"%ld", pushCount];
+//        });
     }
     
     if (IMUnreadCount > 99) {
@@ -206,9 +210,9 @@
         self.chatUnreadLabel.hidden = YES;
     }else{
         self.chatUnreadLabel.hidden = NO;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.chatUnreadLabel.text   = [NSString stringWithFormat:@"%ld", IMUnreadCount];
-        });
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.chatUnreadLabel.text   = [NSString stringWithFormat:@"%ld", IMUnreadCount];
+//        });
 
     }
 }

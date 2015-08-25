@@ -47,4 +47,6 @@
 
 - (void)isLastPage;
 
+- (void)refreshingTop;
+
 @end

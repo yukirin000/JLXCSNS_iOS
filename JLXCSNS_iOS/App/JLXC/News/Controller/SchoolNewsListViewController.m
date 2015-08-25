@@ -111,6 +111,8 @@
     NewsModel * news                = self.dataArr[indexPath.row];
     ndvc.newsId                     = news.nid;
     [self pushVC:ndvc];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -122,7 +124,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 200;
+    return 220;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -135,24 +137,48 @@
     UIView * backView                  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, 100)];
     backView.backgroundColor           = [UIColor redColor];
     //背景图
-    CustomImageView * backImageView    = [[CustomImageView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, 100)];
-    backImageView.image                = [UIImage imageNamed:@"testimage"];
+    CustomImageView * backImageView    = [[CustomImageView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, 120)];
+    backImageView.contentMode          = UIViewContentModeScaleAspectFill;
+    backImageView.layer.masksToBounds  = YES;
+    backImageView.image                = [UIImage imageNamed:@"campus_background"];
     [backView addSubview:backImageView];
+    //学校名字
+    CustomLabel * schoolLabel          = [[CustomLabel alloc] initWithFontSize:20];
+    schoolLabel.backgroundColor        = [UIColor colorWithWhite:0.3 alpha:0.1];
+    schoolLabel.frame                  = CGRectMake(0, 45, self.viewWidth, 30);
+    schoolLabel.textColor              = [UIColor colorWithHexString:ColorWhite];
+    schoolLabel.text                   = [UserService sharedService].user.school;
+    schoolLabel.textAlignment          = NSTextAlignmentCenter;
+    [schoolLabel setFontBold];
+    [backView addSubview:schoolLabel];
     //提示标签
-    CustomLabel * schoolStudentLabel   = [[CustomLabel alloc] initWithFontSize:15];
-    schoolStudentLabel.backgroundColor = [UIColor greenColor];
-    schoolStudentLabel.frame           = CGRectMake(0, backImageView.bottom, self.viewWidth, 20);
-    schoolStudentLabel.text            = @"  我们的学校";
+    CustomLabel * schoolStudentLabel   = [[CustomLabel alloc] initWithFontSize:14];
+    schoolStudentLabel.userInteractionEnabled = YES;
+    schoolStudentLabel.backgroundColor = [UIColor colorWithHexString:ColorWhite];
+    schoolStudentLabel.textColor       = [UIColor colorWithHexString:ColorDeepBlack];
+    schoolStudentLabel.frame           = CGRectMake(0, backImageView.bottom, self.viewWidth, 30);
+    schoolStudentLabel.text            = @"  本校的帅锅与美女 (•'◡'•)ﾉ";
     [backView addSubview:schoolStudentLabel];
-    //头像列表背景
-    UIView * headBackView              = [[UIView alloc] init];
-    headBackView.backgroundColor       = [UIColor grayColor];
-    headBackView.frame                 = CGRectMake(0, schoolStudentLabel.bottom, self.viewWidth, 60);
-    [backView addSubview:headBackView];
     
-    //点击进入该校所有人列表
+    CustomImageView * arrowImageView = [[CustomImageView alloc] initWithFrame:CGRectMake([DeviceManager getDeviceWidth]-30, backImageView.bottom, 15, 30)];
+    arrowImageView.contentMode       = UIViewContentModeCenter;
+    [arrowImageView setImage:[UIImage imageNamed:@"right_arrow"]];
+    [backView addSubview:arrowImageView];
+    
+    //点击头像手势
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(studentListTap:)];
-    [headBackView addGestureRecognizer:tap];
+    [schoolStudentLabel addGestureRecognizer:tap];
+    
+    //线
+    UIView * midLine        = [[UIView alloc] initWithFrame:CGRectMake(0, schoolStudentLabel.bottom-1, self.viewWidth, 1)];
+    midLine.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    [backView addSubview:midLine];
+    
+    //头像列表背景
+    UIScrollView * headBackView  = [[UIScrollView alloc] init];
+    headBackView.backgroundColor = [UIColor colorWithHexString:ColorWhite];
+    headBackView.frame           = CGRectMake(0, schoolStudentLabel.bottom, self.viewWidth, 50);
+    [backView addSubview:headBackView];
     
     //头像列表
     for (int i=0; i<self.studentList.count; i++) {
@@ -160,21 +186,29 @@
         UserModel * student = self.studentList[i];
         CustomImageView * headImageView      = [[CustomImageView alloc] init];
         headImageView.tag                    = i;
-        headImageView.frame                  = CGRectMake(10+50*i, 10, 40, 40);
-        headImageView.backgroundColor        = [UIColor yellowColor];
+        headImageView.frame                  = CGRectMake(10+45*i, 5, 40, 40);
         headImageView.userInteractionEnabled = YES;
-        [headImageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:student.head_sub_image]]];
+        [headImageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:student.head_sub_image]]placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
         [headBackView addSubview:headImageView];
         //点击头像手势
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(studentTap:)];
         [headImageView addGestureRecognizer:tap];
     }
+    headBackView.showsHorizontalScrollIndicator = NO;
+    headBackView.contentSize                    = CGSizeMake(10+45*self.studentList.count, 0);
+    
     //提示标签
-    CustomLabel * newsListLabel   = [[CustomLabel alloc] initWithFontSize:15];
-    newsListLabel.backgroundColor = [UIColor greenColor];
-    newsListLabel.frame           = CGRectMake(0, headBackView.bottom, self.viewWidth, 20);
-    newsListLabel.text            = @"  动态列表";
+    CustomLabel * newsListLabel   = [[CustomLabel alloc] initWithFontSize:14];
+    newsListLabel.backgroundColor = [UIColor colorWithHexString:ColorWhite];
+    newsListLabel.textColor       = [UIColor colorWithHexString:ColorDeepBlack];
+    newsListLabel.frame           = CGRectMake(0, headBackView.bottom, self.viewWidth, 25);
+    newsListLabel.text            = @"  帅锅美女们的日常  (•ㅂ•)/";
     [backView addSubview:newsListLabel];
+    
+    //线
+    UIView * bottomLine        = [[UIView alloc] initWithFrame:CGRectMake(0, newsListLabel.bottom, self.viewWidth, 1)];
+    bottomLine.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    [backView addSubview:bottomLine];
     
     return backView;
 }
@@ -194,9 +228,10 @@
 //发送评论
 - (void)sendCommentClick:(NewsModel *)news
 {
-    SendCommentViewController * scvc = [[SendCommentViewController alloc] init];
-    scvc.nid                         = news.nid;
-    [self presentViewController:scvc animated:YES completion:nil];
+    NewsDetailViewController * ndvc = [[NewsDetailViewController alloc] init];
+    ndvc.commentType                = CommentFirst;
+    ndvc.newsId                     = news.nid;
+    [self pushVC:ndvc];
 }
 
 //点赞
@@ -314,7 +349,6 @@
             [self showWarn:responseData[HttpMessage]];
         }
         
-        
     } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.isReloading = NO;
         [self.refreshTableView refreshFinish];
@@ -355,13 +389,25 @@
 - (void)registerNotify
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNewsPublish:) name:NOTIFY_PUBLISH_NEWS object:nil];
-    
+    //首页tab点击
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabPress:) name:NOTIFY_TAB_PRESS object:nil];
 }
 //新消息发布成功刷新页面
 - (void)newNewsPublish:(NSNotification *)notify
 {
     self.refreshTableView.contentOffset = CGPointZero;
     [self refreshData];
+}
+
+- (void)tabPress:(NSNotification *)notify
+{
+    if (self.refreshTableView.contentOffset.y > 0) {
+        if (self.refreshTableView != nil && [self.refreshTableView numberOfRowsInSection:0]>0) {
+            [self.refreshTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }
+    }else{
+        [self.refreshTableView refreshingTop];
+    }
 }
 
 - (CGFloat)getCellHeightWith:(NewsModel *)news

@@ -25,6 +25,8 @@
 @property (nonatomic, strong) CustomLabel * timeLabel;
 //内容
 @property (nonatomic, strong) CustomLabel * contentLabel;
+//线
+@property (nonatomic, strong) UIView * lineView;
 //可变view数组
 @property (nonatomic, strong) NSMutableArray * viewArr;
 
@@ -43,18 +45,20 @@
         self.nameLabel     = [[CustomLabel alloc] init];
         self.timeLabel     = [[CustomLabel alloc] init];
         self.contentLabel  = [[CustomLabel alloc] init];
+        self.lineView      = [[UIView alloc] init];
         
         [self.contentView addSubview:self.headImageView];
         [self.contentView addSubview:self.nameLabel];
         [self.contentView addSubview:self.timeLabel];
         [self.contentView addSubview:self.contentLabel];
+        [self.contentView addSubview:self.lineView];
         
         UITapGestureRecognizer * headTap          = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headImageViewTap:)];
         [self.headImageView addGestureRecognizer:headTap];
         
         //删除或者其他动作
         UITapGestureRecognizer * tap             = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTap:)];
-        [self.contentLabel addGestureRecognizer:tap];
+        [self.contentView addGestureRecognizer:tap];
         
         [self configUI];
     }
@@ -66,7 +70,7 @@
 {
     self.selectionStyle                       = UITableViewCellSelectionStyleNone;
     //头像
-    self.headImageView.frame                  = CGRectMake(15, 5, 40, 40);
+    self.headImageView.frame                  = CGRectMake(10, 5, 40, 40);
     self.headImageView.layer.cornerRadius     = 2;
     self.headImageView.layer.masksToBounds    = YES;
     self.headImageView.userInteractionEnabled = YES;
@@ -86,7 +90,9 @@
     self.contentLabel.userInteractionEnabled  = YES;
     self.contentLabel.numberOfLines           = 0;
     self.contentLabel.lineBreakMode           = NSLineBreakByCharWrapping;
-    
+ 
+    self.lineView.frame = CGRectMake(0, 0, [DeviceManager getDeviceWidth], 1);
+    self.lineView.backgroundColor = [UIColor colorWithHexString:ColorLightGary];
 }
 
 - (void)setConentWithModel:(CommentModel *)comment
@@ -107,7 +113,6 @@
     self.timeLabel.text                      = timeStr;
     //内容
     CGSize contentSize                       = [ToolsManager getSizeWithContent:comment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-self.nameLabel.x, MAXFLOAT)];
-    
     self.contentLabel.height                 = contentSize.height;
     self.contentLabel.text                   = comment.comment_content;
 
@@ -159,8 +164,13 @@
         
         [self.viewArr addObject:secondLabel];
         [self.viewArr addObject:secondContentLabel];
+        
     }
-
+    if (bottomLocation < 45) {
+        bottomLocation = 45;
+    }
+    
+    self.lineView.y = bottomLocation+4;
 }
 
 #pragma mark- UIActionSheetDelegate

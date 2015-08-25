@@ -62,19 +62,6 @@
     [self.view addSubview:self.hudProgress];
 }
 
-#pragma mark- UITextViewDelegate
-- (void)textViewDidChange:(UITextView *)textView
-{
-    if ([textView isKindOfClass:[PlaceHolderTextView class]]) {
-
-        if (textView.text.length > 0) {
-            [((PlaceHolderTextView *)textView) setPlaceHidden:YES];
-        }else{
-            [((PlaceHolderTextView *)textView) setPlaceHidden:NO];
-        }
-    }
-}
-
 #pragma mark- method response
 - (void)publishCommentClick
 {

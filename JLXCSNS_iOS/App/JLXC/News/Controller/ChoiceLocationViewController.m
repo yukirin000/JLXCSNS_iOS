@@ -34,6 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setNavBarTitle:@"我在这里"];
+    
     [self initMap];
     
     [self configUI];
@@ -41,12 +43,24 @@
 
 - (void)configUI
 {
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.refreshTableView.frame.size.width, 0)];
-    [_searchBar setDelegate:self];
-    [_searchBar setPlaceholder:@"搜索"];
-    [_searchBar sizeToFit];
-    [_searchBar setTranslucent:YES];
-    [self.refreshTableView setTableHeaderView:_searchBar];
+//    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.refreshTableView.frame.size.width, 0)];
+//    [_searchBar setDelegate:self];
+//    [_searchBar setPlaceholder:@"搜索"];
+//    [_searchBar sizeToFit];
+//    [_searchBar setTranslucent:YES];
+//    [self.refreshTableView setTableHeaderView:_searchBar];
+    
+    UIView * headBackView        = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, 80)];
+    headBackView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    [self.refreshTableView setTableHeaderView:headBackView];
+    
+    CustomButton * topNoBtn  = [[CustomButton alloc] initWithFrame:CGRectMake(10, 10, self.refreshTableView.frame.size.width-20, 60)];
+    topNoBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    topNoBtn.backgroundColor = [UIColor whiteColor];
+    [topNoBtn setTitle:@"不显示了吧" forState:UIControlStateNormal];
+    [topNoBtn setTitleColor:[UIColor colorWithHexString:ColorDeepBlack] forState:UIControlStateNormal];
+    [topNoBtn addTarget:self action:@selector(noLocationPress:) forControlEvents:UIControlEventTouchUpInside];
+    [headBackView addSubview:topNoBtn];
 }
 
 #pragma mark- override
@@ -73,7 +87,7 @@
     if(updatingLocation)
     {
         //取出当前位置的坐标
-        NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
+//        NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
         self.currentLocation = userLocation;
         self.mapView.showsUserLocation = NO;
         [self searchPoiByCenterCoordinate];
@@ -84,19 +98,19 @@
 #pragma mark - AMapSearchDelegate
 - (void)searchRequest:(id)request didFailWithError:(NSError *)error
 {
-    NSLog(@"%s: searchRequest = %@, errInfo= %@", __func__, [request class], error);
+//    NSLog(@"%s: searchRequest = %@, errInfo= %@", __func__, [request class], error);
     [self refreshFinish];
 }
 /* POI 搜索回调. */
 - (void)onPlaceSearchDone:(AMapPlaceSearchRequest *)request response:(AMapPlaceSearchResponse *)respons
 {
-    NSLog(@"!!!!!!!!");
-    for (AMapPOI *p in respons.pois) {
-        NSLog(@"%@ %@ %@", p.name, p.type, p.uid);
-    }
+//    NSLog(@"!!!!!!!!");
+//    for (AMapPOI *p in respons.pois) {
+//        NSLog(@"%@ %@ %@", p.name, p.type, p.uid);
+//    }
 
-    //小于30最后一页
-    if (respons.pois.count < 30)
+    //小于20最后一页
+    if (respons.pois.count < 20)
     {
         self.isLastPage = YES;
     }
@@ -123,6 +137,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 45;
+}
+
 #pragma mark - Search Bar Delegate
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
@@ -147,6 +166,14 @@
 
 
 #pragma mark- private method
+- (void)noLocationPress:(id)sender
+{
+    if (_choiceBlock) {
+        _choiceBlock(@"");
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 //设置选中之后的block
 - (void)setChoickBlock:(ChoiceLocationBlock)block
@@ -157,8 +184,17 @@
 /*! 重写该方法定制Cell*/
 - (void)handleTableViewContentWith:(UITableViewCell *)cell andIndexPath:(NSIndexPath *)indexPath
 {
-    AMapPOI * mapPoi    = self.dataArr[indexPath.row];
-    cell.textLabel.text = mapPoi.name;
+    AMapPOI * mapPoi         = self.dataArr[indexPath.row];
+
+    CustomLabel * titleLabel = [[CustomLabel alloc] initWithFrame:CGRectMake(25, 0, self.viewWidth-25, 45)];
+    titleLabel.font          = [UIFont systemFontOfSize:15];
+    titleLabel.textColor     = [UIColor colorWithHexString:ColorDeepBlack];
+    titleLabel.text          = mapPoi.name;
+    [cell.contentView addSubview:titleLabel];
+
+    UIView * lineView        = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.viewWidth, 1)];
+    lineView.backgroundColor = [UIColor colorWithHexString:ColorLightGary];
+    [cell.contentView addSubview:lineView];
 }
 
 - (void)initMap

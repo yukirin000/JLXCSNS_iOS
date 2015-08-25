@@ -29,7 +29,7 @@
     
     if (self) {
         self.headImageView = [[CustomImageView alloc] init];
-        self.nameLabel     = [[CustomLabel alloc] initWithFontSize:15];
+        self.nameLabel     = [[CustomLabel alloc] init];
         self.lineView      = [[UIView alloc] init];
         
         [self.contentView addSubview:self.headImageView];
@@ -45,11 +45,16 @@
 
 - (void)configUI
 {
-    self.headImageView.frame      = CGRectMake(5, 5, 40, 40);
-    self.nameLabel.frame          = CGRectMake(self.headImageView.right+10, self.headImageView.y, 0, 20);
+    self.headImageView.frame               = CGRectMake(10, 10, 45, 45);
+    self.headImageView.layer.cornerRadius  = 2;
+    self.headImageView.layer.masksToBounds = YES;
     
-    self.lineView.frame           = CGRectMake(5, 49, [DeviceManager getDeviceWidth], 1);
-    self.lineView.backgroundColor = [UIColor darkGrayColor];
+    self.nameLabel.frame                   = CGRectMake(self.headImageView.right+10, self.headImageView.y+3, 0, 20);
+    self.nameLabel.font                    = [UIFont systemFontOfSize:FontListName];
+    self.nameLabel.textColor               = [UIColor colorWithHexString:ColorDeepBlack];
+    
+    self.lineView.frame                    = CGRectMake(10, 64, [DeviceManager getDeviceWidth], 1);
+    self.lineView.backgroundColor          = [UIColor colorWithHexString:ColorLightGary];
     
 }
 

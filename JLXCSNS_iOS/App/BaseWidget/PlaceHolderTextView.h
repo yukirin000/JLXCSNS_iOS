@@ -23,9 +23,16 @@
 
 /*!
  @method
+ @param placeHolder 该视图的placeHolder
+ @brief 设置hint
+ */
+- (void)setPlaceHolder:(NSString *)placeHolder;
+
+/*!
+ @method
  @param hidden 是否隐藏
  @brief 隐藏placeHolder
  */
-- (void)setPlaceHidden:(BOOL)hidden;
+//- (void)setPlaceHidden:(BOOL)hidden;
 
 @end

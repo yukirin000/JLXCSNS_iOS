@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <RongIMKit/RongIMKit.h>
 
-enum {
+typedef NS_ENUM(NSInteger, GroupState) {
     /*! 群组已添加 */
     GroupHasAdd = 1,
-    /*! 群组未添加 */    
+    /*! 群组未添加 */
     GroupNotAdd = 0
 };
 
@@ -41,13 +41,13 @@ enum {
  @property
  @brief 会话群类型
  */
-@property (nonatomic,assign) int type;
+@property (nonatomic,assign) NSInteger type;
 
 /*!
  @property
  @brief 当前的状态 0是已添加 1是未添加
  */
-@property (nonatomic,assign) int currentState;
+@property (nonatomic,assign) GroupState currentState;
 
 /*!
  @property

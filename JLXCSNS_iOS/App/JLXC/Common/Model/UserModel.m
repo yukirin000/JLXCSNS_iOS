@@ -51,6 +51,7 @@
     self.login_token      = dic[@"login_token"];
     self.im_token         = dic[@"im_token"];
     self.iosdevice_token  = dic[@"iosdevice_token"];
+    
 }
 
 @end

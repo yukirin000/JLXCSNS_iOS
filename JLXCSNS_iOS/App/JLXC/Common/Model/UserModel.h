@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-//0男 1女 2不知道
-enum{
+typedef NS_ENUM(NSInteger, JLXCSex) {
     SexBoy  = 0,
     SexGirl = 1,
     SexNone = 2
@@ -37,7 +36,7 @@ enum{
 @property (nonatomic, copy) NSString * phone_num;
 
 /*! 姓别 0男 1女 2不知道*/
-@property (nonatomic, assign) NSInteger sex;
+@property (nonatomic, assign) JLXCSex sex;
 
 /*! 学校*/
 @property (nonatomic, copy) NSString * school;
@@ -74,6 +73,8 @@ enum{
 
 /*! ios设备token*/
 @property (nonatomic, copy) NSString * iosdevice_token;
+
+
 
 - (void)setModelWithDic:(NSDictionary *)dic;
 

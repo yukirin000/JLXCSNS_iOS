@@ -61,21 +61,6 @@
     [self.placeHolderTextView resignFirstResponder];
 }
 
-#pragma mark- placeHolder 使用该控件时需要加上这个代理方法
-- (void)textViewDidChange:(UITextView *)textView
-{
-
-    if ([textView isKindOfClass:[PlaceHolderTextView class]]) {
-
-        if (textView.text.length > 0) {
-            [((PlaceHolderTextView *)textView) setPlaceHidden:YES];
-        }else{
-            [((PlaceHolderTextView *)textView) setPlaceHidden:NO];
-        }
-    }
-
-}
-
 #pragma mark- method response
 - (void)confirmReport:(id)sender
 {

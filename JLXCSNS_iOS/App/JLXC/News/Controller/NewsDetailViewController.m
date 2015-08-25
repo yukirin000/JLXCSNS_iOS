@@ -58,6 +58,8 @@
 @property (nonatomic, assign) BOOL isDefaultComment;
 //评论遮罩View
 @property (nonatomic, strong) UIView * commentCoverView;
+//发送评论按钮
+@property (nonatomic, strong) CustomButton * sendCommentBtn;
 
 //新闻模型
 @property (nonatomic, strong) NewsModel * news;
@@ -154,7 +156,7 @@
     
     //评论遮罩
     self.commentCoverView                 = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.commentCoverView.backgroundColor = [UIColor darkGrayColor];
+    self.commentCoverView.backgroundColor = [UIColor colorWithHexString:ColorLightBlack];
     self.commentCoverView.alpha           = 0.3;
     self.commentCoverView.hidden          = YES;
     [self.view addSubview:self.commentCoverView];
@@ -163,44 +165,66 @@
     self.isDefaultComment = YES;
     
     //回复评论的textView
-    self.containerView                                         = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-40, self.viewWidth, 40)];
-    self.containerView.backgroundColor                         = [UIColor grayColor];
-    self.commentTextView                                        = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, self.viewWidth-80, 40)];
+    self.containerView                                          = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-40, self.viewWidth, 40)];
+
+    self.containerView.backgroundColor                          = [UIColor colorWithHexString:ColorLightGary];
+    self.commentTextView                                        = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(5, 4, self.viewWidth-80, 30)];
     self.commentTextView.isScrollable                           = NO;
+    self.commentTextView.textColor                              = [UIColor colorWithHexString:ColorDeepBlack];
     self.commentTextView.minNumberOfLines                       = 1;
     self.commentTextView.maxNumberOfLines                       = 6;
     self.commentTextView.returnKeyType                          = UIReturnKeySend;
-    self.commentTextView.font                                   = [UIFont systemFontOfSize:15.0f];
+    self.commentTextView.font                                   = [UIFont systemFontOfSize:13.0f];
     self.commentTextView.delegate                               = self;
     self.commentTextView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
     self.commentTextView.backgroundColor                        = [UIColor whiteColor];
     self.commentTextView.placeholder                            = @"来条神评论吧~";
     [self.containerView addSubview:self.commentTextView];
     [self.view addSubview:self.containerView];
-    
     //发送按钮
-    CustomButton * sendCommentBtn = [[CustomButton alloc] initWithFrame:CGRectMake(self.commentTextView.right+5, 3, 60, 40)];
-    [sendCommentBtn addTarget:self action:@selector(sendCommentPress) forControlEvents:UIControlEventTouchUpInside];
-    [sendCommentBtn setTitle:@"发送" forState:UIControlStateNormal];
-    [self.containerView addSubview:sendCommentBtn];
-    
+    self.sendCommentBtn = [[CustomButton alloc] initWithFrame:CGRectMake(self.commentTextView.right+5, 4, 60, 32)];
+    [self.sendCommentBtn setBackgroundColor:[UIColor colorWithHexString:ColorYellow]];
+    [self.sendCommentBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
+    [self.sendCommentBtn addTarget:self action:@selector(sendCommentPress) forControlEvents:UIControlEventTouchUpInside];
+    [self.sendCommentBtn setFontSize:13];
+    [self.sendCommentBtn setTitle:@"发送" forState:UIControlStateNormal];
+    [self.containerView addSubview:self.sendCommentBtn];
+  
+    if (self.commentType == CommentFirst) {
+        //一级评论
+        [self.commentTextView becomeFirstResponder];
+    }else if(self.commentType == CommentSecond){
+        //二级评论
+        for (CommentModel * comment in self.news.comment_arr) {
+            if (self.commentId == comment.cid) {
+                SecondCommentModel * scm = [[SecondCommentModel alloc] init];
+                scm.scid                 = comment.cid;
+                scm.name                 = comment.name;
+                scm.user_id              = comment.user_id;
+                scm.reply_comment_id     = comment.cid;
+                scm.top_comment_id       = comment.cid;
+                [self replyComment:scm andTopComment:comment];
+                break;
+            }
+        }
+    }
 }
 
 - (void)initTable
 {
     //展示数据的列表
     if ([DeviceManager getDeviceSystem] >= 7.0) {
-        self.newsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight) style:UITableViewStyleGrouped];
+        self.newsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight-40) style:UITableViewStyleGrouped];
     }else{
-        self.newsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight) style:UITableViewStylePlain];
+        self.newsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight-40) style:UITableViewStylePlain];
     }
     
     self.newsTable.separatorStyle  = UITableViewCellSeparatorStyleNone;
     self.newsTable.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
     self.newsTable.delegate        = self;
     self.newsTable.dataSource      = self;
-    UITapGestureRecognizer * tap   = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableView:)];
-    [self.newsTable addGestureRecognizer:tap];
+//    UITapGestureRecognizer * tap   = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableView:)];
+//    [self.newsTable addGestureRecognizer:tap];
     [self.view addSubview:self.newsTable];
     
     //加载回复评论的textView
@@ -384,8 +408,8 @@
 //单元格高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   CommentModel * comment = self.news.comment_arr[indexPath.row];
-   CGSize contentSize     = [ToolsManager getSizeWithContent:comment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-40, MAXFLOAT)];
+    CommentModel * comment = self.news.comment_arr[indexPath.row];
+    CGSize contentSize     = [ToolsManager getSizeWithContent:comment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-60, MAXFLOAT)];
     
     CGFloat second_comment_height = 0;
     //二级评论高度
@@ -393,15 +417,15 @@
         
         SecondCommentModel * secondComment = comment.second_comments[i];
         //内容
-        CGSize contentSize                = [ToolsManager getSizeWithContent:secondComment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-55, MAXFLOAT)];
-        second_comment_height += contentSize.height+20;
+        CGSize contentSize                = [ToolsManager getSizeWithContent:secondComment.comment_content andFontSize:FontComment andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-15-50, MAXFLOAT)];
+        second_comment_height += (contentSize.height+20);
+        
     }
     
     CGFloat total = 30+contentSize.height+second_comment_height;
-    if (total < 55) {
-        total = 55;
+    if (total < 50) {
+        total = 50;
     }
-    
     return total;
 }
 
@@ -421,6 +445,11 @@
     [self.commentTextView resignFirstResponder];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.01;
+}
+
 #pragma mark- HPGrowingTextViewDelegate
 -(void) keyboardWillShow:(NSNotification *)note{
 
@@ -431,7 +460,7 @@
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
     CGRect containerFrame = self.containerView.frame;
     containerFrame.origin.y = self.view.bounds.size.height - (keyboardBounds.size.height + containerFrame.size.height);
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:0.2f animations:^{
         self.containerView.frame = containerFrame;
     }];
     
@@ -458,6 +487,8 @@
     r.size.height            -= diff;
     r.origin.y               += diff;
     self.containerView.frame = r;
+    
+    self.sendCommentBtn.y    = (self.containerView.height-self.sendCommentBtn.height)/2;
 }
 
 //判断发送
@@ -529,13 +560,13 @@
 - (void)replyComment:(SecondCommentModel *)secondComment andTopComment:(CommentModel *)comment
 {
     //默认评论取消
-    self.isDefaultComment     = NO;
+    self.isDefaultComment            = NO;
 
-    self.currentSecondComment = secondComment;
-    self.currentTopComment    = comment;
-    
+    self.currentSecondComment        = secondComment;
+    self.currentTopComment           = comment;
+
     //是好友查看备注
-    NSString * name = secondComment.name;
+    NSString * name                  = secondComment.name;
     self.commentTextView.placeholder = [NSString stringWithFormat:@"回复：%@",name];
     
     [self.commentTextView becomeFirstResponder];
@@ -702,14 +733,11 @@
     [self pushVC:opvc];
 }
 
-
-
 - (void)getData
 {
     NSString * url = [NSString stringWithFormat:@"%@?news_id=%ld&user_id=%ld", kNewsDetailPath, self.newsId, [UserService sharedService].user.uid];
     debugLog(@"%@", url);
     [HttpService getWithUrlString:url andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-        debugLog(@"%@", responseData);
         int status = [responseData[HttpStatus] intValue];
         if (status == HttpStatusCodeSuccess) {
             
@@ -786,10 +814,11 @@
             comment.head_image     = [UserService sharedService].user.head_image;
             comment.head_sub_image = [UserService sharedService].user.head_sub_image;
             
-            
             //更新table
             NSIndexPath * indexPath = [NSIndexPath indexPathForRow:self.news.comment_arr.count-1 inSection:0];
             [self.newsTable insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            
+            [self.newsTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
             
         }else{
             [self showWarn:responseData[HttpMessage]];
@@ -922,7 +951,6 @@
 #pragma mark- override
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-//    [self.commentTextView resignFirstResponder];
     [self.commentTextView resignFirstResponder];
 }
 

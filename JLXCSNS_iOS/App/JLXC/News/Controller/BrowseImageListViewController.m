@@ -26,7 +26,7 @@
     [super viewDidLoad];
     
     self.navBar.backgroundColor = [UIColor clearColor];
-    
+
     [self configUI];
     
     [self initCollection];

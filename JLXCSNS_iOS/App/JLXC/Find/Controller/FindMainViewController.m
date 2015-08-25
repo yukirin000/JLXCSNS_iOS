@@ -154,11 +154,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RecommendFriendModel * recommendModel = self.dataArr[indexPath.row];
-    MyNewsListViewController * mnlvc = [[MyNewsListViewController alloc] init];
-    mnlvc.isOther = YES;
-    mnlvc.uid     = recommendModel.uid;
-    [self pushVC:mnlvc];
-    
+//    MyNewsListViewController * mnlvc      = [[MyNewsListViewController alloc] init];
+//    mnlvc.isOther                         = YES;
+//    mnlvc.uid                             = recommendModel.uid;
+//    [self pushVC:mnlvc];
+    OtherPersonalViewController  * opvc = [[OtherPersonalViewController alloc] init];
+    opvc.uid                            = recommendModel.uid;
+    [self pushVC:opvc];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

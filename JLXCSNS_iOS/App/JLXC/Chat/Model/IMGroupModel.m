@@ -17,7 +17,7 @@
         if (self.groupRemark == nil || self.groupRemark.length < 1) {
             self.groupRemark = @"";
         }
-        NSString *sql = [NSString stringWithFormat:@"INSERT INTO jlxc_group values (null,'%@','%@',%d, '%@', '%@', '%d', '%d', '%d','%ld','%@')",self.groupId, self.groupTitle,self.type , self.groupRemark, self.avatarPath, self.currentState, self.isRead, self.isNew, self.owner,self.addDate];
+        NSString *sql = [NSString stringWithFormat:@"INSERT INTO jlxc_group values (null,'%@','%@',%ld, '%@', '%@', '%ld', '%d', '%d','%ld','%@')",self.groupId, self.groupTitle,self.type , self.groupRemark, self.avatarPath, self.currentState, self.isRead, self.isNew, self.owner,self.addDate];
         [[DatabaseService sharedInstance] executeUpdate:sql];
     }
 }
@@ -35,7 +35,7 @@
     if (self.groupRemark == nil || self.groupRemark.length < 1) {
         self.groupRemark = @"";
     }
-    NSString *sql = [NSString stringWithFormat:@"UPDATE jlxc_group SET groupTitle = '%@', type=%d, avatarPath='%@', groupRemark='%@', isRead='%d' ,currentState='%d', isNew='%d', addDate='%@' WHERE groupId='%@' and owner='%ld'",self.groupTitle, self.type, self.avatarPath , self.groupRemark, self.isRead, self.currentState, self.isNew, self.addDate, self.groupId, self.owner];
+    NSString *sql = [NSString stringWithFormat:@"UPDATE jlxc_group SET groupTitle = '%@', type=%ld, avatarPath='%@', groupRemark='%@', isRead='%d' ,currentState='%ld', isNew='%d', addDate='%@' WHERE groupId='%@' and owner='%ld'",self.groupTitle, self.type, self.avatarPath , self.groupRemark, self.isRead, self.currentState, self.isNew, self.addDate, self.groupId, self.owner];
     debugLog(@"sql:%@",sql);
     [[DatabaseService sharedInstance] executeUpdate:sql];
 }

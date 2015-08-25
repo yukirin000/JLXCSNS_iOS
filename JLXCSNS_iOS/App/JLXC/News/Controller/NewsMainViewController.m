@@ -100,11 +100,13 @@
     //发状态
     __weak typeof(self) sself = self;
     
-    self.navBar.rightBtn.backgroundColor = [UIColor redColor];
-    [self.navBar setRightBtnWithContent:@"发布" andBlock:^{
+    [self.navBar setRightBtnWithContent:@"" andBlock:^{
         PublishNewsViewController * pnvc = [[PublishNewsViewController alloc] init];
         [sself pushVC:pnvc];
     }];
+    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"publish_normal"] forState:UIControlStateNormal];
+    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"publish_highlight"] forState:UIControlStateHighlighted];
+     
     if ([DeviceManager getDeviceSystem] > 7.0) {
         self.navBar.rightBtn.frame = CGRectMake([DeviceManager getDeviceWidth]-45, 20, 40, 44);
     }else{

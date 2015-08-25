@@ -14,19 +14,27 @@
     UILabel * _placeHolderLabel;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andPlaceHolder:(NSString *)placeHolder
+- (instancetype)init
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
-        
-        _placeHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, CGRectGetWidth(frame)-20, 20)];
+        _placeHolderLabel           = [[UILabel alloc] init];
         _placeHolderLabel.textColor = [UIColor lightGrayColor];
-        _placeHolderLabel.font = [UIFont systemFontOfSize:15];
-        _placeHolderLabel.text = placeHolder;
+        _placeHolderLabel.font      = [UIFont systemFontOfSize:15];
         [self addSubview:_placeHolderLabel];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentChange:) name:UITextViewTextDidChangeNotification object:nil];
-        
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame andPlaceHolder:(NSString *)placeHolder
+{
+    self = [self init];
+    if (self) {
+        self.frame              = frame;
+        _placeHolderLabel.frame = CGRectMake(5, 5, CGRectGetWidth(frame)-20, 20);
+        _placeHolderLabel.text  = placeHolder;
     }
     
     return self;
@@ -57,6 +65,12 @@
         [self setPlaceHidden:NO];
     }
     
+}
+
+- (void)setPlaceHolder:(NSString *)placeHolder
+{
+    _placeHolderLabel.frame = CGRectMake(5, 5, CGRectGetWidth(self.frame)-20, 20);
+    _placeHolderLabel.text = placeHolder;
 }
 
 /*

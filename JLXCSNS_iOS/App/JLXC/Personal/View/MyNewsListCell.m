@@ -145,8 +145,9 @@
     self.locationBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
     //评论按钮
-    self.commentBtn.titleLabel.font     = [UIFont systemFontOfSize:14];
-    self.commentBtn.titleEdgeInsets     = UIEdgeInsetsMake(0, 15, 0, 0);
+    self.commentBtn.titleLabel.font        = [UIFont systemFontOfSize:14];
+    self.commentBtn.titleEdgeInsets        = UIEdgeInsetsMake(0, 15, 0, 0);
+    self.commentBtn.userInteractionEnabled = NO;
     [self.commentBtn setBackgroundImage:[UIImage imageNamed:@"btn_comment_normal"] forState:UIControlStateNormal];
     [self.commentBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
 
@@ -197,22 +198,23 @@
     //图片处理
     if (news.image_arr.count == 1) {
         //一张图片放大
-        ImageModel * imageModel      = news.image_arr[0];
-        CGRect rect                  = [NewsUtils getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
-        rect.origin.x                = self.contentLabel.x;
-        rect.origin.y                = self.contentLabel.bottom+5;
-        CustomButton * imageBtn      = [[CustomButton alloc] init];
+        ImageModel * imageModel          = news.image_arr[0];
+        CGRect rect                      = [NewsUtils getRectWithSize:CGSizeMake(imageModel.width, imageModel.height)];
+        rect.origin.x                    = self.contentLabel.x;
+        rect.origin.y                    = self.contentLabel.bottom+5;
+        CustomImageView * imageView      = [[CustomImageView alloc] init];
         //加载单张大图
-        NSURL * imageUrl             = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
-        [imageBtn addGestureRecognizer:tap];
-        [imageBtn sd_setImageWithURL:imageUrl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
-        imageBtn.frame               = rect;
-        [self.contentView addSubview:imageBtn];
+        NSURL * imageUrl                 = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAttachmentAddr, imageModel.sub_url]];
+        UITapGestureRecognizer * tap     = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageDetailClick:)];
+        [imageView addGestureRecognizer:tap];
+        [imageView sd_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
+        imageView.frame                  = rect;
+        imageView.userInteractionEnabled = YES;
+        [self.contentView addSubview:imageView];
         //底部位置
-        bottomPosition               = imageBtn.bottom;
+        bottomPosition                   = imageView.bottom;
         //插入
-        [self.viewArr addObject:imageBtn];
+        [self.viewArr addObject:imageView];
     }else{
         //多张图片九宫格
         NSArray * btnArr        = news.image_arr;

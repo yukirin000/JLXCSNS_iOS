@@ -290,21 +290,19 @@ static CusTabBarViewController * instance = nil;
             item.selected = NO;
         }
     }
-    
-    NSInteger index = 0;
-    for (UIViewController * vc in tabBarController.viewControllers) {
-        if (vc == viewController) {
-            TabBarBtn * btn = _btnArr[index];
-            btn.selected = YES;
-            break;
-        }
-        index ++;
+    NSInteger index = [tabBarController.viewControllers indexOfObject:viewController];
+    if (index == 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_TAB_PRESS object:nil];
     }
+    TabBarBtn * btn = _btnArr[index];
+    btn.selected = YES;
+ 
+
 }
+
 #pragma mark- tabBar点击代理
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
-    
     return YES;
 }
 

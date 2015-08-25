@@ -10,7 +10,9 @@
 #import "BrowseImageViewController.h"
 #import "ChoiceLocationViewController.h"
 #import "UIImageView+WebCache.h"
-@interface PublishNewsViewController ()
+#import "ZYQAssetPickerController.h"
+#import <CoreFoundation/CoreFoundation.h>
+@interface PublishNewsViewController ()<ZYQAssetPickerControllerDelegate>
 
 //图片按钮数组
 @property (nonatomic, strong) NSMutableArray * imageArr;
@@ -23,6 +25,9 @@
 
 @property (nonatomic ,copy) NSString * location;
 
+//图片宽度
+@property (nonatomic, assign) CGFloat itemWidth;
+
 @end
 
 @implementation PublishNewsViewController
@@ -32,8 +37,8 @@
     
     self.location = @"";
     self.imageArr = [[NSMutableArray alloc] init];
-    self.view.backgroundColor = [UIColor grayColor];
-    //24 76 272 100
+    self.view.backgroundColor = [UIColor colorWithHexString:ColorWhite];
+
     [self initWidget];
     [self configUI];
 }
@@ -63,22 +68,49 @@
 
 - (void)configUI {
     
+    [self setNavBarTitle:@"记录点滴"];
+    
     __weak typeof(self) sself = self;
     [self.navBar setRightBtnWithContent:@"发布" andBlock:^{
         [sself publishNewClick];
     }];
+    [self.navBar.rightBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
+    [self.navBar.rightBtn setTitleColor:[UIColor colorWithHexString:ColorLightGary] forState:UIControlStateHighlighted];
     
-    self.textView.frame              = CGRectMake(24, 76, 272, 100);
+    self.textView.frame              = CGRectMake(kCenterOriginX((self.viewWidth-60)), kNavBarAndStatusHeight+30, self.viewWidth-60, 130);
+    self.textView.textColor          = [UIColor colorWithHexString:ColorDeepBlack];
+    self.textView.layer.borderWidth  = 1;
+    self.textView.layer.borderColor  = [UIColor colorWithHexString:ColorLightGary].CGColor;
+    [self.textView setPlaceHolder:@"宣布点儿什么吧 o(*￣▽￣*)o ..."];
     
-    self.addImageBtn.frame           = CGRectMake(20, self.textView.bottom+20, 55, 55);
-    self.addImageBtn.backgroundColor = [UIColor yellowColor];
-    [self.addImageBtn setTitle:@"图片" forState:UIControlStateNormal];
+    //计算宽度
+    self.itemWidth         = (self.viewWidth-90)/4.0;
+    self.addImageBtn.frame = CGRectMake(30, self.textView.bottom+20, self.itemWidth, self.itemWidth);
+    [self.addImageBtn setBackgroundImage:[UIImage imageNamed:@"publish_add_btn"] forState:UIControlStateNormal];
     [self.addImageBtn addTarget:self action:@selector(addImageClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.locationBtn.frame           = CGRectMake(25, self.addImageBtn.bottom+20, 100, 25);
-    [self.locationBtn setTitle:@"选择地理位置" forState:UIControlStateNormal];
+    //地理位置按钮
+    self.locationBtn.frame               = CGRectMake(25, self.addImageBtn.bottom+20, 140, 25);
+    self.locationBtn.titleLabel.font     = [UIFont systemFontOfSize:12];
+    self.locationBtn.layer.cornerRadius  = 13;
+    self.locationBtn.layer.masksToBounds = YES;
+    [self.locationBtn setBackgroundColor:[UIColor colorWithHexString:ColorLightWhite]];
+    [self.locationBtn setImage:[UIImage imageNamed:@"location_content_image"] forState:UIControlStateNormal];
+    [self.locationBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
+    [self.locationBtn setTitle:@"告诉我你在哪里...." forState:UIControlStateNormal];
+    [self.locationBtn setTitleColor:[UIColor colorWithHexString:ColorLightBlack] forState:UIControlStateNormal];
     [self.locationBtn addTarget:self action:@selector(locationClick:) forControlEvents:UIControlEventTouchUpInside];
     
+}
+
+#pragma mark- ZYQAssetPickerControllerDelegate
+-(void)assetPickerController:(ZYQAssetPickerController *)picker didFinishPickingAssets:(NSArray *)assets{
+    for (int i=0; i<assets.count; i++) {
+        ALAsset *asset=assets[i];
+        UIImage *tempImg=[UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+        UIImage * image = [ImageHelper getBigImage:tempImg];
+        [self handleImage:image];
+    }
 }
 
 #pragma mark- UIImagePickerControllerDelegate
@@ -95,26 +127,46 @@
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
-
+//- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+//{
+//    [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"default_back_image"] forBarMetrics:UIBarMetricsDefault];
+//    [navigationController.navigationBar setTintColor:[UIColor colorWithHexString:ColorBrown]];
+//}
 #pragma mark- Action Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     //选照片
     if (buttonIndex != 2) {
-        UIImagePickerController * picker = [[UIImagePickerController alloc] init];
-        if (buttonIndex == 0) {
-            
-            [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-        }
+        
         if (buttonIndex == 1) {
+            
+            ZYQAssetPickerController *picker = [[ZYQAssetPickerController alloc] init];
+            picker.maximumNumberOfSelection  = 9-self.imageArr.count;
+            picker.assetsFilter              = [ALAssetsFilter allPhotos];
+            picker.showEmptyGroups           = NO;
+            picker.delegate                  = self;
+            picker.selectionFilter           = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+                if ([[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyType] isEqual:ALAssetTypeVideo]) {
+                    NSTimeInterval duration = [[(ALAsset*)evaluatedObject valueForProperty:ALAssetPropertyDuration] doubleValue];
+                    return duration >= 5;
+                } else {
+                    return YES;
+                }
+            }];
+            [self presentViewController:picker animated:YES completion:NULL];
+            
+        }
+        
+        if (buttonIndex == 0) {
+            UIImagePickerController * picker = [[UIImagePickerController alloc] init];
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
                 [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
             }
+            picker.delegate = self;
+            
+            [self presentViewController:picker animated:YES completion:^{
+            }];
         }
-        
-        picker.delegate = self;
-        
-        [self presentViewController:picker animated:YES completion:nil];
         
     }
     
@@ -122,13 +174,23 @@
 
 #pragma mark- method response
 - (void)addImageClick:(id)sender {
-    UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"图片" delegate:self cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"相册",@"相机", nil];
+    UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"图片" delegate:self cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"相机", @"相册", nil];
     [sheet showInView:self.view];
 }
 
 - (void)locationClick:(id)sender {
     ChoiceLocationViewController * clvc = [[ChoiceLocationViewController alloc] init];
     [clvc setChoickBlock:^(NSString *str) {
+        if (str.length < 1) {
+            [self.locationBtn setTitle:@"告诉我你在哪里...." forState:UIControlStateNormal];
+            self.locationBtn.width = 140;
+            return ;
+        }
+        CGSize size = [ToolsManager getSizeWithContent:str andFontSize:12 andFrame:CGRectMake(0, 0, 250, 30)];
+        if (size.width < 110) {
+            size.width = 110;
+        }
+        self.locationBtn.width = 30+size.width;
         [self.locationBtn setTitle:str forState:UIControlStateNormal];
         self.location = str;
     }];
@@ -230,7 +292,9 @@
     imageView.frame        = self.addImageBtn.frame;
     NSInteger columnNum    = self.imageArr.count%4;
     NSInteger lineNum      = self.imageArr.count/4;
-    self.addImageBtn.frame = CGRectMake(20+75*columnNum, self.textView.bottom+20+65*lineNum, 55, 55);
+    
+    self.addImageBtn.frame = CGRectMake(30+(self.itemWidth+10)*columnNum, self.textView.bottom+20+(self.itemWidth+10)*lineNum, self.itemWidth, self.itemWidth);
+
     [self.locationBtn setY:self.addImageBtn.bottom+20];
     
     if (self.imageArr.count >= 9) {
@@ -266,7 +330,7 @@
     //重新排位
     NSArray * fileArr = [self.imageArr copy];
     [self.imageArr removeAllObjects];
-    self.addImageBtn.frame  = CGRectMake(20, self.textView.bottom+20, 55, 55);
+    self.addImageBtn.frame  = CGRectMake(30, self.textView.bottom+20, self.itemWidth, self.itemWidth);
     for (CustomImageView * imageView in fileArr) {
         [self moveImageView:imageView];
     }

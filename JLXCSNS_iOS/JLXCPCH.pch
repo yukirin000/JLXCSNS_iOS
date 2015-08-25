@@ -16,10 +16,10 @@
 #define UBabyString(title) NSLocalizedStringFromTable(title, @"UBabyString", nil)
 
 //notifyKey
+//首页tab按钮点击
+#define NOTIFY_TAB_PRESS @"homeTabPress"
 //新好友刷新
 #define NOTIFY_NEW_GROUP @"imNewGroup"
-//已经添加对方好友后 被添加通知 废弃
-#define NOTIFY_ADD_GROUP @"imAddGroup"
 //状态回复消息或点赞到来 
 #define NOTIFY_NEWS_PUSH @"newsPush"
 //未读变成已读了 弃用
@@ -30,6 +30,7 @@
 #define NOTIFY_MESSAGE_REFRESH @"messageRefresh"
 //发送完状态 刷新通知
 #define NOTIFY_PUBLISH_NEWS @"publishNews"
+
 //创建新聊天室 刷新
 #define NOTIFY_CREATE_CHATROOM @"createChatroom"
 //退出聊天室 或者被提出

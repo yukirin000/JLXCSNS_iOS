@@ -26,6 +26,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setNavBarTitle:@"共同好友"];
+    
     self.dataSource = [[NSMutableArray alloc] init];
     
     //初始化 集合视图
@@ -107,6 +109,8 @@
                 model.head_sub_image      = commonDic[@"head_sub_image"];
                 [self.dataSource addObject:model];
             }
+            
+            [self setNavBarTitle:[NSString stringWithFormat:@"共同好友（%ld）", list.count]];
             
         }else{
             [self showWarn:responseData[HttpMessage]];

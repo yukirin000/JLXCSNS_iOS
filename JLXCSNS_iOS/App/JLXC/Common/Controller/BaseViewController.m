@@ -39,7 +39,7 @@
 - (void)initBaseVC
 {
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
     self.viewWidth = [DeviceManager getDeviceWidth];
     self.viewHeight = [DeviceManager getDeviceHeight];
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {

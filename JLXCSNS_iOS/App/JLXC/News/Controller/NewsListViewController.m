@@ -18,6 +18,7 @@
 #import "NewsDetailViewController.h"
 #import "HttpCache.h"
 #import "NewsUtils.h"
+#import "ZYQAssetPickerController.h"
 
 @interface NewsListViewController ()<NewsListDelegate>
 
@@ -104,20 +105,21 @@
 //图片点击
 - (void)imageClick:(NewsModel *)news index:(NSInteger)index
 {
-    
+
     BrowseImageListViewController * bilvc = [[BrowseImageListViewController alloc] init];
     bilvc.num                             = index;
     bilvc.dataSource                      = news.image_arr;
     [self presentViewController:bilvc animated:YES completion:nil];
-    
+
 }
 
 //发送评论
 - (void)sendCommentClick:(NewsModel *)news
 {
-    SendCommentViewController * scvc = [[SendCommentViewController alloc] init];
-    scvc.nid                         = news.nid;
-    [self presentViewController:scvc animated:YES completion:nil];
+    NewsDetailViewController * ndvc = [[NewsDetailViewController alloc] init];
+    ndvc.commentType                = CommentFirst;
+    ndvc.newsId                     = news.nid;
+    [self pushVC:ndvc];
 }
 //点赞
 - (void)likeClick:(NewsModel *)news likeOrCancel:(BOOL)flag
@@ -250,14 +252,30 @@
 //注册通知
 - (void)registerNotify
 {
+    //刷新页面
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNewsPublish:) name:NOTIFY_PUBLISH_NEWS object:nil];
+    //首页tab点击
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabPress:) name:NOTIFY_TAB_PRESS object:nil];
 
 }
+
 //新消息发布成功刷新页面
 - (void)newNewsPublish:(NSNotification *)notify
 {
+
     self.refreshTableView.contentOffset = CGPointZero;
     [self refreshData];
+}
+
+- (void)tabPress:(NSNotification *)notify
+{
+    if (self.refreshTableView.contentOffset.y > 0) {
+        if (self.refreshTableView != nil && [self.refreshTableView numberOfRowsInSection:0]>0) {
+             [self.refreshTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }
+    }else{
+        [self.refreshTableView refreshingTop];
+    }
 }
 
 - (CGFloat)getCellHeightWith:(NewsModel *)news

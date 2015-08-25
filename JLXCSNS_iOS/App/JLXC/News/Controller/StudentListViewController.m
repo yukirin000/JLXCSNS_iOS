@@ -28,6 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    [self setNavBarTitle:@"所有学生"];
     self.dataSource = [[NSMutableArray alloc] init];
     self.allData    = [[NSMutableArray alloc] init];
     
@@ -81,13 +83,16 @@
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdetifier forIndexPath:indexPath];
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    UserModel * model           = self.dataSource[indexPath.row];
+    UserModel * model             = self.dataSource[indexPath.row];
     //头像
-    CustomImageView * imageView = [[CustomImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:model.head_sub_image]] placeholderImage:[UIImage imageNamed:@"testimage"]];
+    CustomImageView * imageView   = [[CustomImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+    imageView.layer.cornerRadius  = 2;
+    imageView.layer.masksToBounds = YES;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:model.head_sub_image]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
     [cell.contentView addSubview:imageView];
     //姓名
-    CustomLabel * nameLabel = [[CustomLabel alloc] initWithFontSize:15];
+    CustomLabel * nameLabel = [[CustomLabel alloc] initWithFontSize:13];
+    nameLabel.textColor     = [UIColor colorWithHexString:ColorDeepBlack];
     nameLabel.frame         = CGRectMake(0, imageView.bottom, 60, 20);
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.text          = model.name;
