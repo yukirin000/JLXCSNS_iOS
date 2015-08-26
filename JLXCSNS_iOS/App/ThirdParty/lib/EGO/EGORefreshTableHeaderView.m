@@ -32,12 +32,10 @@
 
 @implementation EGORefreshTableHeaderView
 
-@synthesize delegate=_delegate;
-
 
 - (id)initWithFrame:(CGRect)frame arrowImageName:(NSString *)arrow textColor:(UIColor *)textColor  {
     if((self = [super initWithFrame:frame])) {
-		
+        
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
 
@@ -51,7 +49,6 @@
 		label.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:label];
 		_lastUpdatedLabel=label;
-		[label release];
 		
 		label = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 48.0f, self.frame.size.width, 20.0f)];
 		label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -63,27 +60,35 @@
 		label.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:label];
 		_statusLabel=label;
-		[label release];
 		
-		CALayer *layer = [CALayer layer];
-		layer.frame = CGRectMake(25.0f, frame.size.height - 65.0f, 30.0f, 55.0f);
-		layer.contentsGravity = kCAGravityResizeAspect;
-		layer.contents = (id)[UIImage imageNamed:arrow].CGImage;
-		
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-		if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
-			layer.contentsScale = [[UIScreen mainScreen] scale];
-		}
-#endif
-		
-		[[self layer] addSublayer:layer];
-		_arrowImage=layer;
-		
-		UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-		view.frame = CGRectMake(25.0f, frame.size.height - 38.0f, 20.0f, 20.0f);
-		[self addSubview:view];
-		_activityView = view;
-		[view release];
+//		CALayer *layer = [CALayer layer];
+//		layer.frame = CGRectMake(25.0f, frame.size.height - 65.0f, 30.0f, 55.0f);
+//		layer.contentsGravity = kCAGravityResizeAspect;
+//		layer.contents = (id)[UIImage imageNamed:arrow].CGImage;
+//		
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
+//		if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+//			layer.contentsScale = [[UIScreen mainScreen] scale];
+//		}
+//#endif
+//
+//		[[self layer] addSublayer:layer];
+//		_arrowImage=layer;
+
+        _arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading1"]];
+        _arrowImageView.frame = CGRectMake(30.0f, frame.size.height - 45.0f, 30.0f, 30.0f);
+        NSMutableArray * imageArr = [[NSMutableArray alloc] init];
+        for (int i=1; i<36; i++) {
+            NSString * imageName = [NSString stringWithFormat:@"loading%d",i];
+            [imageArr addObject:[UIImage imageNamed:imageName]];
+        }
+        _arrowImageView.animationImages = imageArr;
+        [self addSubview:_arrowImageView];
+        
+//		UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//		view.frame = CGRectMake(25.0f, frame.size.height - 38.0f, 20.0f, 20.0f);
+//		[self addSubview:view];
+//		_activityView = view;
 		
 		
 		[self setState:EGOOPullRefreshNormal];
@@ -95,7 +100,7 @@
 }
 
 - (id)initWithFrame:(CGRect)frame  {
-  return [self initWithFrame:frame arrowImageName:@"blueArrow.png" textColor:TEXT_COLOR];
+  return [self initWithFrame:frame arrowImageName:@"blueArrow.png" textColor:[UIColor colorWithHexString:ColorDeepGary]];
 }
 
 #pragma mark -
@@ -108,7 +113,7 @@
 		NSDate *date = [_delegate egoRefreshTableDataSourceLastUpdated:self];
 		
 		[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
-		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 //		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 //		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm"];
@@ -129,44 +134,45 @@
 	switch (aState) {
 		case EGOOPullRefreshPulling:
 			
-			_statusLabel.text = @"松手加载更多...";
+			_statusLabel.text = @"放开,我要刷新啦 (・ω・=)";
 //            NSLocalizedString(@"Release to refresh...", @"Release to refresh status");
-			[CATransaction begin];
-			[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
-			_arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
-			[CATransaction commit];
-			
+//			[CATransaction begin];
+//			[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
+//			_arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
+//			[CATransaction commit];
+            [_arrowImageView stopAnimating];
 			break;
 		case EGOOPullRefreshNormal:
-			
-			if (_state == EGOOPullRefreshPulling) {
-				[CATransaction begin];
-				[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
-				_arrowImage.transform = CATransform3DIdentity;
-				[CATransaction commit];
-			}
-			
-			_statusLabel.text = @"下拉刷新更多...";
+
+//			if (_state == EGOOPullRefreshPulling) {
+//				[CATransaction begin];
+//				[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
+//				_arrowImage.transform = CATransform3DIdentity;
+//				[CATransaction commit];
+//			}
+
+			_statusLabel.text = @"再下拉一点点  (≡ω≡．)";
             //NSLocalizedString(@"Pull down to refresh...", @"Pull down to refresh status");
-			[_activityView stopAnimating];
-			[CATransaction begin];
-			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
-			_arrowImage.hidden = NO;
-			_arrowImage.transform = CATransform3DIdentity;
-			[CATransaction commit];
-			
+//			[_activityView stopAnimating];
+//			[CATransaction begin];
+//			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
+//			_arrowImage.hidden = NO;
+//			_arrowImage.transform = CATransform3DIdentity;
+//			[CATransaction commit];
+            [_arrowImageView stopAnimating];
 			[self refreshLastUpdatedDate];
 			
 			break;
 		case EGOOPullRefreshLoading:
 			
-            _statusLabel.text = @"加载中...";
+            _statusLabel.text = @"拼命载入中   (・ω・=)";
+            [_arrowImageView startAnimating];
             //NSLocalizedString(@"Loading...", @"Loading Status");
-			[_activityView startAnimating];
-			[CATransaction begin];
-			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
-			_arrowImage.hidden = YES;
-			[CATransaction commit];
+//			[_activityView startAnimating];
+//			[CATransaction begin];
+//			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
+//			_arrowImage.hidden = YES;
+//			[CATransaction commit];
 			
 			break;
 		default:
@@ -250,11 +256,10 @@
 - (void)dealloc {
 	
 	_delegate=nil;
-	_activityView = nil;
+//	_activityView = nil;
 	_statusLabel = nil;
-	_arrowImage = nil;
+	_arrowImageView = nil;
 	_lastUpdatedLabel = nil;
-    [super dealloc];
 }
 
 

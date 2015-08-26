@@ -66,34 +66,41 @@ static PushService *_shareInstance=nil;
     debugLog(@"new message, %zu bytes, topic=%@", (unsigned long)[[message data] length], [message topic]);
     NSString *payloadString = [[NSString alloc] initWithData:[message data] encoding:NSUTF8StringEncoding];
     debugLog(@"data: %@", payloadString);
-    
-    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:message.data options:NSJSONReadingMutableContainers error:nil];
-    if (dic == nil || ![dic isKindOfClass:[NSDictionary class]]) {
-        return;
+    @try {
+        NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:message.data options:NSJSONReadingMutableContainers error:nil];
+        if (dic == nil || ![dic isKindOfClass:[NSDictionary class]]) {
+            return;
+        }
+        
+        NSInteger type = [dic[@"type"] intValue];
+        
+        switch (type) {
+                //如果是添加好友信息
+            case PushAddFriend:
+                [self handleNewFriend:dic];
+                break;
+                //如果是状态回复消息
+            case PushNewsAnwser:
+                [self handleNewsPush:dic];
+                break;
+                //如果是二级回复消息
+            case PushSecondComment:
+                [self handleNewsPush:dic];
+                break;
+                //如果是点赞
+            case PushLikeNews:
+                [self handleNewsPush:dic];
+                break;
+                
+            default:
+                break;
+        }
     }
-    
-    NSInteger type = [dic[@"type"] intValue];
-    
-    switch (type) {
-        //如果是添加好友信息
-        case PushAddFriend:
-            [self handleNewFriend:dic];
-            break;
-            //如果是状态回复消息
-        case PushNewsAnwser:
-            [self handleNewsPush:dic];
-            break;
-            //如果是二级回复消息
-        case PushSecondComment:
-            [self handleNewsPush:dic];
-            break;
-            //如果是点赞
-        case PushLikeNews:
-            [self handleNewsPush:dic];
-            break;
-            
-        default:
-            break;
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
     }
     
 }

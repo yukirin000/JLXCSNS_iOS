@@ -95,14 +95,14 @@
     self.segmentedControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:ColorBrown], NSFontAttributeName : [UIFont systemFontOfSize:FontNavBarTitle]};
     
 
-    self.chatUnreadLabel.frame                 = CGRectMake(0, 0, 12, 12);
-    self.chatUnreadLabel.layer.cornerRadius    = 6;
+    self.chatUnreadLabel.frame                 = CGRectMake(5, 5, 6, 6);
+    self.chatUnreadLabel.layer.cornerRadius    = 3;
     self.chatUnreadLabel.layer.masksToBounds   = YES;
     self.chatUnreadLabel.backgroundColor       = [UIColor redColor];
     self.chatUnreadLabel.textAlignment         = NSTextAlignmentCenter;
 
-    self.notifyUnreadLabel.frame               = CGRectMake(60, 0, 12, 12);
-    self.notifyUnreadLabel.layer.cornerRadius  = 6;
+    self.notifyUnreadLabel.frame               = CGRectMake(65, 5, 6, 6);
+    self.notifyUnreadLabel.layer.cornerRadius  = 3;
     self.notifyUnreadLabel.layer.masksToBounds = YES;
     self.notifyUnreadLabel.backgroundColor     = [UIColor redColor];
     self.notifyUnreadLabel.textAlignment       = NSTextAlignmentCenter;

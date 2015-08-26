@@ -11,18 +11,25 @@
 #import <MAMapKit/MAMapKit.h>
 #import "YunBaService.h"
 #import <SMS_SDK/SMS_SDK.h>
-
+#import "MobClick.h"
+#import "ZWIntroductionViewController.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) ZWIntroductionViewController * launchVC;
 
 @end
 
 @implementation AppDelegate
 
+#define Launch @"JLXCLaunch10"
+
 #pragma mark Application lifecycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor colorWithHexString:ColorYellow];
+    [self.window makeKeyAndVisible];
     
     //初始化主页
     LoginViewController * vc       = [LoginViewController new];
@@ -30,20 +37,31 @@
     UINavigationController * nav   = [[UINavigationController alloc] initWithRootViewController:vc];
     self.window.rootViewController = nav;
     
+    NSString * launch = [[NSUserDefaults standardUserDefaults] objectForKey:Launch];
+    if (launch == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:Launch];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        NSArray *coverImageNames = @[@"guide_page1", @"guide_page2", @"guide_page3"];
+        self.launchVC            = [[ZWIntroductionViewController alloc] initWithCoverImageNames:coverImageNames backgroundImageNames:nil];
+        [self.window addSubview:self.launchVC.view];
+        __weak typeof(self) sself      = self;
+        self.launchVC.didSelectedEnter = ^() {
+            [UIView animateWithDuration:0.5 animations:^{
+                sself.launchVC.view.alpha = 0;
+            } completion:^(BOOL finished) {
+                [sself.launchVC.view removeFromSuperview];
+                sself.launchVC = nil;
+            }];
+        };
+    }
+    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     //Status不隐藏
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
-    //708cb4915a090ac04ee8888c5b1c810e
-    //高德地图
-//    NSString * APIKey = GAODE_AppKey;
-//    if ([APIKey length] == 0)
-//    {
-//        NSString *reason   = [NSString stringWithFormat:@"apiKey为空，请检查key是否正确设置。"];
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:reason delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//        [alert show];
-//    }
-    
+    //友盟
+    [self umengTrack];
     //高德地图
     [MAMapServices sharedServices].apiKey = GAODE_AppKey;
     //初始化融云SDK
@@ -51,7 +69,6 @@
     [[RCIM sharedRCIM] setGlobalConversationAvatarStyle:RC_USER_AVATAR_RECTANGLE];
     [[RCIM sharedRCIM] setGlobalMessageAvatarStyle:RC_USER_AVATAR_RECTANGLE];
     
-//    [RCIM sharedRCIM].messageBeep = YES;
     //云巴推送
     [YunBaService setupWithAppkey:YunBa_AppKey];
     
@@ -74,8 +91,6 @@
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     }
 
-    self.window.backgroundColor = [UIColor grayColor];
-    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -93,6 +108,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
      If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
      */
+    [YunBaService close];
 }
 
 
@@ -100,6 +116,8 @@
     /*
      Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
      */
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [YunBaService setup];
 }
 
 
@@ -116,6 +134,10 @@
      See also applicationDidEnterBackground:.
      */
 }
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
 
 // for device token
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -128,6 +150,16 @@
             debugLog(@"store device token to YunBa failed due to : %@, recovery suggestion: %@", error, [error localizedRecoverySuggestion]);
         }
     }];
+    
+    NSString * deviceTokenStr = deviceToken.description;
+    if ([deviceTokenStr hasPrefix:@"<"]) {
+        deviceTokenStr = [deviceTokenStr substringFromIndex:1];
+    }
+    if ([deviceTokenStr hasSuffix:@">"]) {
+        deviceTokenStr = [deviceTokenStr substringToIndex:deviceTokenStr.length-1];
+    }
+    deviceTokenStr = [deviceTokenStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    [[RCIMClient sharedRCIMClient] setDeviceToken:deviceTokenStr];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error {
@@ -167,4 +199,22 @@
         NSLog(@"onGetPermissionState %d",iError);
     }
 }
+
+//友盟统计
+- (void)umengTrack {
+    [MobClick setCrashReportEnabled:YES]; // 如果不需要捕捉异常，注释掉此行
+    //    [MobClick setLogEnabled:YES];  // 打开友盟sdk调试，注意Release发布时需要注释掉此行,减少io消耗
+    [MobClick setAppVersion:XcodeAppVersion]; //参数为NSString * 类型,自定义app版本信息，如果不设置，默认从CFBundleVersion里取
+    //
+    [MobClick startWithAppkey:UMENG_AppKey reportPolicy:(ReportPolicy) REALTIME channelId:nil];
+    //   reportPolicy为枚举类型,可以为 REALTIME, BATCH,SENDDAILY,SENDWIFIONLY几种
+    //   channelId 为NSString * 类型，channelId 为nil或@""时,默认会被被当作@"App Store"渠道
+    
+    //      [MobClick checkUpdate];   //自动更新检查, 如果需要自定义更新请使用下面的方法,需要接收一个(NSDictionary *)appInfo的参数
+    //    [MobClick checkUpdateWithDelegate:self selector:@selector(updateMethod:)];
+    
+    [MobClick updateOnlineConfig];  //在线参数配置
+    
+}
+
 @end

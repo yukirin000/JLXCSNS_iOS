@@ -66,14 +66,14 @@
         debugLog(@"==================================Rong fail:%ld", status);
 //        [self setIMToken:[UserService sharedService].user.im_token];
     } tokenIncorrect:^{
-        [self setIMToken:[UserService sharedService].user.im_token];
+//        [self setIMToken:[UserService sharedService].user.im_token];
     }];
 
 }
 
 - (void) closeClient
 {
-    [[RCIM sharedRCIM] disconnect];
+    [[RCIM sharedRCIM] logout];
 }
 
 -(void) syncGroups
@@ -196,21 +196,22 @@
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left
 {
     
-    if ([message.content isMemberOfClass:[RCContactNotificationMessage class]]) {
-        
-        //踢出聊天室
-        RCContactNotificationMessage * nmessage = (RCContactNotificationMessage *)message.content;
-        debugLog(@"newMessage。。。。。。。。。。。。。。。。。%@", nmessage.message);
-        //被踢出前缀
-        if ([nmessage.message hasPrefix:@"kick_"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_QUIT_CHATROOM object:nmessage.message];
-        }
-        
-    }
-    
+//    if ([message.content isMemberOfClass:[RCContactNotificationMessage class]]) {
+//        
+//        //踢出聊天室
+//        RCContactNotificationMessage * nmessage = (RCContactNotificationMessage *)message.content;
+//        debugLog(@"newMessage。。。。。。。。。。。。。。。。。%@", nmessage.message);
+//        //被踢出前缀
+//        if ([nmessage.message hasPrefix:@"kick_"]) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_QUIT_CHATROOM object:nmessage.message];
+//        }
+//        
+//    }
+    debugLog(@"%@", message);
     //顶部刷新
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_MESSAGE_REFRESH object:nil];
-    
+    //徽标刷新
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_TAB_BADGE object:nil];
     //    if ([message.content isKindOfClass:[RCTextMessage class]]) {
     //        RCTextMessage * m = (RCTextMessage *)message.content;
     //        debugLog(@"!!!!!%@  %d", m.content, left);
