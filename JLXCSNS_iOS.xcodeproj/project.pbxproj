@@ -73,6 +73,8 @@
 		4249E2AD1B81C78100F01B77 /* LaunchImage-568@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249E2AB1B81C78100F01B77 /* LaunchImage-568@2x.png */; };
 		4249F76A1B16B127002A37A2 /* OldFriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4249F7691B16B127002A37A2 /* OldFriendsListViewController.m */; };
 		4249F76E1B16BA79002A37A2 /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4249F76D1B16BA79002A37A2 /* HMSegmentedControl.m */; };
+		424B00951B8EC72A00D41861 /* delete_btn_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 424B00931B8EC72A00D41861 /* delete_btn_normal@2x.png */; };
+		424B00961B8EC72A00D41861 /* delete_btn_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 424B00941B8EC72A00D41861 /* delete_btn_press@2x.png */; };
 		424B22CB1B1ECD0A00E5BC71 /* ChineseToPinyinResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 424B22BF1B1ECD0A00E5BC71 /* ChineseToPinyinResource.m */; };
 		424B22CC1B1ECD0A00E5BC71 /* HanyuPinyinOutputFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 424B22C11B1ECD0A00E5BC71 /* HanyuPinyinOutputFormat.m */; };
 		424B22CD1B1ECD0A00E5BC71 /* NSString+PinYin4Cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 424B22C31B1ECD0A00E5BC71 /* NSString+PinYin4Cocoa.m */; };
@@ -301,7 +303,6 @@
 		4290EB881B2964E300480D9C /* CreateChatRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290EB871B2964E300480D9C /* CreateChatRoomViewController.m */; };
 		4290EB8B1B2964F100480D9C /* CreateChatRoomTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290EB8A1B2964F100480D9C /* CreateChatRoomTagViewController.m */; };
 		42967EFB1B0C8E51003FE483 /* PersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42967EF91B0C8E51003FE483 /* PersonalViewController.m */; };
-		42997BB61B036D3800DDA3B5 /* RegisterInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42997BB41B036D3800DDA3B5 /* RegisterInformationViewController.xib */; };
 		42997BBC1B03735400DDA3B5 /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 42997BBB1B03735400DDA3B5 /* ImageHelper.m */; };
 		429C6E221B82CA6800776C9D /* login_back_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 429C6E211B82CA6800776C9D /* login_back_image@2x.png */; };
 		429C6E251B82CC8800776C9D /* UIColor+Hexadecimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 429C6E241B82CC8800776C9D /* UIColor+Hexadecimal.m */; };
@@ -465,6 +466,8 @@
 		4249F7691B16B127002A37A2 /* OldFriendsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldFriendsListViewController.m; sourceTree = "<group>"; };
 		4249F76C1B16BA79002A37A2 /* HMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControl.h; sourceTree = "<group>"; };
 		4249F76D1B16BA79002A37A2 /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControl.m; sourceTree = "<group>"; };
+		424B00931B8EC72A00D41861 /* delete_btn_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_btn_normal@2x.png"; sourceTree = "<group>"; };
+		424B00941B8EC72A00D41861 /* delete_btn_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_btn_press@2x.png"; sourceTree = "<group>"; };
 		424B22BE1B1ECD0A00E5BC71 /* ChineseToPinyinResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyinResource.h; sourceTree = "<group>"; };
 		424B22BF1B1ECD0A00E5BC71 /* ChineseToPinyinResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyinResource.m; sourceTree = "<group>"; };
 		424B22C01B1ECD0A00E5BC71 /* HanyuPinyinOutputFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HanyuPinyinOutputFormat.h; sourceTree = "<group>"; };
@@ -819,7 +822,6 @@
 		4290EB8A1B2964F100480D9C /* CreateChatRoomTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateChatRoomTagViewController.m; sourceTree = "<group>"; };
 		42967EF81B0C8E51003FE483 /* PersonalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalViewController.h; sourceTree = "<group>"; };
 		42967EF91B0C8E51003FE483 /* PersonalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalViewController.m; sourceTree = "<group>"; };
-		42997BB41B036D3800DDA3B5 /* RegisterInformationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterInformationViewController.xib; sourceTree = "<group>"; };
 		42997BBA1B03735400DDA3B5 /* ImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageHelper.h; sourceTree = "<group>"; };
 		42997BBB1B03735400DDA3B5 /* ImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageHelper.m; sourceTree = "<group>"; };
 		429C6E211B82CA6800776C9D /* login_back_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_back_image@2x.png"; sourceTree = "<group>"; };
@@ -1049,7 +1051,6 @@
 				4243DF921B024A9D0050357F /* ChoiceSchoolViewController.h */,
 				4243DF931B024A9D0050357F /* ChoiceSchoolViewController.m */,
 				42A65C0F1B05EC810026E1F3 /* Empty.xib */,
-				42997BB41B036D3800DDA3B5 /* RegisterInformationViewController.xib */,
 				425E0CE21B0C67EA00F0E0F1 /* LeftPersonalViewController.h */,
 				425E0CE31B0C67EA00F0E0F1 /* LeftPersonalViewController.m */,
 				4251739E1B32B446005FAFA9 /* MyCardViewController.h */,
@@ -1351,6 +1352,8 @@
 		4257A6971B85BFCC002507C6 /* news */ = {
 			isa = PBXGroup;
 			children = (
+				424B00931B8EC72A00D41861 /* delete_btn_normal@2x.png */,
+				424B00941B8EC72A00D41861 /* delete_btn_press@2x.png */,
 				4234E61F1B8C4AB100823B68 /* campus_background@2x.png */,
 				4234E6191B8C400D00823B68 /* location_content_image@2x.png */,
 				4234E6171B8C37D500823B68 /* publish_add_btn@2x.png */,
@@ -2228,6 +2231,7 @@
 				TargetAttributes = {
 					4269CFE01AFCB6B100591053 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 7UC3L24GXB;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -2307,7 +2311,6 @@
 				4240CF2B1B8484B4002B09E2 /* comment_border_view@2x.png in Resources */,
 				425AC91B1B871DBD007EC6B8 /* register_sex_girl_selected@2x.png in Resources */,
 				4249E2AC1B81C78100F01B77 /* LaunchImage-480@2x.png in Resources */,
-				42997BB61B036D3800DDA3B5 /* RegisterInformationViewController.xib in Resources */,
 				4249E2991B81C16400F01B77 /* Icon-60.png in Resources */,
 				4257A69C1B85BFCC002507C6 /* alert_dialog_confirm_btn_normal@2x.png in Resources */,
 				425164FF1B8D64BF007FC136 /* loading7@2x.png in Resources */,
@@ -2338,6 +2341,7 @@
 				4249E2A71B81C16400F01B77 /* Icon-Small@3x.png in Resources */,
 				4249E2A31B81C16400F01B77 /* Icon-Small-50.png in Resources */,
 				4257A6A01B85BFCC002507C6 /* default_avatar@2x.png in Resources */,
+				424B00961B8EC72A00D41861 /* delete_btn_press@2x.png in Resources */,
 				4240CF141B842543002B09E2 /* sex_boy@2x.png in Resources */,
 				4257A6731B857946002507C6 /* LaunchImage-375@2x.png in Resources */,
 				4270A6F41B8877D4000F8B75 /* like_icon@2x.png in Resources */,
@@ -2372,6 +2376,7 @@
 				425173931B32A378005FAFA9 /* ScanQR2@2x.png in Resources */,
 				424D26911B032C2A0065F859 /* AMap.bundle in Resources */,
 				4240CF281B8460E9002B09E2 /* setting_btn_selected@2x.png in Resources */,
+				424B00951B8EC72A00D41861 /* delete_btn_normal@2x.png in Resources */,
 				4270A6F21B885A4B000F8B75 /* location@2x.png in Resources */,
 				4249E29A1B81C16400F01B77 /* Icon-60@2x.png in Resources */,
 				425164E11B8D64BF007FC136 /* loading12@2x.png in Resources */,
@@ -2764,7 +2769,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib",
 					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib/GPU",
-					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib/Rong_Cloud_iOS_SDK_v2_1_3_stable",
 					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib/Rong_Cloud_iOS_SDK",
 					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib/SMS_SDK",
 				);
@@ -2800,7 +2804,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib",
 					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib/GPU",
-					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib/Rong_Cloud_iOS_SDK_v2_1_3_stable",
 					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib/Rong_Cloud_iOS_SDK",
 					"$(PROJECT_DIR)/JLXCSNS_iOS/App/ThirdParty/lib/SMS_SDK",
 				);

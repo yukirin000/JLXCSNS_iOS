@@ -23,6 +23,7 @@
 #import "OtherPersonalViewController.h"
 #import "LikeListViewController.h"
 #import "NewsUtils.h"
+#import "YSAlertView.h"
 
 @interface NewsDetailViewController ()<NewsCommentDelegate,HPGrowingTextViewDelegate>
 
@@ -768,6 +769,20 @@
                 }
             }
             
+            //如果是自己柯以删除
+            if ([UserService sharedService].user.uid == news.uid) {
+                //右上角设置
+                __weak typeof(self) weakSelf = self;
+                [self.navBar setRightBtnWithContent:@"" andBlock:^{
+                    [weakSelf deleteNewsClick:weakSelf.news];
+                }];
+                [self.navBar.rightBtn setImage:[UIImage imageNamed:@"delete_btn_normal"] forState:UIControlStateNormal];
+                [self.navBar.rightBtn setImage:[UIImage imageNamed:@"delete_btn_press"] forState:UIControlStateHighlighted];
+                self.navBar.rightBtn.hidden = NO;
+            }else{
+                self.navBar.rightBtn.hidden = YES;
+            }
+            
             self.news = news;
             [self initTable];
         }else{
@@ -891,6 +906,37 @@
         [self showWarn:StringCommonNetException];
     }];
 }
+
+
+/*! 删除该条状态*/
+- (void)deleteNewsClick:(NewsModel *)news
+{
+    
+    YSAlertView * alert = [[YSAlertView alloc] initWithTitle:@"确认要删除吗？" contentText:nil leftButtonTitle:StringCommonConfirm rightButtonTitle:StringCommonCancel showView:self.view];
+    [alert setLeftBlock:^{
+        NSDictionary * params = @{@"news_id":[NSString stringWithFormat:@"%ld", news.nid]};
+        debugLog(@"%@ %@", kDeleteNewsListPath, params);
+        [self showLoading:@"删除中"];
+        
+        [HttpService postWithUrlString:kDeleteNewsListPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
+            int status = [responseData[HttpStatus] intValue];
+            if (status == HttpStatusCodeSuccess) {
+                [self showComplete:responseData[HttpMessage]];
+                //发送发送成功通知
+                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_PUBLISH_NEWS object:nil];
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                
+                [self showWarn:responseData[HttpMessage]];
+            }
+        } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self showWarn:StringCommonNetException];
+        }];
+    }];
+    [alert show];
+    
+}
+
 
 - (CGFloat)getHeadNewsHeight
 {

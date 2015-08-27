@@ -124,7 +124,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 220;
+    return 225;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -197,17 +197,22 @@
     headBackView.showsHorizontalScrollIndicator = NO;
     headBackView.contentSize                    = CGSizeMake(10+45*self.studentList.count, 0);
     
+    //线
+    UIView * coarseLine           = [[UIView alloc] initWithFrame:CGRectMake(0, headBackView.bottom, self.viewWidth, 5)];
+    coarseLine.backgroundColor    = [UIColor colorWithHexString:ColorLightWhite];
+    [backView addSubview:coarseLine];
+
     //提示标签
     CustomLabel * newsListLabel   = [[CustomLabel alloc] initWithFontSize:14];
     newsListLabel.backgroundColor = [UIColor colorWithHexString:ColorWhite];
     newsListLabel.textColor       = [UIColor colorWithHexString:ColorDeepBlack];
-    newsListLabel.frame           = CGRectMake(0, headBackView.bottom, self.viewWidth, 25);
+    newsListLabel.frame           = CGRectMake(0, coarseLine.bottom, self.viewWidth, 25);
     newsListLabel.text            = @"  帅锅美女们的日常  (•ㅂ•)/";
     [backView addSubview:newsListLabel];
-    
+
     //线
-    UIView * bottomLine        = [[UIView alloc] initWithFrame:CGRectMake(0, newsListLabel.bottom, self.viewWidth, 1)];
-    bottomLine.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    UIView * bottomLine           = [[UIView alloc] initWithFrame:CGRectMake(0, newsListLabel.bottom, self.viewWidth, 1)];
+    bottomLine.backgroundColor    = [UIColor colorWithHexString:ColorLightWhite];
     [backView addSubview:bottomLine];
     
     return backView;

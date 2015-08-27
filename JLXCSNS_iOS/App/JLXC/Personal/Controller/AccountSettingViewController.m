@@ -53,6 +53,7 @@
         //清空
         [[UserService sharedService] clear];
         [[RCDRCIMDataSource shareInstance] closeClient];
+        [[PushService sharedInstance] logout];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     [alert show];

@@ -58,6 +58,7 @@
 
 - (void)setIMToken:(NSString *)imToken
 {
+    
     [[RCIM sharedRCIM] connectWithToken:imToken success:^(NSString *userId) {
         // Connect 成功
         debugLog(@"==================================Rong userID:%@", userId);
@@ -207,7 +208,7 @@
 //        }
 //        
 //    }
-    debugLog(@"%@", message);
+//    debugLog(@"%@", message);
     //顶部刷新
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_MESSAGE_REFRESH object:nil];
     //徽标刷新

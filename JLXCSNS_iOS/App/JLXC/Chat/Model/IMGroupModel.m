@@ -74,7 +74,7 @@
  */
 + (NSMutableArray *)findThreeNewFriends
 {
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_group WHERE type=1 AND owner='%ld' AND currentState=0 and isNew=1 and isRead=0 ORDER BY addDate DESC LIMIT 3", [UserService sharedService].user.uid];
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_group WHERE type=1 AND owner='%ld' and isNew=1 and isRead=0 ORDER BY addDate DESC LIMIT 3", [UserService sharedService].user.uid];
     return [IMGroupModel findBySql:sql];
 }
 
@@ -97,7 +97,7 @@
  */
 + (NSInteger)unReadNewFriendsCount
 {
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_group WHERE type=1 AND owner='%ld' AND currentState=0 and isNew=1 and isRead=0", [UserService sharedService].user.uid];
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_group WHERE type=1 AND owner='%ld' and isNew=1 and isRead=0", [UserService sharedService].user.uid];
     return [IMGroupModel findBySql:sql].count;
 }
 

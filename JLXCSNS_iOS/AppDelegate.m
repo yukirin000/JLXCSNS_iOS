@@ -22,7 +22,7 @@
 
 @implementation AppDelegate
 
-#define Launch @"JLXCLaunch10"
+#define Launch @"JLXCLaunch1"
 
 #pragma mark Application lifecycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -30,6 +30,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor colorWithHexString:ColorYellow];
     [self.window makeKeyAndVisible];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
     //初始化主页
     LoginViewController * vc       = [LoginViewController new];
@@ -142,7 +144,7 @@
 // for device token
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     debugLog(@"get Device Token: %@", [NSString stringWithFormat:@"=====================Device Token: %@", deviceToken]);
-    // uncomment to store device token to YunBa
+    // uncomment to store device token to YunBa 26bec6bef14344f7a8c726001469e261b0586359f64aed8ecc90ed21264fc714
     [YunBaService storeDeviceToken:deviceToken resultBlock:^(BOOL succ, NSError *error) {
         if (succ) {
             debugLog(@"store device token to YunBa succ");

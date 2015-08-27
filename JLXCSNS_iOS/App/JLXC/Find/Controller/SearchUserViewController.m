@@ -64,6 +64,8 @@
 #pragma mark- layout
 - (void)configUI
 {
+    [self setNavBarTitle:@"搜索"];
+    
     self.refreshTableView.frame = CGRectMake(0, kNavBarAndStatusHeight, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight);
     self.refreshTableView.bottomLoading = @"请输入搜索内容.....";
     [self.refreshTableView canLoadingMore];

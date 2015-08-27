@@ -120,6 +120,11 @@ static PushService *_shareInstance=nil;
     }];
 }
 
+- (void)logout
+{
+    [YunBaService close];
+}
+
 //添加好友 推送发送 弃用
 //- (void)pushAddFriendMessageWithTargetID:(NSString *)topic
 //{
@@ -219,14 +224,17 @@ static PushService *_shareInstance=nil;
     push.is_read         = NO;
     push.push_time       = pushDic[@"push_time"];
     push.owner           = [UserService sharedService].user.uid;
-    [push save];
     
-    //发送通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_NEWS_PUSH object:nil];
-    //徽标跟新
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_TAB_BADGE object:nil];
-    //顶部刷新
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_MESSAGE_REFRESH object:nil];
+    if (![push isExist]) {
+        
+        [push save];
+        //发送通知
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_NEWS_PUSH object:nil];
+        //徽标跟新
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_TAB_BADGE object:nil];
+        //顶部刷新
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_MESSAGE_REFRESH object:nil];
+    }
 
 }
 

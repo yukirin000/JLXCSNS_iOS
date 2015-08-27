@@ -148,7 +148,7 @@
     [self.locationBtn setTitleColor:[UIColor colorWithHexString:ColorLightBlue] forState:UIControlStateNormal];
     [self.locationBtn setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
     self.locationBtn.titleLabel.font            = [UIFont systemFontOfSize:14];
-    self.locationBtn.frame                      = CGRectMake(self.nameLabel.x+10, 0, 190, 20);
+    self.locationBtn.frame                      = CGRectMake(self.headImageBtn.x, 0, 190, 20);
     self.locationBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     //时间
     self.timeLabel.frame                  = CGRectMake(self.headImageBtn.x, 0, 250, 20);
@@ -278,6 +278,7 @@
         [self.locationBtn setTitle:locationTitle forState:UIControlStateNormal];
         self.locationBtn.y                        = bottomPosition+5;
         bottomPosition                            = self.locationBtn.bottom;
+        self.locationBtn.hidden = NO;
     }else{
         self.locationBtn.hidden = YES;
     }

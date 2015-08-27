@@ -38,6 +38,16 @@
     [[DatabaseService sharedInstance] executeUpdate:sql];
 }
 
+- (BOOL)isExist
+{
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM jlxc_news_push WHERE news_id='%ld' and uid='%ld' and push_time='%@';", self.news_id, self.uid, self.push_time];
+    if ([NewsPushModel findBySql:sql].count > 0) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 + (void)removeAll
 {
     NSString *sql = [NSString stringWithFormat:@"DELETE FROM jlxc_news_push"];

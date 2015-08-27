@@ -78,6 +78,11 @@ enum {
 - (void)remove;
 
 /**
+ * 是否存在 如果存在则是重复推送不接受
+ */
+- (BOOL)isExist;
+
+/**
  * 删除全部
  */
 + (void)removeAll;
@@ -86,7 +91,6 @@ enum {
  * 设置已读
  */
 + (void)setIsRead;
-
 
 /**
  * 从数据库中查出所有的通知

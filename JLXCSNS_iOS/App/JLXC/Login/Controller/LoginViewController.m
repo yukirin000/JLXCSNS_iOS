@@ -90,8 +90,6 @@
     self.loginBtn.backgroundColor             = [UIColor colorWithHexString:ColorYellow];
     [self.loginBtn setTitle:@"登录/注册" forState:UIControlStateNormal];
     
-    self.loginTextField.text         = @"18888888888";
-    
 }
 
 #pragma mark- event Response

@@ -124,6 +124,8 @@
     }
     if (model.imageArr.count > 0) {
         self.bottomLineView.y = 75+itemWidth;
+    }else{
+        self.bottomLineView.y = 70;
     }
     //如果已经添加了
     if (model.addFriend == YES) {

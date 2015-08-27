@@ -103,8 +103,6 @@
     self.findPwdBtn.fontSize                     = 13;
     [self.findPwdBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.findPwdBtn setTitle:@"啊咧，忘记密码？" forState:UIControlStateNormal];
-    
-    self.passwordTextField.text                  = @"123456";
 }
 
 #pragma mark- override

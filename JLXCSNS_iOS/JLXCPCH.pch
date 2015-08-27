@@ -148,10 +148,10 @@
 #define UMENG_AppKey @"55d17f9ae0f55a1ddf003b08"
 //高德AppKey
 #define GAODE_AppKey @"85ce4620d649aa688513efb0d2f227b2"
-//融云AppKey
-#define Rong_AppKey @"lmxuhwagx83id"
-//云巴AppKey
-#define YunBa_AppKey @"55ab4554c75ecd535d69b955"
+//融云AppKey lmxuhwagx83id
+#define Rong_AppKey @"8brlm7ufr4fw3"
+//云巴AppKey 55ab4554c75ecd535d69b955
+#define YunBa_AppKey @"55c499f19477ebf5246955f3"
 //SMS AppKey
 #define SMS_AppKey @"94025949f2d3"
 //SMS AppSecurity

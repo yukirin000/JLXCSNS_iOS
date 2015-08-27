@@ -17,6 +17,9 @@
 //重新连接Push 重新登录的时候使用
 - (void)pushReconnect;
 
+//退出
+- (void)logout;
+
 /*!
     @brief 添加好友 推送通知发送
     @param topic 要推送的对象

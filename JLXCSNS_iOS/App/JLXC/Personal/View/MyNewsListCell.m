@@ -253,6 +253,7 @@
         NSString * locationTitle                  = [NSString stringWithFormat:@" %@", news.location];
         [self.locationBtn setTitle:locationTitle forState:UIControlStateNormal];
         self.locationBtn.y                        = bottomPosition+5;
+        self.locationBtn.hidden                   = NO;
         bottomPosition                            = self.locationBtn.bottom;
     }else{
         self.locationBtn.hidden = YES;
