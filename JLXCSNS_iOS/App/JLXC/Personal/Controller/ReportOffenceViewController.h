@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 /*! 举报页面*/
-@interface ReportOffenceViewController : BaseViewController<UITextViewDelegate>
+@interface ReportOffenceViewController : BaseViewController
 
 //要举报的人Id
 @property (nonatomic, assign) NSInteger reportUid;

@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
     
     [self initWidget];
     [self configUI];
@@ -46,12 +46,15 @@
 
 - (void)configUI
 {
-
-    self.placeHolderTextView.delegate = self;
-    self.confirmBtn.frame             = CGRectMake(kCenterOriginX(100), self.placeHolderTextView.bottom+30, 100, 30);
-    self.confirmBtn.backgroundColor   = [UIColor darkGrayColor];
+    [self setNavBarTitle:@"举报"];
     
+    self.confirmBtn.frame              = CGRectMake(kCenterOriginX(200), self.placeHolderTextView.bottom+30, 200, 30);
+    self.confirmBtn.backgroundColor    = [UIColor darkGrayColor];
+    self.confirmBtn.layer.cornerRadius = 3;
+    self.confirmBtn.fontSize           = FontLoginButton;
+    self.confirmBtn.backgroundColor    = [UIColor colorWithHexString:ColorYellow];
     [self.confirmBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [self.confirmBtn setTitleColor:[UIColor colorWithHexString:ColorBrown] forState:UIControlStateNormal];
     [self.confirmBtn addTarget:self action:@selector(confirmReport:) forControlEvents:UIControlEventTouchUpInside];
     
 }

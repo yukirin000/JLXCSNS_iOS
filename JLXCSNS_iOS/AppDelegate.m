@@ -70,7 +70,6 @@
     [[RCIM sharedRCIM] initWithAppKey:Rong_AppKey];
     [[RCIM sharedRCIM] setGlobalConversationAvatarStyle:RC_USER_AVATAR_RECTANGLE];
     [[RCIM sharedRCIM] setGlobalMessageAvatarStyle:RC_USER_AVATAR_RECTANGLE];
-    
     //云巴推送
     [YunBaService setupWithAppkey:YunBa_AppKey];
     
