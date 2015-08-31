@@ -91,7 +91,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NewsModel * news          = self.dataArr[indexPath.row];
-    CGSize contentSize        = [ToolsManager getSizeWithContent:news.content_text andFontSize:16 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
+    CGSize contentSize        = [ToolsManager getSizeWithContent:news.content_text andFontSize:16 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-65, MAXFLOAT)];
     if (news.content_text == nil || news.content_text.length < 1) {
         contentSize.height = 0;
     }
@@ -120,7 +120,6 @@
         //减去第一行的10
         height           -= 10;
     }
-
     //地址
     if (news.location.length > 0) {
         height += 25;

@@ -193,7 +193,7 @@
     self.contentLabel.text   = news.content_text;
     
     //底部位置
-    NSInteger bottomPosition = self.contentLabel.bottom ;
+    CGFloat bottomPosition = self.contentLabel.bottom ;
     
     //图片处理
     if (news.image_arr.count == 1) {
@@ -258,7 +258,6 @@
     }else{
         self.locationBtn.hidden = YES;
     }
-    
     //背景
     self.midImageView.height     = bottomPosition - self.midImageView.y;
     self.bottomImageView.y       = self.midImageView.bottom;

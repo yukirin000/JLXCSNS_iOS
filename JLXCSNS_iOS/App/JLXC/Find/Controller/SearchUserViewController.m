@@ -126,7 +126,7 @@
         //头像
         CustomImageView * imageView  = [[CustomImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
         imageView.backgroundColor    = [UIColor grayColor];
-        [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:find.head_sub_image]]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:find.head_sub_image]] placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
         [cell.contentView addSubview:imageView];
         
         //昵称
@@ -146,16 +146,11 @@
         addBtn.frame            = CGRectMake(self.viewWidth-60, 15, 50, 30);
         //如果已经添加了
         if (find.is_friend == GroupHasAdd) {
-            addBtn.backgroundColor = [UIColor darkGrayColor];
-            [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [addBtn setTitle:@"已添加" forState:UIControlStateNormal];
+            [addBtn setImage:[UIImage imageNamed:@"friend_btn_isadd"] forState:UIControlStateNormal];
+            addBtn.enabled = NO;
         }else{
-            addBtn.backgroundColor = [UIColor yellowColor];
-            addBtn.tag             = indexPath.row;
-            [addBtn addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
-            [addBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [addBtn setTitle:@"添加" forState:UIControlStateNormal];
-            
+            addBtn.enabled = YES;
+            [addBtn setImage:[UIImage imageNamed:@"friend_btn_add"] forState:UIControlStateNormal];
         }
         
         [cell.contentView addSubview:addBtn];

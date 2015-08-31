@@ -30,7 +30,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor colorWithHexString:ColorYellow];
     [self.window makeKeyAndVisible];
-    
+
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
     //初始化主页
