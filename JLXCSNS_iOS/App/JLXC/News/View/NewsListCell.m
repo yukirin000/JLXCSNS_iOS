@@ -108,41 +108,52 @@
         [self.likeBtn addTarget:self action:@selector(sendLikeClick) forControlEvents:UIControlEventTouchUpInside];
         //点赞的人列表
         [self.likePeopleBtn addTarget:self action:@selector(likePeopleListClick:) forControlEvents:UIControlEventTouchUpInside];
+        //长按内容复制
+        UILongPressGestureRecognizer * ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressCopy:)];
+        [self.contentLabel addGestureRecognizer:ges];
+        
         [self configUI];
     }
     
     return self;
 }
+#pragma mark- override
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
 
+#pragma mark- layout
 - (void)configUI
 {
-//    self.selectionStyle                   = UITableViewCellSelectionStyleNone;
+    self.selectionStyle                      = UITableViewCellSelectionStyleNone;
     
     //头像
-    self.headImageBtn.frame               = CGRectMake(12, 10, 45, 45);
-    self.headImageBtn.layer.cornerRadius  = 2;
-    self.headImageBtn.layer.masksToBounds = YES;
+    self.headImageBtn.frame                  = CGRectMake(12, 10, 45, 45);
+    self.headImageBtn.layer.cornerRadius     = 2;
+    self.headImageBtn.layer.masksToBounds    = YES;
     //姓名
-    self.nameLabel.frame                  = CGRectMake(self.headImageBtn.right+10, self.headImageBtn.y, 0, 20);
-    self.nameLabel.font                   = [UIFont systemFontOfSize:FontListName];
-    self.nameLabel.textColor              = [UIColor colorWithHexString:ColorDeepBlack];
+    self.nameLabel.frame                     = CGRectMake(self.headImageBtn.right+10, self.headImageBtn.y, 0, 20);
+    self.nameLabel.font                      = [UIFont systemFontOfSize:FontListName];
+    self.nameLabel.textColor                 = [UIColor colorWithHexString:ColorDeepBlack];
 
-    self.descLabel.font                    = [UIFont systemFontOfSize:11];
-    self.descLabel.textColor               = [UIColor colorWithHexString:ColorFlesh];
+    self.descLabel.font                      = [UIFont systemFontOfSize:11];
+    self.descLabel.textColor                 = [UIColor colorWithHexString:ColorFlesh];
     //学校
-    CustomImageView * schoolImageView      = [[CustomImageView alloc] init];
-    schoolImageView.frame                  = CGRectMake(self.headImageBtn.right+10, self.nameLabel.bottom+7, 15, 15);
-    schoolImageView.image                  = [UIImage imageNamed:@"school_icon"];
+    CustomImageView * schoolImageView        = [[CustomImageView alloc] init];
+    schoolImageView.frame                    = CGRectMake(self.headImageBtn.right+10, self.nameLabel.bottom+7, 15, 15);
+    schoolImageView.image                    = [UIImage imageNamed:@"school_icon"];
     [self.contentView addSubview:schoolImageView];
-    
-    self.schoolLabel.frame                = CGRectMake(schoolImageView.right+3, schoolImageView.y-3, 250, 20);
-    self.schoolLabel.font                 = [UIFont systemFontOfSize:13];
-    self.schoolLabel.textColor            = [UIColor colorWithHexString:ColorGary];
-    
-    self.contentLabel.frame               = CGRectMake(self.headImageBtn.x, self.headImageBtn.bottom+5, [DeviceManager getDeviceWidth]-30, 0);
-    self.contentLabel.numberOfLines       = 0;
-    self.contentLabel.font                = [UIFont systemFontOfSize:15];
-    self.contentLabel.textColor           = [UIColor colorWithHexString:ColorDeepBlack];
+
+    self.schoolLabel.frame                   = CGRectMake(schoolImageView.right+3, schoolImageView.y-3, 250, 20);
+    self.schoolLabel.font                    = [UIFont systemFontOfSize:13];
+    self.schoolLabel.textColor               = [UIColor colorWithHexString:ColorGary];
+
+    self.contentLabel.frame                  = CGRectMake(self.headImageBtn.x, self.headImageBtn.bottom+5, [DeviceManager getDeviceWidth]-30, 0);
+    self.contentLabel.userInteractionEnabled = YES;
+    self.contentLabel.numberOfLines          = 0;
+    self.contentLabel.font                   = [UIFont systemFontOfSize:15];
+    self.contentLabel.textColor              = [UIColor colorWithHexString:ColorDeepBlack];
     
     //地理位置
     [self.locationBtn setTitleColor:[UIColor colorWithHexString:ColorLightBlue] forState:UIControlStateNormal];
@@ -208,7 +219,6 @@
         NSString * content   = [NSString stringWithFormat:@" %@", news.typeDic[@"content"]];
         self.descLabel.text  = content;
     }
-
 
     //内容
     CGSize contentSize       = [ToolsManager getSizeWithContent:news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
@@ -388,7 +398,10 @@
         nameLabel.numberOfLines             = 0;
         nameLabel.frame                     = CGRectMake(self.headImageBtn.x, bottomPosition, nameSize.width, nameSize.height);
         [self.contentView addSubview:nameLabel];
-
+        //点击姓名手势
+        UITapGestureRecognizer * nameTap        = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nameCommentTap:)];
+        [nameLabel addGestureRecognizer:nameTap];
+        
         bottomPosition                      = commentLabel.bottom + 5;
         
         //插入
@@ -406,6 +419,39 @@
 {
     [self browsePersonalHome:self.news.uid];
 }
+
+//长按复制
+- (void)longPressCopy:(UILongPressGestureRecognizer *)longPress
+{
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        if ([self.delegate respondsToSelector:@selector(longPressContent:andGes:)]) {
+            [self.delegate longPressContent:self.news andGes:longPress];
+        }
+    }
+
+}
+
+
+//复制
+- (void)copyContnet:(id)sender
+{
+    //得到剪切板
+    UIPasteboard *board = [UIPasteboard generalPasteboard];
+    board.string        = self.news.content_text;
+    debugLog(@"%@",[UIPasteboard generalPasteboard].string);
+}
+//取消menu
+- (void)cancel:(id)sender
+{}
+
+//评论姓名点击
+- (void)nameCommentTap:(UITapGestureRecognizer *)tap
+{
+    NSArray * commentArr     = self.news.comment_arr;
+    CommentModel * model     = commentArr[tap.view.tag];
+    [self browsePersonalHome:model.user_id];
+}
+
 //点赞头像点击
 - (void)likeImageClick:(CustomButton *)btn
 {
