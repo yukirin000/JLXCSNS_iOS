@@ -232,7 +232,7 @@
 - (void)useCache
 {
     @try {
-        NSString * url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&frist_time=", kNewsListPath, self.currentPage, [UserService sharedService].user.uid];
+        NSString * url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&frist_time=0", kNewsListPath, self.currentPage, [UserService sharedService].user.uid];
         NSDictionary * dic = [HttpCache getCacheWithUrl:url];
         if (dic != nil) {
             NSArray * list = dic[HttpResult][HttpList];

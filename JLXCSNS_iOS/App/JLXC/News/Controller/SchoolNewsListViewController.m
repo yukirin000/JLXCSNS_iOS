@@ -380,7 +380,7 @@
 //使用缓存
 - (void)useCache
 {
-    NSString * url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&school_code=%@&frist_time=", kSchoolNewsListPath, self.currentPage, [UserService sharedService].user.uid, [UserService sharedService].user.school_code];
+    NSString * url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&school_code=%@&frist_time=0", kSchoolNewsListPath, self.currentPage, [UserService sharedService].user.uid, [UserService sharedService].user.school_code];
     NSDictionary * dic = [HttpCache getCacheWithUrl:url];
     if (dic != nil) {
         NSArray * list = dic[HttpResult][HttpList];
