@@ -18,6 +18,7 @@
 #define kHomeAddr @"http://www.90newtec.com/jlxc_php/index.php/Home/MobileApi"//115.28.4.154 Zwkxd0515
 //http://localhost/www/DemoThink/
 #define kTestPath [kHomeAddr stringByAppendingString:@"DemoThink/"]
+#define kUserProtocolPath @"http://www.90newtec.com/license.html"
 
 //http://localhost/www/test/index.php/Home/Index/testImage
 #define kDownLoadPath [kHomeAddr stringByAppendingString:@"test/index.php/Home/Index/testImage"]

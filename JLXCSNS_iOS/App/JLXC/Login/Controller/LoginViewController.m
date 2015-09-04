@@ -16,11 +16,14 @@
 #import "PersonalViewController.h"
 #import "CommonFriendsListViewController.h"
 #import "YSAlertView.h"
+#import "WebViewController.h"
 
 @interface LoginViewController ()
 
 @property(nonatomic, strong) CustomButton * loginBtn;
 @property(nonatomic, strong) CustomTextField * loginTextField;
+//免责声明
+@property(nonatomic, strong) CustomButton * protocolBtn;
 
 @end
 
@@ -53,12 +56,16 @@
     self.loginBtn       = [[CustomButton alloc] init];
     //登录textfield
     self.loginTextField = [[CustomTextField alloc] init];
+    //用户协议
+    self.protocolBtn    = [[CustomButton alloc] init];
     
     [self.view addSubview:self.loginBtn];
     [self.view addSubview:self.loginTextField];
+    [self.view addSubview:self.protocolBtn];
     
     //绑定事件
     [self.loginBtn addTarget:self action:@selector(nextLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.protocolBtn addTarget:self action:@selector(userProtocolPress:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)configUI
@@ -76,7 +83,7 @@
     self.loginTextField.textColor             = [UIColor colorWithHexString:ColorDeepBlack];
     self.loginTextField.tintColor             = [UIColor colorWithHexString:ColorLightBlack];
     self.loginTextField.keyboardType          = UIKeyboardTypeNumberPad;
-    
+
     //增加底部线
     UIView * lineView                         = [[UIView alloc] initWithFrame:CGRectMake(self.loginTextField.x, self.loginTextField.bottom, self.loginTextField.width, 1)];
     lineView.backgroundColor                  = [UIColor colorWithHexString:ColorWhite];
@@ -89,7 +96,15 @@
     self.loginBtn.fontSize                    = FontLoginButton;
     self.loginBtn.backgroundColor             = [UIColor colorWithHexString:ColorYellow];
     [self.loginBtn setTitle:@"登录/注册" forState:UIControlStateNormal];
-    
+
+    //用户协议
+    self.protocolBtn.frame                    = CGRectMake(kCenterOriginX(200), self.view.bottom-50, 200, 40);
+    self.protocolBtn.fontSize                 = 13;
+    self.protocolBtn.titleLabel.textColor     = [UIColor whiteColor];
+//    [self.protocolBtn setTitle:@"注册即表示同意《协议条款》" forState:UIControlStateNormal];
+    NSMutableAttributedString * protocolStr = [[NSMutableAttributedString alloc] initWithString:@"登录/注册即表示同意《服务协议》"];
+    [protocolStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:ColorDeepGary] range:NSMakeRange(10, 6)];
+    [self.protocolBtn setAttributedTitle:protocolStr forState:UIControlStateNormal];
 }
 
 #pragma mark- event Response
@@ -159,6 +174,13 @@
     }
     
     return YES;
+}
+#pragma mark- method response
+- (void)userProtocolPress:(id)sender
+{
+    WebViewController * wvc = [[WebViewController alloc] init];
+    wvc.webURL              = [NSURL URLWithString:kUserProtocolPath];
+    [self pushVC:wvc];
 }
 
 #pragma mark- privateMethod

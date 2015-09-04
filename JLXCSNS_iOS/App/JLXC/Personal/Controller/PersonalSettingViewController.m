@@ -12,7 +12,7 @@
 #import "SDWebImageManager.h"
 #import "AboutHelloHaViewController.h"
 #import "YSAlertView.h"
-
+#import "WebViewController.h"
 @interface PersonalSettingViewController ()
 
 //清空缓存按钮
@@ -55,17 +55,34 @@
     CGFloat mb                        = [SDWebImageManager sharedManager].imageCache.getSize/(1024.0f*1024.0f);
     NSString * content                = [NSString stringWithFormat:@"%.2fM", mb*0.8];
     self.clearDiskLabel.text          = content;
+    
     //关于
     CustomButton * aboutBtn           = [[CustomButton alloc] initWithFrame:CGRectMake(0, clearDiskBtn.bottom+30, self.viewWidth, 45)];
+    //线
+    UIView * line2                    = [[UIView alloc] initWithFrame:CGRectMake(0, aboutBtn.bottom, self.viewWidth, 1)];
+    line2.backgroundColor             = [UIColor colorWithHexString:ColorLightGary];
+    [self.view addSubview:line2];
+    //服务协议
+    CustomButton * serverBtn          = [[CustomButton alloc] initWithFrame:CGRectMake(0, line2.bottom, self.viewWidth, 45)];
 
     [self setNavBarTitle:@"设置"];
     [self setArrowAndTitle:@"账号设置" withView:accountSettingBtn];
     [self setArrowAndTitle:@"清空缓存" withView:clearDiskBtn];
     [self setArrowAndTitle:@"关于" withView:aboutBtn];
+    [self setArrowAndTitle:@"服务协议" withView:serverBtn];
     
     [accountSettingBtn addTarget:self action:@selector(accountSettingClick:) forControlEvents:UIControlEventTouchUpInside];
     [clearDiskBtn addTarget:self action:@selector(clearDiskClick:) forControlEvents:UIControlEventTouchUpInside];
     [aboutBtn addTarget:self action:@selector(aboutClick:) forControlEvents:UIControlEventTouchUpInside];
+    [serverBtn addTarget:self action:@selector(userProtocolPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+#pragma mark- method response
+- (void)userProtocolPress:(id)sender
+{
+    WebViewController * wvc = [[WebViewController alloc] init];
+    wvc.webURL              = [NSURL URLWithString:kUserProtocolPath];
+    [self pushVC:wvc];
 }
 
 - (void)accountSettingClick:(id)sender
@@ -97,7 +114,7 @@
     [self pushVC:ahhVC];
     
 }
-
+#pragma private method
 //通用UI布局
 - (void)setArrowAndTitle:(NSString *)title withView:(UIView *)view
 {
