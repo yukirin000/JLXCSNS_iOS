@@ -319,7 +319,7 @@
     }
 
     //最后一次时间
-    NSString * first_time = @"";
+    NSString * first_time = @"0";
     if (!self.isReloading && self.dataArr.count > 0) {
         NewsModel * news = self.dataArr.firstObject;
         first_time       = news.publish_time;
