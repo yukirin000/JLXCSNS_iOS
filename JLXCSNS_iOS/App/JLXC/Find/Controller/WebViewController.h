@@ -13,7 +13,7 @@
  */
 @interface WebViewController : BaseViewController<UIWebViewDelegate>
 {
-    UIWebView *_zWebView;
+    UIWebView *_zWebView; 
 }
 
 @property NSURL *webURL;

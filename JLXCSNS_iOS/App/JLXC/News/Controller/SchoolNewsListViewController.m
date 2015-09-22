@@ -28,6 +28,9 @@
 
 //@property (nonatomic, strong) CustomLabel * currentCommentLabel;
 
+//需要复制的字符串
+@property (nonatomic, copy) NSString * pasteStr;
+
 //顶部学生数组
 @property (nonatomic, strong) NSMutableArray * studentList;
 
@@ -58,6 +61,10 @@
 #pragma mark- layout
 
 #pragma mark- override
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
 - (void)createRefreshView
 {
     //展示数据的列表
@@ -219,6 +226,19 @@
 }
 
 #pragma mark- NewsListDelegate
+- (void)longPressContent:(NewsModel *)news andGes:(UILongPressGestureRecognizer *)ges
+{
+    [self becomeFirstResponder];
+    self.pasteStr                    = news.content_text;
+    UIView * view                    = ges.view;
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    UIMenuItem * copyItem            = [[UIMenuItem alloc] initWithTitle:@"复制" action:@selector(copyContnet)];
+    UIMenuItem * cancelItem          = [[UIMenuItem alloc] initWithTitle:@"取消" action:@selector(cancel)];
+    [menuController setMenuItems:@[copyItem,cancelItem]];
+    [menuController setArrowDirection:UIMenuControllerArrowDown];
+    [menuController setTargetRect:view.frame inView:view.superview];
+    [menuController setMenuVisible:YES animated:YES];
+}
 //图片点击
 - (void)imageClick:(NewsModel *)news index:(NSInteger)index
 {
@@ -290,8 +310,20 @@
 //    }];
 //}
 
-
 #pragma mark- method response
+//复制
+- (void)copyContnet
+{
+    //得到剪切板
+    UIPasteboard *board = [UIPasteboard generalPasteboard];
+    board.string        = self.pasteStr;
+    self.pasteStr       = @"";
+    debugLog(@"%@",[UIPasteboard generalPasteboard].string);
+}
+//取消menu
+- (void)cancel
+{}
+//学生List点击
 - (void)studentListTap:(UITapGestureRecognizer *)ges
 {
     StudentListViewController * slVC = [[StudentListViewController alloc] init];

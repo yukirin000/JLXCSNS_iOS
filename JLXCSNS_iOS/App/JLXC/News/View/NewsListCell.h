@@ -22,6 +22,8 @@
 - (void)likeClick:(NewsModel *)news likeOrCancel:(BOOL)flag;
 /*! 删除该条状态*/
 - (void)deleteNewsClick:(NewsModel *)news;
+/*! 长按内容*/
+- (void)longPressContent:(NewsModel *)news andGes:(UILongPressGestureRecognizer *)ges;
 
 @end
 
