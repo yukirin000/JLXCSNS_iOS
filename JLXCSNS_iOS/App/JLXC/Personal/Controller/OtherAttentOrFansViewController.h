@@ -7,13 +7,8 @@
 //
 
 #import "RefreshViewController.h"
+#import "MyFriendsOrFansListViewController.h"
 
-typedef NS_ENUM(NSInteger, RelationType) {
-    //关注类型
-    RelationAttentType = 1,
-    //粉丝类型
-    RelationFansType = 2
-};
 
 @interface OtherAttentOrFansViewController : RefreshViewController
 

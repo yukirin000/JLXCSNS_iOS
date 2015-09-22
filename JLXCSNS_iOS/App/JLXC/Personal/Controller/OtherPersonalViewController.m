@@ -303,7 +303,7 @@ enum {
 
     //他的关注
     self.hisFriendBtn.frame                = CGRectMake(0, lineView1.bottom, self.viewWidth, 45);
-    [self setCommonArrowAndTitle:@"TA关注的人" withView:self.hisFriendBtn];
+    [self setCommonArrowAndTitle:@"TA关注的人" withView:self.hisFriendBtn andImage:@"follow_icon"];
     //关注数量
     self.hisFriendCountLabel.frame         = CGRectMake(self.viewWidth-132, 13, 100, 20);
     self.hisFriendCountLabel.textAlignment = NSTextAlignmentRight;
@@ -317,7 +317,7 @@ enum {
 
     //他的来访
     self.hisFansBtn.frame                  = CGRectMake(0, lineView2.bottom, self.viewWidth, 45);
-    [self setCommonArrowAndTitle:@"关注TA的人" withView:self.hisFansBtn];
+    [self setCommonArrowAndTitle:@"关注TA的人" withView:self.hisFansBtn andImage:@"fans_icon"];
     //来访数量
     self.hisFansCountLabel.frame           = CGRectMake(self.viewWidth-132, 13, 100, 20);
     self.hisFansCountLabel.textAlignment   = NSTextAlignmentRight;
@@ -332,7 +332,7 @@ enum {
 
     //共同好友部分
     self.commonFriendBtn.frame             = CGRectMake(0, lineView3.bottom, self.viewWidth, 45);
-    [self setCommonArrowAndTitle:@"共同的好友" withView:self.commonFriendBtn];
+    [self setCommonArrowAndTitle:@"共同的好友" withView:self.commonFriendBtn andImage:@"common_follow_icon"];
     //共同好友数量
     self.commonCountLabel.frame            = CGRectMake(self.viewWidth-132, 13, 100, 20);
     self.commonCountLabel.textAlignment    = NSTextAlignmentRight;
@@ -753,19 +753,24 @@ enum {
     
 }
 //共同好友和来访
-- (void)setCommonArrowAndTitle:(NSString *)title withView:(UIView *)view
+- (void)setCommonArrowAndTitle:(NSString *)title withView:(UIView *)view andImage:(NSString *)image
 {
     view.backgroundColor             = [UIColor colorWithHexString:ColorWhite];
-    //他的来访
-    CustomLabel * visitFriendLabel   = [[CustomLabel alloc] initWithFrame:CGRectMake(10, 0, 90, 45)];
-    visitFriendLabel.font            = [UIFont systemFontOfSize:FontPersonalTitle];
-    visitFriendLabel.textColor       = [UIColor colorWithHexString:ColorCharGary];
-    visitFriendLabel.text            = title;
+    
+    //图片
+    CustomImageView * myFriendImageView    = [[CustomImageView alloc] initWithFrame:CGRectMake(15, 12, 15, 20)];
+    myFriendImageView.image                = [UIImage imageNamed:image];
+    //文字
+    CustomLabel * textLabel   = [[CustomLabel alloc] initWithFrame:CGRectMake(myFriendImageView.right+5, 0, 90, 45)];
+    textLabel.font            = [UIFont systemFontOfSize:FontPersonalTitle];
+    textLabel.textColor       = [UIColor colorWithHexString:ColorCharGary];
+    textLabel.text            = title;
     //箭头
     CustomImageView * arrowImageView = [[CustomImageView alloc] initWithFrame:CGRectMake(self.viewWidth-30, 15, 10, 15)];
     arrowImageView.image             = [UIImage imageNamed:@"right_arrow"];
     
-    [view addSubview:visitFriendLabel];
+    [view addSubview:myFriendImageView];
+    [view addSubview:textLabel];
     [view addSubview:arrowImageView];
 }
 //发消息和加好友

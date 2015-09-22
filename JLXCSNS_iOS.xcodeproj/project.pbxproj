@@ -306,6 +306,7 @@
 		428F8F3A1BB14A39008E64C5 /* FriendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 428F8F391BB14A39008E64C5 /* FriendModel.m */; };
 		428F8F3D1BB14BF1008E64C5 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 428F8F3C1BB14BF1008E64C5 /* FriendCell.m */; };
 		428F8F401BB1982F008E64C5 /* OtherAttentOrFansViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428F8F3F1BB1982F008E64C5 /* OtherAttentOrFansViewController.m */; };
+		428F8F421BB19C0C008E64C5 /* common_follow_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 428F8F411BB19C0C008E64C5 /* common_follow_icon@2x.png */; };
 		4290EB881B2964E300480D9C /* CreateChatRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290EB871B2964E300480D9C /* CreateChatRoomViewController.m */; };
 		4290EB8B1B2964F100480D9C /* CreateChatRoomTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4290EB8A1B2964F100480D9C /* CreateChatRoomTagViewController.m */; };
 		42967EFB1B0C8E51003FE483 /* PersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42967EF91B0C8E51003FE483 /* PersonalViewController.m */; };
@@ -841,6 +842,7 @@
 		428F8F3C1BB14BF1008E64C5 /* FriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCell.m; sourceTree = "<group>"; };
 		428F8F3E1BB1982F008E64C5 /* OtherAttentOrFansViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherAttentOrFansViewController.h; sourceTree = "<group>"; };
 		428F8F3F1BB1982F008E64C5 /* OtherAttentOrFansViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherAttentOrFansViewController.m; sourceTree = "<group>"; };
+		428F8F411BB19C0C008E64C5 /* common_follow_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_follow_icon@2x.png"; sourceTree = "<group>"; };
 		4290EB861B2964E300480D9C /* CreateChatRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateChatRoomViewController.h; sourceTree = "<group>"; };
 		4290EB871B2964E300480D9C /* CreateChatRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateChatRoomViewController.m; sourceTree = "<group>"; };
 		4290EB891B2964F100480D9C /* CreateChatRoomTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateChatRoomTagViewController.h; sourceTree = "<group>"; };
@@ -2012,6 +2014,7 @@
 		429C6E8E1B8386F000776C9D /* personal */ = {
 			isa = PBXGroup;
 			children = (
+				428F8F411BB19C0C008E64C5 /* common_follow_icon@2x.png */,
 				428F8F311BB131F4008E64C5 /* fans_icon@2x.png */,
 				428F8F321BB131F4008E64C5 /* follow_icon@2x.png */,
 				4257A67A1B85B953002507C6 /* about_back_image@2x.png */,
@@ -2496,6 +2499,7 @@
 				4257A6A31B85BFCC002507C6 /* home_btn_homepage_normal@2x.png in Resources */,
 				4257A69F1B85BFCC002507C6 /* back_white_btn_selected@2x.png in Resources */,
 				425AC9181B871DBD007EC6B8 /* register_sex_boy_normal@2x.png in Resources */,
+				428F8F421BB19C0C008E64C5 /* common_follow_icon@2x.png in Resources */,
 				4257A6A21B85BFCC002507C6 /* home_btn_friends_select@2x.png in Resources */,
 				425173951B32A378005FAFA9 /* ScanQR4@2x.png in Resources */,
 				425AC9191B871DBD007EC6B8 /* register_sex_boy_selected@2x.png in Resources */,
