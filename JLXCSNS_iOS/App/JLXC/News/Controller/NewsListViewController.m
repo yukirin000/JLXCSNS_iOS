@@ -18,9 +18,11 @@
 #import "NewsDetailViewController.h"
 #import "HttpCache.h"
 #import "NewsUtils.h"
-#import "ZYQAssetPickerController.h"
 
 @interface NewsListViewController ()<NewsListDelegate>
+
+//发布按钮
+@property (nonatomic, strong) CustomButton * publishBtn;
 
 @end
 
@@ -32,6 +34,8 @@
     self.navBar.hidden = YES;
     self.refreshTableView.frame = CGRectMake(0, 0, self.viewWidth, self.viewHeight-kNavBarAndStatusHeight-kTabBarHeight);
     
+    [self initWidget];
+    [self configUI];
     //先使用缓存
     [self useCache];
     
@@ -54,6 +58,21 @@
 }
 
 #pragma mark- layout
+
+- (void)initWidget
+{
+    self.publishBtn = [[CustomButton alloc] init];
+    [self.view addSubview:self.publishBtn];
+    
+    [self.publishBtn addTarget:self action:@selector(publishNews:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)configUI
+{
+    self.publishBtn.frame = CGRectMake(self.viewWidth-85, self.viewHeight-kNavBarAndStatusHeight-kTabBarHeight-85, 70, 70);
+    [self.publishBtn setImage:[UIImage imageNamed:@"publish_btn_normal"] forState:UIControlStateNormal];
+    [self.publishBtn setImage:[UIImage imageNamed:@"publish_btn_press"] forState:UIControlStateHighlighted];
+}
 
 #pragma override
 //下拉刷新
@@ -173,6 +192,12 @@
 
 
 #pragma mark- method response
+
+- (void)publishNews:(id)sender
+{
+    PublishNewsViewController * pnvc = [[PublishNewsViewController alloc] init];
+    [self pushVC:pnvc];
+}
 
 #pragma mark- private method
 - (void)loadAndhandleData

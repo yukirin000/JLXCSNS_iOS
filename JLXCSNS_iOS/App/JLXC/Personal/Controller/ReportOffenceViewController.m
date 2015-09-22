@@ -38,7 +38,6 @@
     self.placeHolderTextView = [[PlaceHolderTextView alloc] initWithFrame:CGRectMake(kCenterOriginX(300), kNavBarAndStatusHeight+40, 300, 150) andPlaceHolder:@"请输入愤怒的举报内容！"];
     self.confirmBtn          = [[CustomButton alloc] init];
     
-    
     [self.view addSubview:self.placeHolderTextView];
     [self.view addSubview:self.confirmBtn];
     

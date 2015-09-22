@@ -15,9 +15,11 @@
 #import "ChoiceSchoolViewController.h"
 #import "MyNewsListViewController.h"
 #import "MyCardViewController.h"
-#import "MyFriendsListViewController.h"
+#import "MyFriendsOrFansListViewController.h"
 #import "PersonalSettingViewController.h"
 #import "NSData+ImageCache.h"
+#import "PersonalPictureView.h"
+#import "ImageModel.h"
 
 enum {
     BackgroundImage = 1,
@@ -36,59 +38,48 @@ enum {
 @interface PersonalViewController ()<ZHPickViewDelegate>
 
 //背景滚动视图
-@property (strong, nonatomic) UIScrollView * backScrollView;
+@property (nonatomic, strong) UIScrollView * backScrollView;
 
 //背景图
-@property (strong, nonatomic) CustomImageView * backImageView;
+@property (nonatomic, strong) CustomImageView * backImageView;
 //背景透明的按钮
-@property (strong, nonatomic) CustomButton * backImageBtn;
+@property (nonatomic, strong) CustomButton * backImageBtn;
 //头像
-@property (strong, nonatomic) CustomButton * headImageBtn;
+@property (nonatomic, strong) CustomButton * headImageBtn;
 //姓名
-@property (strong, nonatomic) CustomLabel * nameLabel;
+@property (nonatomic, strong) CustomLabel * nameLabel;
 //性别
-@property (strong, nonatomic) CustomImageView * sexImageView;
+@property (nonatomic, strong) CustomImageView * sexImageView;
 //学校
-@property (strong, nonatomic) CustomLabel * schoolLabel;
+@property (nonatomic, strong) CustomLabel * schoolLabel;
 
 //个人资料label
-@property (strong, nonatomic) UILabel * informationLabel;
+@property (nonatomic, strong) UILabel * informationLabel;
 
 //我的状态背景按钮
-@property (strong, nonatomic) CustomButton * newsImageBackView;
-//新闻imageView1
-@property (strong, nonatomic) UIImageView * newsImageView1;
-//新闻imageView2
-@property (strong, nonatomic) UIImageView * newsImageView2;
-//新闻imageView3
-@property (strong, nonatomic) UIImageView * newsImageView3;
-
+@property (nonatomic, strong) CustomButton * newsImageBackView;
+//状态数量标签
+@property (nonatomic, strong) CustomLabel * newsCountLabel;
+//状态图片显示 pictureView
+@property (nonatomic, strong) PersonalPictureView * pictureView;
 //最近来访背景点击
-@property (strong, nonatomic) UIButton * visitBackView;
-////最近来访头像1
-//@property (strong, nonatomic) CustomImageView * visitHeadImage1;
-////最近来访头像2
-//@property (strong, nonatomic) CustomImageView * visitHeadImage2;
-////最近来访头像3
-//@property (strong, nonatomic) CustomImageView * visitHeadImage3;
+//@property (strong, nonatomic) UIButton * visitBackView;
 //好友数量label
-@property (nonatomic, strong) CustomLabel * visitCountLabel;
-
-//我的好友点击背景按钮
-@property (strong, nonatomic) UIButton * myFriendsBackView;
-////我的好友头像1
-//@property (strong, nonatomic) CustomImageView * myFriendsImage1;
-////我的好友头像2
-//@property (strong, nonatomic) CustomImageView * myFriendsImage2;
-////我的好友头像3
-//@property (strong, nonatomic) CustomImageView * myFriendsImage3;
-//好友数量label
+//@property (nonatomic, strong) CustomLabel * visitCountLabel;
+//我的关注点击背景按钮
+@property (nonatomic, strong) CustomButton * myFriendsBackView;
+//关注数量label
 @property (nonatomic, strong) CustomLabel * friendCountLabel;
 
+//我的粉丝点击背景按钮
+@property (nonatomic, strong) CustomButton * myFansBackView;
+//粉丝数量label
+@property (nonatomic, strong) CustomLabel * fansCountLabel;
+
 //个人信息
-@property (strong, nonatomic) UITableView * infomationTableView;
+@property (nonatomic, strong) UITableView * infomationTableView;
 //数组
-@property (strong, nonatomic) NSArray * informationArr;
+@property (nonatomic, strong) NSArray * informationArr;
 //生日选择
 @property (nonatomic, strong) UIDatePicker * datePicker;
 //生日选择textField
@@ -227,18 +218,15 @@ enum {
     self.schoolLabel       = [[CustomLabel alloc] init];
     //我的状态
     self.newsImageBackView = [[CustomButton alloc] init];
-    self.newsImageView1    = [[CustomImageView alloc] init];
-    self.newsImageView2    = [[CustomImageView alloc] init];
-    self.newsImageView3    = [[CustomImageView alloc] init];
-
-    //最近来访
-    self.visitBackView     = [[CustomButton alloc] init];
-    self.visitCountLabel   = [[CustomLabel alloc] init];
-    
+    self.newsCountLabel    = [[CustomLabel alloc] init];
+    self.pictureView       = [[PersonalPictureView alloc] init];
     //好友
     self.myFriendsBackView = [[CustomButton alloc] init];
     self.friendCountLabel  = [[CustomLabel alloc] init];
-
+    //粉丝
+    self.myFansBackView    = [[CustomButton alloc] init];
+    self.fansCountLabel    = [[CustomLabel alloc] init];
+    //信息
     self.informationLabel  = [[CustomLabel alloc] init];
     
     
@@ -250,16 +238,14 @@ enum {
     [self.backScrollView addSubview:self.schoolLabel];
     [self.backScrollView addSubview:self.headImageBtn];
     [self.backScrollView addSubview:self.newsImageBackView];
+    [self.newsImageBackView addSubview:self.newsCountLabel];
+    [self.newsImageBackView addSubview:self.pictureView];
     
-    [self.newsImageBackView addSubview:self.newsImageView1];
-    [self.newsImageBackView addSubview:self.newsImageView2];
-    [self.newsImageBackView addSubview:self.newsImageView3];
-    
-    [self.backScrollView addSubview:self.visitBackView];
-    [self.visitBackView addSubview:self.visitCountLabel];
-    
+    [self.backScrollView addSubview:self.myFansBackView];
+    [self.myFansBackView addSubview:self.fansCountLabel];
     [self.backScrollView addSubview:self.myFriendsBackView];
     [self.myFriendsBackView addSubview:self.friendCountLabel];
+    
     [self.backScrollView addSubview:self.informationLabel];
     
     //事件
@@ -268,7 +254,7 @@ enum {
     [self.backImageBtn addTarget:self action:@selector(backImageClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.myFriendsBackView addTarget:self action:@selector(myFriendClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.newsImageBackView addTarget:self action:@selector(myNewsClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.visitBackView addTarget:self action:@selector(visitClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.myFansBackView addTarget:self action:@selector(myFansClick:) forControlEvents:UIControlEventTouchUpInside];
     
     __weak typeof(self) sself             = self;
     //左上角名片
@@ -309,19 +295,6 @@ enum {
     self.backImageView.contentMode            = UIViewContentModeScaleAspectFill;
     self.backImageView.layer.masksToBounds    = YES;
 
-    //调整Mode
-    self.newsImageView1.contentMode  = UIViewContentModeScaleAspectFill;
-    self.newsImageView2.contentMode  = UIViewContentModeScaleAspectFill;
-    self.newsImageView3.contentMode  = UIViewContentModeScaleAspectFill;
-    //mask
-    self.newsImageView1.layer.masksToBounds  = YES;
-    self.newsImageView2.layer.masksToBounds  = YES;
-    self.newsImageView3.layer.masksToBounds  = YES;
-    //默认三图片隐藏
-    self.newsImageView1.hidden = YES;
-    self.newsImageView2.hidden = YES;
-    self.newsImageView3.hidden = YES;
-
     //背景图
     self.backImageView.frame               = CGRectMake(0, 0, self.viewWidth, self.viewHeight);
     //用于点击的透明背景
@@ -342,10 +315,8 @@ enum {
     self.schoolLabel.textColor             = [UIColor colorWithHexString:ColorWhite];
     self.schoolLabel.font                  = [UIFont systemFontOfSize:FontTopSchool];
 
-    //根据型号放大
-    CGFloat width                          = self.viewWidth/4.0;
     //我的状态
-    self.newsImageBackView.frame           = CGRectMake(0, self.backImageBtn.bottom, self.viewWidth, 40+width);
+    self.newsImageBackView.frame           = CGRectMake(0, self.backImageBtn.bottom, self.viewWidth, 105);
     self.newsImageBackView.backgroundColor = [UIColor whiteColor];
     //图标
     CustomImageView * newsIconImageView    = [[CustomImageView alloc] initWithFrame:CGRectMake(15, 5, 20, 20)];
@@ -356,71 +327,72 @@ enum {
     newsLabel.textColor                    = [UIColor colorWithHexString:ColorBrown];
     newsLabel.text                         = @"生活小点滴  (●′ω`●)";
     [self.newsImageBackView addSubview:newsLabel];
+    //状态数量
+    self.newsCountLabel.frame              = CGRectMake(self.viewWidth-90, 7, 50, 15);
+    self.newsCountLabel.textAlignment      = NSTextAlignmentRight;
+    self.newsCountLabel.font               = [UIFont systemFontOfSize:13];
+    self.newsCountLabel.textColor          = [UIColor colorWithHexString:ColorBrown];
     //箭头
     CustomImageView * arrowImageView       = [[CustomImageView alloc] initWithFrame:CGRectMake(self.viewWidth-30, 7, 10, 15)];
     arrowImageView.image                   = [UIImage imageNamed:@"right_arrow"];
     [self.newsImageBackView addSubview:arrowImageView];
-    //其余
-    self.newsImageView1.frame              = CGRectMake(15, newsIconImageView.bottom+10, width, width);
-    self.newsImageView2.frame              = CGRectMake(self.newsImageView1.right+10, self.newsImageView1.y, width, width);
-    self.newsImageView3.frame              = CGRectMake(self.newsImageView2.right+10, self.newsImageView1.y, width, width);
+    //滚动新闻
+    self.pictureView.frame                 = CGRectMake(0, newsIconImageView.bottom+5, self.viewWidth, 70);
+    self.pictureView.personalVC            = self;
 
     //中间分割线
     UIView * lineView                      = [[UIView alloc] initWithFrame:CGRectMake(0, self.newsImageBackView.bottom, self.viewWidth, 10)];
     lineView.backgroundColor               = [UIColor colorWithHexString:ColorLightWhite];
     [self.backScrollView addSubview:lineView];
 
-    //最近来访部分
-    self.visitBackView.frame               = CGRectMake(0, lineView.bottom, self.viewWidth/2, 90);
-    self.visitBackView.backgroundColor     = [UIColor colorWithHexString:ColorWhite];
-
-    //最近来访底部
-    CGFloat strWidth                       = [ToolsManager getSizeWithContent:@"谁来看过我" andFontSize:FontPersonalTitle andFrame:CGRectMake(0, 0, 200, 0)].width;
-    //位置计算
-    CGFloat positionX                      = (self.visitBackView.width-strWidth-5-20)/2;
-    CustomImageView * visitIconImageView   = [[CustomImageView alloc] initWithFrame:CGRectMake(positionX, self.visitBackView.height-30, 20, 17)];
-    visitIconImageView.image               = [UIImage imageNamed:@"my_visit_icon"];
-    CustomLabel * visitLabel               = [[CustomLabel alloc] initWithFrame:CGRectMake(visitIconImageView.right+5, visitIconImageView.y, 170, 20)];
-    visitLabel.text                        = @"谁来看过我";
-    visitLabel.font                        = [UIFont systemFontOfSize:FontPersonalTitle];
-    visitLabel.textColor                   = [UIColor colorWithHexString:ColorBrown];
-    [self.visitBackView addSubview:visitIconImageView];
-    [self.visitBackView addSubview:visitLabel];
-
-    //中间分割竖线
-    UIView * verticalLineView              = [[UIView alloc] initWithFrame:CGRectMake(self.viewWidth/2, lineView.bottom+5, 1, 80)];
-    verticalLineView.backgroundColor       = [UIColor colorWithHexString:ColorLightWhite];
-    [self.backScrollView addSubview:verticalLineView];
-
     //好友部分
-    self.myFriendsBackView.frame           = CGRectMake(self.viewWidth/2, lineView.bottom, self.viewWidth/2, 90);
+    self.myFriendsBackView.frame           = CGRectMake(0, lineView.bottom, self.viewWidth, 60);
     self.myFriendsBackView.backgroundColor = [UIColor whiteColor];
-    CustomImageView * myFriendImageView    = [[CustomImageView alloc] initWithFrame:CGRectMake(positionX, self.myFriendsBackView.height-30, 20, 17)];
-    myFriendImageView.image                = [UIImage imageNamed:@"my_friends_icon"];
+    CustomImageView * myFriendImageView    = [[CustomImageView alloc] initWithFrame:CGRectMake(15, 20, 15, 20)];
+    myFriendImageView.image                = [UIImage imageNamed:@"follow_icon"];
     CustomLabel * myFriendLabel            = [[CustomLabel alloc] initWithFrame:CGRectMake(myFriendImageView.right+5, myFriendImageView.y, 170, 20)];
-    myFriendLabel.text                     = @"我的朋友们";
+    myFriendLabel.text                     = @"我关注的人";
     myFriendLabel.font                     = [UIFont systemFontOfSize:FontPersonalTitle];
     myFriendLabel.textColor                = [UIColor colorWithHexString:ColorBrown];
     [self.myFriendsBackView addSubview:myFriendImageView];
     [self.myFriendsBackView addSubview:myFriendLabel];
-
-    //来访数
-    self.visitCountLabel.frame             = CGRectMake(0, 20, self.viewWidth/2, 30);
-    self.visitCountLabel.font              = [UIFont systemFontOfSize:25];
-    self.visitCountLabel.textColor         = [UIColor colorWithHexString:ColorBrown];
-    self.visitCountLabel.textAlignment     = NSTextAlignmentCenter;
-    //好友数
-    self.friendCountLabel.frame            = CGRectMake(0, 20, self.viewWidth/2, 30);
-    self.friendCountLabel.font             = [UIFont systemFontOfSize:25];
-    self.friendCountLabel.textColor        = [UIColor colorWithHexString:ColorBrown];
-    self.friendCountLabel.textAlignment     = NSTextAlignmentCenter;
     
+    //中间分割竖线
+    UIView * lineView2                    = [[UIView alloc] initWithFrame:CGRectMake(0, self.myFriendsBackView.bottom, self.viewWidth, 1)];
+    lineView2.backgroundColor             = [UIColor colorWithHexString:ColorLightWhite];
+    [self.backScrollView addSubview:lineView2];
+
+    //我的粉丝部分
+    self.myFansBackView.frame             = CGRectMake(0, lineView2.bottom, self.viewWidth, 60);
+    self.myFansBackView.backgroundColor   = [UIColor colorWithHexString:ColorWhite];
+    //图标
+    CustomImageView * fansIconImageView   = [[CustomImageView alloc] initWithFrame:CGRectMake(15, 20, 15, 20)];
+    fansIconImageView.image               = [UIImage imageNamed:@"fans_icon"];
+    CustomLabel * visitLabel              = [[CustomLabel alloc] initWithFrame:CGRectMake(fansIconImageView.right+5, fansIconImageView.y, 170, 20)];
+    visitLabel.text                       = @"关注我的人";
+    visitLabel.font                       = [UIFont systemFontOfSize:FontPersonalTitle];
+    visitLabel.textColor                  = [UIColor colorWithHexString:ColorBrown];
+    [self.myFansBackView addSubview:fansIconImageView];
+    [self.myFansBackView addSubview:visitLabel];
+
+    //好友数
+    self.friendCountLabel.frame           = CGRectMake(self.viewWidth-80, 20, 60, 20);
+    self.friendCountLabel.font            = [UIFont systemFontOfSize:15];
+    self.friendCountLabel.textColor       = [UIColor colorWithHexString:ColorBrown];
+    self.friendCountLabel.textAlignment   = NSTextAlignmentCenter;
+
+    //粉丝数
+    self.fansCountLabel.frame             = CGRectMake(self.viewWidth-80, 20, 60, 20);
+    self.fansCountLabel.font              = [UIFont systemFontOfSize:15];
+    self.fansCountLabel.textColor         = [UIColor colorWithHexString:ColorBrown];
+    self.fansCountLabel.textAlignment     = NSTextAlignmentCenter;
+
     //我的信息
-    self.informationLabel.frame            = CGRectMake(0, self.myFriendsBackView.bottom, self.viewWidth, 30);
-    self.informationLabel.backgroundColor  = [UIColor colorWithHexString:ColorLightWhite];
-    self.informationLabel.textColor        = [UIColor colorWithHexString:ColorCharGary];
-    self.informationLabel.font             = [UIFont systemFontOfSize:12];
-    self.informationLabel.text             = @"   我的资料";
+    self.informationLabel.frame           = CGRectMake(0, self.myFansBackView.bottom, self.viewWidth, 30);
+    self.informationLabel.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    self.informationLabel.textColor       = [UIColor colorWithHexString:ColorCharGary];
+    self.informationLabel.font            = [UIFont systemFontOfSize:12];
+    self.informationLabel.text            = @"   我的资料";
 }
 
 - (void)refreshUI
@@ -444,33 +416,12 @@ enum {
         self.sexImageView.image = [UIImage imageNamed:@"sex_girl"];
     }
     self.schoolLabel.text = [UserService sharedService].user.school;
-//    NSArray * friendArr = [IMGroupModel findHasAddAll];
-//    NSArray * friends = @[self.myFriendsImage1, self.myFriendsImage2, self.myFriendsImage3];
-//    //最多三张
-//    NSInteger num = 0;
-//    if (friendArr.count > 3) {
-//        num = 3;
-//    }
-//    //遍历设置图片
-//    for (int i=0; i<num; i++) {
-//        IMGroupModel * group        = friendArr[i];
-//        CustomImageView * imageView = friends[i];
-//        NSURL * url                 = [NSURL URLWithString:[kAttachmentAddr stringByAppendingString:group.avatarPath]];
-//        [imageView sd_setImageWithURL:url];
-//        imageView.hidden = NO;
-//    }
-//    
-//    //设置数量
-//    if (friendArr.count > 0) {
-//        self.friendCountLabel.text = [NSString stringWithFormat:@"%ld", friendArr.count];
-//    }else{
-//        self.friendCountLabel.text = @"";
-//    }
     
     //状态更新
     [self getNewsImages];
-    [self getVisitImages];
-    [self getFriendImages];
+//    [self getVisitImages];
+    [self getFriend];
+    [self getFans];
 }
 
 #pragma mark- ZHPickViewDelegate
@@ -767,18 +718,28 @@ enum {
     
     [self.dateTextField resignFirstResponder];
 }
-//最近来访
-- (void)visitClick:(id)sender {
-    
-    VisitListViewController * vlvc = [[VisitListViewController alloc] init];
-    vlvc.uid                       = [UserService sharedService].user.uid;
-    [self pushVC:vlvc];
-    
-}
+////最近来访
+//- (void)visitClick:(id)sender {
+//    
+//    VisitListViewController * vlvc = [[VisitListViewController alloc] init];
+//    vlvc.uid                       = [UserService sharedService].user.uid;
+//    [self pushVC:vlvc];
+//    
+//}
 //好友列表
 - (void)myFriendClick:(id)sender {
     
-    MyFriendsListViewController * flVC = [[MyFriendsListViewController alloc] init];
+    MyFriendsOrFansListViewController * flVC = [[MyFriendsOrFansListViewController alloc] init];
+    flVC.type                                = RelationAttentType;
+    [self pushVC:flVC];
+    
+}
+
+//粉丝列表
+- (void)myFansClick:(id)sender {
+    
+    MyFriendsOrFansListViewController * flVC = [[MyFriendsOrFansListViewController alloc] init];
+    flVC.type                                = RelationFansType;
     [self pushVC:flVC];
     
 }
@@ -890,26 +851,37 @@ enum {
     }];
 }
 
-//获取三张最新状态的图片
+//获取十张最新状态的图片
 - (void)getNewsImages
 {
     //kGetNewsImagesPath
-    NSString * path = [kGetNewsImagesPath stringByAppendingFormat:@"?uid=%ld", [UserService sharedService].user.uid];
+    NSString * path = [kGetNewsCoverListPath stringByAppendingFormat:@"?uid=%ld", [UserService sharedService].user.uid];
     [HttpService getWithUrlString:path andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
         
         int status = [responseData[HttpStatus] intValue];
         if (status == HttpStatusCodeSuccess) {
-            NSArray * imageList = responseData[HttpResult][HttpList];
-            NSArray * images = @[self.newsImageView1, self.newsImageView2, self.newsImageView3];
             
+            NSArray * imageList = responseData[HttpResult][HttpList];
+            
+            NSMutableArray * imageModelList = [[NSMutableArray alloc] init];
             //遍历设置图片
             for (int i=0; i<imageList.count; i++) {
                 NSDictionary * dic = imageList[i];
-                CustomImageView * imageView = images[i];
-                NSURL * url = [NSURL URLWithString:[kAttachmentAddr stringByAppendingString:dic[@"sub_url"]]];
-                [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:DEFAULT_AVATAR]];
-                imageView.hidden = NO;
+                ImageModel * image = [[ImageModel alloc] init];
+                image.sub_url      = dic[@"sub_url"];
+                image.url          = dic[@"url"];
+                [imageModelList addObject:image];
             }
+            [self.pictureView setImageWithList:imageModelList];
+            
+            //数量
+            NSString * newsCount = responseData[HttpResult][@"news_count"];
+            if (newsCount.integerValue > 0) {
+                self.newsCountLabel.text = [NSString stringWithFormat:@"%@条", newsCount];
+            }else{
+                self.newsCountLabel.text = @"0条";
+            }
+            
         }
         
     } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -918,31 +890,31 @@ enum {
 }
 
 //获取来访人数 不在获取图片
-- (void)getVisitImages
-{
-    //kGetNewsImagesPath
-    NSString * path = [kGetVisitImagesPath stringByAppendingFormat:@"?uid=%ld", [UserService sharedService].user.uid];
-    [HttpService getWithUrlString:path andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-        
-        int status = [responseData[HttpStatus] intValue];
-        if (status == HttpStatusCodeSuccess) {
-            
-            NSInteger visitCount = [responseData[HttpResult][@"visit_count"] integerValue];
-            //设置数量
-            if (visitCount > 0) {
-                self.visitCountLabel.text = [NSString stringWithFormat:@"%ld人", visitCount];
-            }else{
-                self.visitCountLabel.text = @"0人";
-            }
-        }
-        
-    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-    }];
-}
+//- (void)getVisitImages
+//{
+//    //kGetNewsImagesPath
+//    NSString * path = [kGetVisitImagesPath stringByAppendingFormat:@"?uid=%ld", [UserService sharedService].user.uid];
+//    [HttpService getWithUrlString:path andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
+//        
+//        int status = [responseData[HttpStatus] intValue];
+//        if (status == HttpStatusCodeSuccess) {
+//            
+//            NSInteger visitCount = [responseData[HttpResult][@"visit_count"] integerValue];
+//            //设置数量
+//            if (visitCount > 0) {
+//                self.visitCountLabel.text = [NSString stringWithFormat:@"%ld人", visitCount];
+//            }else{
+//                self.visitCountLabel.text = @"0人";
+//            }
+//        }
+//        
+//    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        
+//    }];
+//}
 
-//获取好友人数
-- (void)getFriendImages
+//获取关注人数
+- (void)getFriend
 {
     //kGetNewsImagesPath
     NSString * path = [kGetFriendsImagePath stringByAppendingFormat:@"?user_id=%ld", [UserService sharedService].user.uid];
@@ -952,16 +924,45 @@ enum {
         int status = [responseData[HttpStatus] intValue];
         if (status == HttpStatusCodeSuccess) {
             
-            NSInteger visitCount = [responseData[HttpResult][@"friend_count"] integerValue];
+            NSInteger friendCount = [responseData[HttpResult][@"friend_count"] integerValue];
             //设置数量
-            if (visitCount > 0) {
-                self.friendCountLabel.text = [NSString stringWithFormat:@"%ld人", visitCount];
+            if (friendCount > 0) {
+                self.friendCountLabel.text = [NSString stringWithFormat:@"%ld人", friendCount];
             }else{
                 self.friendCountLabel.text = @"0人";
             }
         }else{
             if (self.friendCountLabel.text.length < 1) {
                 self.friendCountLabel.text = @"0人";
+            }
+        }
+        
+    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+}
+
+//获取粉丝人数
+- (void)getFans
+{
+    //kGetFansCountPath
+    NSString * path = [kGetFansCountPath stringByAppendingFormat:@"?user_id=%ld", [UserService sharedService].user.uid];
+    debugLog(@"%@", path);
+    [HttpService getWithUrlString:path andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
+        
+        int status = [responseData[HttpStatus] intValue];
+        if (status == HttpStatusCodeSuccess) {
+            
+            NSInteger fansCount = [responseData[HttpResult][@"fans_count"] integerValue];
+            //设置数量
+            if (fansCount > 0) {
+                self.fansCountLabel.text = [NSString stringWithFormat:@"%ld人", fansCount];
+            }else{
+                self.fansCountLabel.text = @"0人";
+            }
+        }else{
+            if (self.fansCountLabel.text.length < 1) {
+                self.fansCountLabel.text = @"0人";
             }
         }
         

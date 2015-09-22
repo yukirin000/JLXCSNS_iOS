@@ -11,11 +11,11 @@
 
 //192.168.1.108
 //附件
-#define kAttachmentAddr @"http://www.90newtec.com/jlxc_php/Uploads/"
+#define kAttachmentAddr @"http://192.168.1.106/jlxc_php/Uploads/"
 //IP
-#define kRootAddr @"http://www.90newtec.com/jlxc_php/"
+#define kRootAddr @"http://192.168.1.106/jlxc_php/"
 //home
-#define kHomeAddr @"http://www.90newtec.com/jlxc_php/index.php/Home/MobileApi"//115.28.4.154 Zwkxd0515
+#define kHomeAddr @"http://192.168.1.106/jlxc_php/index.php/Home/MobileApi"//115.28.4.154 Zwkxd0515
 //http://localhost/www/DemoThink/
 #define kTestPath [kHomeAddr stringByAppendingString:@"DemoThink/"]
 #define kUserProtocolPath @"http://www.90newtec.com/license.html"
@@ -81,7 +81,6 @@
 //http://localhost/jlxc_php/index.php/Home/MobileApi/sendSecondComment
 #define kSendSecondCommentPath [kHomeAddr stringByAppendingString:@"/sendSecondComment"]
 
-
 //点赞或者取消赞
 //http://192.168.1.105/jlxc_php/index.php/Home/MobileApi/likeOrCancel?news_id=23&user_id=1&is_second=0&isLike=1
 #define kLikeOrCancelPath [kHomeAddr stringByAppendingString:@"/likeOrCancel"]
@@ -93,6 +92,10 @@
 //浏览过该新闻的用户列表
 //http://localhost/jlxc_php/index.php/Home/MobileApi/getNewsVisitList
 #define kGetNewsVisitListPath [kHomeAddr stringByAppendingString:@"/getNewsVisitList"]
+
+//获取学校数据
+//http://localhost/jlxc_php/index.php/Home/MobileApi/schoolHomeData
+#define kSchoolHomeDataPath [kHomeAddr stringByAppendingString:@"/schoolHomeData"]
 
 ////////////////////////////////////////////////个人信息////////////////////////////////////////////////
 //修改个人信息
@@ -123,17 +126,25 @@
 //http://localhost/jlxc_php/index.php/Home/MobileApi/changeInformationImage
 #define kChangeInformationImagePath [kHomeAddr stringByAppendingString:@"/changeInformationImage"]
 
-//个人信息中 获取最新动态的三张图片
+//个人信息中 获取最新动态的三张图片 弃用
 //http://localhost/jlxc_php/index.php/Home/MobileApi/getNewsImages
 #define kGetNewsImagesPath [kHomeAddr stringByAppendingString:@"/getNewsImages"]
 
-//个人信息中 获取来访三张头像
+//个人信息中 获取最新动态的十张图片
+//http://localhost/jlxc_php/index.php/Home/MobileApi/getNewsCoverList
+#define kGetNewsCoverListPath [kHomeAddr stringByAppendingString:@"/getNewsCoverList"]
+
+//个人信息中 获取来访三张头像 弃用
 //http://localhost/jlxc_php/index.php/Home/MobileApi/getVisitImages
 #define kGetVisitImagesPath [kHomeAddr stringByAppendingString:@"/getVisitImages"]
 
 //个人信息中 获取好友人数和图片
-//http://localhost/jlxc_php/index.php/Home/MobileApi/getVisitImages
+//http://localhost/jlxc_php/index.php/Home/MobileApi/getFriendsImage
 #define kGetFriendsImagePath [kHomeAddr stringByAppendingString:@"/getFriendsImage"]
+
+//个人信息中 获取粉丝人数
+//http://localhost/jlxc_php/index.php/Home/MobileApi/getFansCount
+#define kGetFansCountPath [kHomeAddr stringByAppendingString:@"/getFansCount"]
 
 //个人信息中 用户发布过的状态列表
 //http://localhost/jlxc_php/index.php/Home/MobileApi/userNewsList
@@ -145,7 +156,7 @@
 
 //个人信息 查看别人的信息
 //http://localhost/jlxc_php/index.php/Home/MobileApi/userNewsList
-#define kPersnalInformationPath [kHomeAddr stringByAppendingString:@"/personalInformation"]
+#define kPersnalInformationPath [kHomeAddr stringByAppendingString:@"/personalInfo"]
 
 //最近来访列表
 //http://localhost/jlxc_php/index.php/Home/MobileApi/getVisitList
@@ -188,9 +199,25 @@
 //http://localhost/jlxc_php/index.php/Home/MobileApi/NeedSyncFriends
 #define kNeedSyncFriendsPath [kHomeAddr stringByAppendingString:@"/needSyncFriends"]
 
-//获取好友列表
+//获取好友列表 弃用
 //http://localhost/jlxc_php/index.php/Home/MobileApi/getFriendsList
 #define kGetFriendsListPath [kHomeAddr stringByAppendingString:@"/getFriendsList"]
+
+// 获取关注列表
+//http://localhost/jlxc_php/index.php/Home/MobileApi/getAttentList
+#define kGetAttentListPath [kHomeAddr stringByAppendingString:@"/getAttentList"]
+
+// 获取粉丝列表
+//http://localhost/jlxc_php/index.php/Home/MobileApi/getFansList
+#define kGetFansListPath [kHomeAddr stringByAppendingString:@"/getFansList"]
+
+// 获取其他人的关注列表
+//http://localhost/jlxc_php/index.php/Home/MobileApi/getAttentList
+#define kGetOtherAttentListPath [kHomeAddr stringByAppendingString:@"/getOtherAttentList"]
+
+// 获取其他人的关注列表
+//http://localhost/jlxc_php/index.php/Home/MobileApi/getAttentList
+#define kGetOtherFansListPath [kHomeAddr stringByAppendingString:@"/getOtherFansList"]
 
 //获取全部好友
 //http://localhost/jlxc_php/index.php/Home/MobileApi/getAllFriendsList

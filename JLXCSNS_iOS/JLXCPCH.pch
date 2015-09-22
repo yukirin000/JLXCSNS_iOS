@@ -104,7 +104,8 @@
 #define kNavBarAndStatusHeight ([UIDevice currentDevice].systemVersion.floatValue >= 7.0 ? 64 : 44)
 //聊天室切割图像 高度
 #define CutImageHeight 100
-
+//校园上一次刷新时间标示符
+#define SchoolLastRefreshDate @"SchoolLastRefreshDate"
 
 //国际化String 暂时就一种语言
 #define JLXCString(title) NSLocalizedStringFromTable(title, @"UBabyString", nil)
