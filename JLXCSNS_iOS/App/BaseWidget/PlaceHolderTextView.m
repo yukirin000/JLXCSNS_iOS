@@ -9,10 +9,6 @@
 #import "PlaceHolderTextView.h"
 
 @implementation PlaceHolderTextView
-{
-    //placeHolder Label
-    UILabel * _placeHolderLabel;
-}
 
 - (instancetype)init
 {

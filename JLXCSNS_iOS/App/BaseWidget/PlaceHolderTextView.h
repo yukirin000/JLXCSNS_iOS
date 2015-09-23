@@ -11,7 +11,9 @@
 /*!
  @brief 带placeHolder的textView
  */
-@interface PlaceHolderTextView : UITextView<UITextViewDelegate>
+@interface PlaceHolderTextView : UITextView
+
+@property (nonatomic, strong) UILabel * placeHolderLabel;
 
 /*!
  @method

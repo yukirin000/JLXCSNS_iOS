@@ -8,7 +8,7 @@
 
 #import "OtherAttentOrFansViewController.h"
 #import "FriendModel.h"
-#import "FriendCell.h"
+#import "OtherFriendCell.h"
 #import "OtherPersonalViewController.h"
 #import "IMGroupModel.h"
 #import "FindUtils.h"
@@ -80,9 +80,9 @@
 {
     
     NSString * cellid = [NSString stringWithFormat:@"%@%ld", @"friendsList", indexPath.row];
-    FriendCell * cell = [self.refreshTableView dequeueReusableCellWithIdentifier:cellid];
+    OtherFriendCell * cell = [self.refreshTableView dequeueReusableCellWithIdentifier:cellid];
     if (!cell) {
-        cell          = [[FriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellid];
+        cell          = [[OtherFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellid];
         cell.type     = self.type;
         cell.delegate = self;
     }
@@ -94,15 +94,10 @@
 - (void)attentBtnClickCall:(FriendModel *)friendModel
 {
     //关注或者取消关注
-    if (self.type == RelationAttentType) {
+    if (friendModel.isOrHasAttent == YES) {
         [self deleteFriendAlert:friendModel];
-    }else {
-        if (friendModel.isOrHasAttent == YES) {
-            [self deleteFriendAlert:friendModel];
-        }else{
-            [self addFriendCommit:friendModel];
-        }
-        
+    }else{
+        [self addFriendCommit:friendModel];
     }
 }
 
@@ -175,15 +170,9 @@
             //清除会话
             [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_PRIVATE targetId:[ToolsManager getCommonGroupId:friendModel.uid]];
             //关注删除 粉丝更新状态
-            if (self.type == RelationAttentType) {
-                NSInteger index = [self.dataArr indexOfObject:friendModel];
-                [self.dataArr removeObject:friendModel];
-                //页面刷新
-                [self.refreshTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            }else{
-                friendModel.isOrHasAttent = NO;
-                [self.refreshTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.dataArr indexOfObject:friendModel] inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            }
+            friendModel.isOrHasAttent = NO;
+            [self.refreshTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.dataArr indexOfObject:friendModel] inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            
         }else{
             [self showWarn:responseData[HttpMessage]];
         }
@@ -197,9 +186,9 @@
 - (void)loadAndhandleData
 {
     
-    NSString * url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&size=20", kGetAttentListPath, self.currentPage, [UserService sharedService].user.uid];
+    NSString * url = [NSString stringWithFormat:@"%@?page=%d&size=20&self_user_id=%ld&target_user_id=%ld", kGetOtherAttentListPath, self.currentPage, [UserService sharedService].user.uid, self.userId];
     if (self.type == RelationFansType) {
-        url = [NSString stringWithFormat:@"%@?page=%d&user_id=%ld&size=20", kGetFansListPath, self.currentPage, [UserService sharedService].user.uid];
+        url = [NSString stringWithFormat:@"%@?page=%d&size=20&self_user_id=%ld&target_user_id=%ld", kGetOtherFansListPath, self.currentPage, [UserService sharedService].user.uid, self.userId];
     }
     debugLog(@"%@", url);
     [HttpService getWithUrlString:url andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
@@ -219,11 +208,7 @@
                 model.name           = attentDic[@"name"];
                 model.head_sub_image = attentDic[@"head_sub_image"];
                 model.school         = attentDic[@"school"];
-                if (self.type == RelationAttentType) {
-                    model.isOrHasAttent  = [attentDic[@"isAttent"] boolValue];
-                }else{
-                    model.isOrHasAttent  = [attentDic[@"hasAttent"] boolValue];
-                }
+                model.isOrHasAttent  = [attentDic[@"isAttent"] boolValue];
                 
                 [self.dataArr addObject:model];
             }

@@ -43,13 +43,13 @@
 {
     [self setNavBarTitle:@"找同学"];
     
-    __weak typeof(self) sself = self;
-    [self.navBar setRightBtnWithContent:@"" andBlock:^{
-        QRcodeViewController * qrVC = [[QRcodeViewController alloc] init];
-        [sself pushVC:qrVC];
-    }];
-    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"qrcode_scan_btn_normal"] forState:UIControlStateNormal];
-    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"qrcode_scan_btn_press"] forState:UIControlStateHighlighted];
+//    __weak typeof(self) sself = self;
+//    [self.navBar setRightBtnWithContent:@"" andBlock:^{
+//        QRcodeViewController * qrVC = [[QRcodeViewController alloc] init];
+//        [sself pushVC:qrVC];
+//    }];
+//    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"qrcode_scan_btn_normal"] forState:UIControlStateNormal];
+//    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"qrcode_scan_btn_press"] forState:UIControlStateHighlighted];
     
     //顶部背景
     UIView * backView                   = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewWidth, 0)];

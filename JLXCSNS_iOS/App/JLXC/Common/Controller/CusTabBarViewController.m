@@ -23,10 +23,10 @@
 enum Tab{
     //新闻首页
     TabNews     = 0,
+    //圈子首页
+    TabTopic    = 1,
     //消息
-    TabChat     = 1,
-    //找同学
-    TabFind     = 2,
+    TabChat     = 2,
     //我
     TabMe       = 3
 };

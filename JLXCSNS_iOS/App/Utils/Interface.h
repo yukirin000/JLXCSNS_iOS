@@ -269,5 +269,14 @@
 //推荐的人列表
 #define kRecommendFriendsListPath [kHomeAddr stringByAppendingString:@"/recommendFriendsList"]
 
+//////////////////////////////////////////圈子模块//////////////////////////////////////////
+//获取联系人用户
+#define kGetTopicCategoryPath [kHomeAddr stringByAppendingString:@"/getTopicCategory"]
+//创建新圈子
+#define kPostNewTopicPath [kHomeAddr stringByAppendingString:@"/postNewTopic"]
+//获取圈子主页列表
+#define kGetTopicHomeListPath [kHomeAddr stringByAppendingString:@"/getTopicHomeList"]
+
+
 
 #endif

@@ -9,10 +9,11 @@
 #import "RefreshViewController.h"
 #import "MyFriendsOrFansListViewController.h"
 
-
 @interface OtherAttentOrFansViewController : RefreshViewController
 
 //是关注或者粉丝
 @property (nonatomic, assign) RelationType type;
+//用户id
+@property (nonatomic, assign) NSInteger userId;
 
 @end

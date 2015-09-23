@@ -13,8 +13,7 @@
 //
 
 #import "OtherPersonalViewController.h"
-#import "OtherPeopleFriendsListViewController.h"
-#import "VisitListViewController.h"
+#import "OtherAttentOrFansViewController.h"
 #import "UIImageView+WebCache.h"
 #import "UIButton+WebCache.h"
 #import "MyNewsListViewController.h"
@@ -549,14 +548,19 @@ enum {
 //好友列表
 - (void)fansClick:(id)sender {
     
+    OtherAttentOrFansViewController * oaofvc = [[OtherAttentOrFansViewController alloc] init];
+    oaofvc.type                              = RelationFansType;
+    oaofvc.userId                            = self.uid;
+    [self pushVC:oaofvc];
 }
 
 //好友列表
 - (void)friendClick:(id)sender {
     
-    OtherPeopleFriendsListViewController * opflvc = [[OtherPeopleFriendsListViewController alloc] init];
-    opflvc.uid = self.uid;
-    [self pushVC:opflvc];
+    OtherAttentOrFansViewController * oaofvc = [[OtherAttentOrFansViewController alloc] init];
+    oaofvc.type                              = RelationAttentType;
+    oaofvc.userId                            = self.uid;
+    [self pushVC:oaofvc];
     
 }
 //共同好友

@@ -14,6 +14,16 @@
 	</dict>
 	<dict>
 		<key>title</key>
+		<string>发现</string>
+		<key>controller</key>
+		<string>TopicMainViewController</string>
+		<key>selectedPic</key>
+		<string>home_btn_find_select</string>
+		<key>normalPic</key>
+		<string>home_btn_find_normal</string>
+	</dict>
+	<dict>
+		<key>title</key>
 		<string>消息</string>
 		<key>controller</key>
 		<string>ChatMainViewController</string>
@@ -21,16 +31,6 @@
 		<string>home_btn_msg_select</string>
 		<key>normalPic</key>
 		<string>home_btn_msg_normal</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>找同学</string>
-		<key>controller</key>
-		<string>FindMainViewController</string>
-		<key>selectedPic</key>
-		<string>home_btn_friends_select</string>
-		<key>normalPic</key>
-		<string>home_btn_friends_normal</string>
 	</dict>
 	<dict>
 		<key>title</key>

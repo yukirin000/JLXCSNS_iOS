@@ -14,11 +14,11 @@
 #import "ZHPickView.h"
 #import "ChoiceSchoolViewController.h"
 #import "MyNewsListViewController.h"
-#import "MyCardViewController.h"
 #import "MyFriendsOrFansListViewController.h"
 #import "PersonalSettingViewController.h"
 #import "NSData+ImageCache.h"
 #import "PersonalPictureView.h"
+#import "FindMainViewController.h"
 #import "ImageModel.h"
 
 enum {
@@ -259,8 +259,8 @@ enum {
     __weak typeof(self) sself             = self;
     //左上角名片
     [self.navBar setLeftBtnWithContent:@"" andBlock:^{
-        MyCardViewController * mcVC = [[MyCardViewController alloc] init];
-        [sself pushVC:mcVC];
+        FindMainViewController * fmVC = [[FindMainViewController alloc] init];
+        [sself pushVC:fmVC];
     }];
     //右上角设置
     [self.navBar setRightBtnWithContent:@"" andBlock:^{
@@ -280,8 +280,8 @@ enum {
     self.navBar.leftBtn.hidden            = NO;
     [self.navBar.leftBtn setImage:nil forState:UIControlStateNormal];
     //名片和设置
-    [self.navBar.leftBtn setImage:[UIImage imageNamed:@"my_card"] forState:UIControlStateNormal];
-    [self.navBar.leftBtn setImage:[UIImage imageNamed:@"my_card_selected"] forState:UIControlStateHighlighted];
+    [self.navBar.leftBtn setImage:[UIImage imageNamed:@"add_person_icon_normal"] forState:UIControlStateNormal];
+    [self.navBar.leftBtn setImage:[UIImage imageNamed:@"add_person_icon_press"] forState:UIControlStateHighlighted];
     [self.navBar.rightBtn setImage:[UIImage imageNamed:@"setting_btn"] forState:UIControlStateNormal];
     [self.navBar.rightBtn setImage:[UIImage imageNamed:@"setting_btn_selected"] forState:UIControlStateHighlighted];
     [self.view bringSubviewToFront:self.navBar];
@@ -673,7 +673,7 @@ enum {
 #pragma mark- UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage * image = [ImageHelper getBigImage:info[UIImagePickerControllerEditedImage]];
+    UIImage * image;
     if (self.currentImageStyle == HeadImage) {
         image = [ImageHelper getBigImage:info[UIImagePickerControllerEditedImage]];
     }else{
