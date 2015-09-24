@@ -8,6 +8,7 @@
 
 #import "CreateTopicViewController.h"
 #import "TopicCategoryModel.h"
+#import "TopicModel.h"
 @interface CreateTopicViewController ()
 
 //封面
@@ -247,6 +248,16 @@
         int status = [responseData[@"status"] intValue];
         if (status == HttpStatusCodeSuccess) {
             [self showComplete:responseData[HttpMessage]];
+            NSDictionary * topicDic = responseData[HttpResult];
+            
+            //返回模型
+            TopicModel * topic      = [[TopicModel alloc] init];
+            topic.topic_id          = [topicDic[@"id"] integerValue];
+            topic.topic_cover_image = topicDic[@"topic_cover_image"];
+            topic.topic_cover_image = topicDic[@"topic_name"];
+            topic.topic_cover_image = topicDic[@"topic_detail"];
+            topic.member_count      = 1;
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_CREATE_TOPIC object:topic];
             
         }else{
             

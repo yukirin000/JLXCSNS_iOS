@@ -117,11 +117,6 @@
     
     return self;
 }
-#pragma mark- override
-- (BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
 
 #pragma mark- layout
 - (void)configUI

@@ -276,7 +276,10 @@
 #define kPostNewTopicPath [kHomeAddr stringByAppendingString:@"/postNewTopic"]
 //获取圈子主页列表
 #define kGetTopicHomeListPath [kHomeAddr stringByAppendingString:@"/getTopicHomeList"]
-
+//获取圈子分类列表
+#define kGetCategoryTopicListPath [kHomeAddr stringByAppendingString:@"/getCategoryTopicList"]
+//获取圈子新闻列表
+#define kGetTopicNewsListPath [kHomeAddr stringByAppendingString:@"/getTopicNewsList"]
 
 
 #endif

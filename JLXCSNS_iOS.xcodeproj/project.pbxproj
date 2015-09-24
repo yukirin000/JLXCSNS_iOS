@@ -395,6 +395,11 @@
 		42CFFC1D1B862A1000A090F7 /* small_unread@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42CFFC1C1B862A1000A090F7 /* small_unread@2x.png */; };
 		42D090C21B42C60E007A51D8 /* PersonalSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D090C11B42C60E007A51D8 /* PersonalSettingViewController.m */; };
 		42D090C51B42CF70007A51D8 /* AccountSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D090C41B42CF70007A51D8 /* AccountSettingViewController.m */; };
+		42DA90CE1BB397F700F0C9B8 /* arrow_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42DA90CD1BB397F700F0C9B8 /* arrow_down@2x.png */; };
+		42DA90D11BB39AD800F0C9B8 /* TopicCategoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DA90D01BB39AD800F0C9B8 /* TopicCategoryView.m */; };
+		42DA90D41BB3C6E800F0C9B8 /* MoreTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DA90D31BB3C6E800F0C9B8 /* MoreTopicViewController.m */; };
+		42DA90D71BB3CA0800F0C9B8 /* MoreTopicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DA90D61BB3CA0800F0C9B8 /* MoreTopicCell.m */; };
+		42DA90DC1BB3F49500F0C9B8 /* TopicNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DA90DB1BB3F49500F0C9B8 /* TopicNewsViewController.m */; };
 		42DECD111B3AD73400C85E9F /* NewsPushModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DECD101B3AD73400C85E9F /* NewsPushModel.m */; };
 		42EFD09A1B8B6BB600FB85B0 /* publish_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42EFD0981B8B6BB600FB85B0 /* publish_normal@2x.png */; };
 		42EFD09B1B8B6BB600FB85B0 /* publish_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42EFD0991B8B6BB600FB85B0 /* publish_highlight@2x.png */; };
@@ -987,6 +992,15 @@
 		42D090C11B42C60E007A51D8 /* PersonalSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalSettingViewController.m; sourceTree = "<group>"; };
 		42D090C31B42CF70007A51D8 /* AccountSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountSettingViewController.h; sourceTree = "<group>"; };
 		42D090C41B42CF70007A51D8 /* AccountSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountSettingViewController.m; sourceTree = "<group>"; };
+		42DA90CD1BB397F700F0C9B8 /* arrow_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_down@2x.png"; sourceTree = "<group>"; };
+		42DA90CF1BB39AD800F0C9B8 /* TopicCategoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCategoryView.h; sourceTree = "<group>"; };
+		42DA90D01BB39AD800F0C9B8 /* TopicCategoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicCategoryView.m; sourceTree = "<group>"; };
+		42DA90D21BB3C6E800F0C9B8 /* MoreTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTopicViewController.h; sourceTree = "<group>"; };
+		42DA90D31BB3C6E800F0C9B8 /* MoreTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTopicViewController.m; sourceTree = "<group>"; };
+		42DA90D51BB3CA0800F0C9B8 /* MoreTopicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTopicCell.h; sourceTree = "<group>"; };
+		42DA90D61BB3CA0800F0C9B8 /* MoreTopicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTopicCell.m; sourceTree = "<group>"; };
+		42DA90DA1BB3F49500F0C9B8 /* TopicNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicNewsViewController.h; sourceTree = "<group>"; };
+		42DA90DB1BB3F49500F0C9B8 /* TopicNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicNewsViewController.m; sourceTree = "<group>"; };
 		42DECD0F1B3AD73400C85E9F /* NewsPushModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsPushModel.h; sourceTree = "<group>"; };
 		42DECD101B3AD73400C85E9F /* NewsPushModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsPushModel.m; sourceTree = "<group>"; };
 		42EFD0981B8B6BB600FB85B0 /* publish_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "publish_normal@2x.png"; sourceTree = "<group>"; };
@@ -1061,6 +1075,10 @@
 				423D3C1E1BB24FDD00D05AD2 /* TopicMainViewController.m */,
 				423D3C2B1BB27FFD00D05AD2 /* CreateTopicViewController.h */,
 				423D3C2C1BB27FFD00D05AD2 /* CreateTopicViewController.m */,
+				42DA90D21BB3C6E800F0C9B8 /* MoreTopicViewController.h */,
+				42DA90D31BB3C6E800F0C9B8 /* MoreTopicViewController.m */,
+				42DA90DA1BB3F49500F0C9B8 /* TopicNewsViewController.h */,
+				42DA90DB1BB3F49500F0C9B8 /* TopicNewsViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1081,6 +1099,10 @@
 			children = (
 				423D3C311BB2D48D00D05AD2 /* TopicMainCell.h */,
 				423D3C321BB2D48D00D05AD2 /* TopicMainCell.m */,
+				42DA90CF1BB39AD800F0C9B8 /* TopicCategoryView.h */,
+				42DA90D01BB39AD800F0C9B8 /* TopicCategoryView.m */,
+				42DA90D51BB3CA0800F0C9B8 /* MoreTopicCell.h */,
+				42DA90D61BB3CA0800F0C9B8 /* MoreTopicCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1088,6 +1110,7 @@
 		423D3C241BB2583800D05AD2 /* topic */ = {
 			isa = PBXGroup;
 			children = (
+				42DA90CD1BB397F700F0C9B8 /* arrow_down@2x.png */,
 				423D3C381BB2E1BB00D05AD2 /* topic_background@2x.png */,
 				423D3C341BB2DDAB00D05AD2 /* member_count_icon@2x.png */,
 				423D3C351BB2DDAB00D05AD2 /* news_count_icon@2x.png */,
@@ -2597,6 +2620,7 @@
 				425164F71B8D64BF007FC136 /* loading32@2x.png in Resources */,
 				4269CFF21AFCB6B100591053 /* Images.xcassets in Resources */,
 				423D3C2A1BB25AA700D05AD2 /* group_more@2x.png in Resources */,
+				42DA90CE1BB397F700F0C9B8 /* arrow_down@2x.png in Resources */,
 				4249E2A61B81C16400F01B77 /* Icon-Small@2x.png in Resources */,
 				4257A6A31B85BFCC002507C6 /* home_btn_homepage_normal@2x.png in Resources */,
 				4257A69F1B85BFCC002507C6 /* back_white_btn_selected@2x.png in Resources */,
@@ -2671,6 +2695,7 @@
 				42A1BED51B1D62D900E66F06 /* OtherPeopleFriendCell.m in Sources */,
 				428F8F401BB1982F008E64C5 /* OtherAttentOrFansViewController.m in Sources */,
 				428C8EC01B27D8930058D3EB /* OldCutImageView.m in Sources */,
+				42DA90DC1BB3F49500F0C9B8 /* TopicNewsViewController.m in Sources */,
 				4271E1611B09D3B200B87CD1 /* NewsDetailViewController.m in Sources */,
 				427AD7EF1AFE1F4B00103CAC /* MBProgressHUD.m in Sources */,
 				42967EFB1B0C8E51003FE483 /* PersonalViewController.m in Sources */,
@@ -2728,6 +2753,7 @@
 				42A65C0C1B05DCF10026E1F3 /* NewsModel.m in Sources */,
 				424B22CB1B1ECD0A00E5BC71 /* ChineseToPinyinResource.m in Sources */,
 				429C6E251B82CC8800776C9D /* UIColor+Hexadecimal.m in Sources */,
+				42DA90D41BB3C6E800F0C9B8 /* MoreTopicViewController.m in Sources */,
 				42A65C051B05DA950026E1F3 /* ChoiceLocationViewController.m in Sources */,
 				42554F631B10A158008E1872 /* MyNewsListViewController.m in Sources */,
 				426F26B71B1AAF68008EB553 /* AddRemarkViewController.m in Sources */,
@@ -2753,6 +2779,7 @@
 				427AD7ED1AFE1F4B00103CAC /* FMDatabaseQueue.m in Sources */,
 				4290EB881B2964E300480D9C /* CreateChatRoomViewController.m in Sources */,
 				427AD7EE1AFE1F4B00103CAC /* FMResultSet.m in Sources */,
+				42DA90D11BB39AD800F0C9B8 /* TopicCategoryView.m in Sources */,
 				42B648831B2C21C4000C23E6 /* ChatRoomChatController.m in Sources */,
 				424B22CC1B1ECD0A00E5BC71 /* HanyuPinyinOutputFormat.m in Sources */,
 				4251B2911B43D6B8001FE5A0 /* AboutHelloHaViewController.m in Sources */,
@@ -2773,6 +2800,7 @@
 				4240CF191B844E2E002B09E2 /* NewsUtils.m in Sources */,
 				423D3C101BB245A200D05AD2 /* OtherFriendCell.m in Sources */,
 				427AD7DD1AFE1F4B00103CAC /* AFURLResponseSerialization.m in Sources */,
+				42DA90D71BB3CA0800F0C9B8 /* MoreTopicCell.m in Sources */,
 				423D3C3C1BB2EC4500D05AD2 /* TopicModel.m in Sources */,
 				42CF77C71B37F3B50038E5F8 /* LikeListCell.m in Sources */,
 				427AD7CF1AFE1F4B00103CAC /* CustomTextField.m in Sources */,
