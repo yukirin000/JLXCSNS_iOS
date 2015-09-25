@@ -20,7 +20,7 @@
 #import "NewsListCell.h"
 #import "NewsDetailViewController.h"
 #import "UIImageView+WebCache.h"
-#import "StudentListViewController.h"
+#import "TopicDetailViewController.h"
 
 @interface TopicNewsViewController ()<NewsListDelegate,RefreshDataDelegate>
 
@@ -72,11 +72,22 @@
     
     [self.publishBtn addTarget:self action:@selector(publishNews:) forControlEvents:UIControlEventTouchUpInside];
     [self.attentButton addTarget:self action:@selector(attentTopic:) forControlEvents:UIControlEventTouchUpInside];
+    
+    __weak typeof(self) sself = self;
+    [self.navBar setRightBtnWithContent:@"" andBlock:^{
+        TopicDetailViewController * tdvc = [[TopicDetailViewController alloc] init];
+        tdvc.topicID                     = sself.topicID;
+        [sself pushVC:tdvc];
+    }];
 }
 
 - (void)configUI
 {
     [self setNavBarTitle:self.topicName];
+    
+    //右上角按钮
+    [self.navBar.rightBtn setImage:[UIImage imageNamed:@"topic_info"] forState:UIControlStateNormal];
+    
     //发布按钮
     self.publishBtn.frame = CGRectMake(self.viewWidth-85, self.viewHeight-kNavBarAndStatusHeight-kTabBarHeight-85, 70, 70);
     [self.publishBtn setImage:[UIImage imageNamed:@"publish_btn_normal"] forState:UIControlStateNormal];
@@ -207,32 +218,30 @@
 - (void)publishNews:(id)sender
 {
     PublishNewsViewController * pnvc = [[PublishNewsViewController alloc] init];
+    pnvc.topicID                     = self.topicID;
+    pnvc.topicName                   = self.topicName;
     [self pushVC:pnvc];
 }
 //关注圈子
 - (void)attentTopic:(id)sender
 {
-//    NSDictionary * params = @{@"user_id":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
-//                              @"topic_name":[self.topicNameTextField.text trim],
-//                              @"topic_desc":self.descTextView.text,
-//                              @"category_id":[NSString stringWithFormat:@"%ld", self.currentCategoryModel.category_id]};
-//    
-//    NSString * fileName = [ToolsManager getUploadImageName];
-//    NSArray * files = @[@{FileDataKey:UIImageJPEGRepresentation(self.topicImageView.image, 0.9),FileNameKey:fileName}];
-//    
-//    [self showLoading:@"创建中..."];
-//    [HttpService postFileWithUrlString:kPostNewTopicPath params:params files:files andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-//        int status = [responseData[@"status"] intValue];
-//        if (status == HttpStatusCodeSuccess) {
-//            [self showComplete:responseData[HttpMessage]];
-//            
-//        }else{
-//            
-//            [self showWarn:responseData[HttpMessage]];
-//        }
-//    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [self showWarn:StringCommonNetException];
-//    }];
+    NSDictionary * params = @{@"user_id":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
+                              @"topic_id":[NSString stringWithFormat:@"%ld", self.topicID]};
+    
+    [self showLoading:@"加入中..."];
+    [HttpService postWithUrlString:kJoinTopicPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
+        int status = [responseData[@"status"] intValue];
+        if (status == HttpStatusCodeSuccess) {
+            [self showComplete:responseData[HttpMessage]];
+            self.refreshTableView.tableHeaderView = nil;
+            
+        }else{
+            
+            [self showWarn:responseData[HttpMessage]];
+        }
+    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self showWarn:StringCommonNetException];
+    }];
 }
 
 //复制

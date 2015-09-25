@@ -88,7 +88,7 @@
     nameBackView.alpha                     = 0.5;
     [self.headBackView addSubview:nameBackView];
     [self.headBackView insertSubview:nameBackView aboveSubview:self.backImageView];
-    self.refreshTableView.tableHeaderView = self.headBackView;
+
 }
 
 #pragma override
@@ -165,7 +165,7 @@
             //刷新头部样式
             self.categoryDescLabel.text = self.categoryModel.category_desc;
             self.categoryNameLabel.text = self.categoryModel.category_name;
-            [self.backImageView sd_setImageWithURL:[NSURL URLWithString:[ToolsManager completeUrlStr:self.categoryModel.category_cover]] placeholderImage:[UIImage imageNamed:@"group_main_background"]];
+            [self.backImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kRootAddr, self.categoryModel.category_cover]] placeholderImage:[UIImage imageNamed:@"group_main_background"]];
             
             //数据处理
             for (NSDictionary * dic in list) {
@@ -180,6 +180,8 @@
                 topic.member_count          = [dic[@"member_count"] integerValue];
                 [self.dataArr addObject:topic];
             }
+            //更新头部
+            self.refreshTableView.tableHeaderView = self.headBackView;
             [self reloadTable];
         }else{
             [self showWarn:responseData[HttpMessage]];

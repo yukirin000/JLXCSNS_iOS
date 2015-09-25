@@ -254,10 +254,12 @@
             TopicModel * topic      = [[TopicModel alloc] init];
             topic.topic_id          = [topicDic[@"id"] integerValue];
             topic.topic_cover_image = topicDic[@"topic_cover_image"];
-            topic.topic_cover_image = topicDic[@"topic_name"];
-            topic.topic_cover_image = topicDic[@"topic_detail"];
+            topic.topic_name        = topicDic[@"topic_name"];
+            topic.topic_detail      = topicDic[@"topic_detail"];
             topic.member_count      = 1;
             [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_CREATE_TOPIC object:topic];
+            
+            [self.navigationController popViewControllerAnimated:YES];
             
         }else{
             

@@ -280,6 +280,18 @@
 #define kGetCategoryTopicListPath [kHomeAddr stringByAppendingString:@"/getCategoryTopicList"]
 //获取圈子新闻列表
 #define kGetTopicNewsListPath [kHomeAddr stringByAppendingString:@"/getTopicNewsList"]
+//获取圈子新闻详情
+#define kGetTopicDetailPath [kHomeAddr stringByAppendingString:@"/getTopicDetail"]
+//加入圈子
+#define kJoinTopicPath [kHomeAddr stringByAppendingString:@"/joinTopic"]
+//退出圈子
+#define kQuitTopicPath [kHomeAddr stringByAppendingString:@"/quitTopic"]
+//获取我的圈子列表
+#define kGetMyTopicListPath [kHomeAddr stringByAppendingString:@"/getMyTopicList"]
+//获取圈子成员列表
+#define kGetTopicMemberListPath [kHomeAddr stringByAppendingString:@"/getTopicMemberList"]
+//获取我的圈子列表
+#define kGetMyTopicListPath [kHomeAddr stringByAppendingString:@"/getMyTopicList"]
 
 
 #endif

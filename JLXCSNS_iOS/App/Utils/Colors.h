@@ -30,6 +30,8 @@
 #define ColorGary @"cccccc"
 //辅蓝色
 #define ColorBlue @"23a6a2"
+//辅红色
+#define ColorRed @"ff3c1f"
 //辅深灰色
 #define ColorDeepGary @"999999"
 //辅浅灰色

@@ -143,7 +143,7 @@
         //标题
         CustomLabel * titleLabel                 = [[CustomLabel alloc] initWithFontSize:14];
         titleLabel.textColor                     = [UIColor colorWithHexString:ColorDeepBlack];
-        titleLabel.text                          = @"新的好友";
+        titleLabel.text                          = @"新的朋友";
         titleLabel.frame                         = CGRectMake(newFriendIconImageView.right+5, 22, 57, 20);
         [cell.contentView addSubview:titleLabel];
         //深灰色

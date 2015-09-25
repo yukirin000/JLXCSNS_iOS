@@ -190,6 +190,10 @@
 		4257A6B21B85BFCC002507C6 /* school_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4257A6981B85BFCC002507C6 /* school_icon@2x.png */; };
 		4257EE171B07122C0013D6A8 /* SendCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4257EE161B07122C0013D6A8 /* SendCommentViewController.m */; };
 		4257EE1A1B0741190013D6A8 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4257EE191B0741190013D6A8 /* CommentModel.m */; };
+		4259ACC01BB4FBCE0057A64C /* topic_info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4259ACBF1BB4FBCE0057A64C /* topic_info@2x.png */; };
+		4259ACC31BB4FE420057A64C /* TopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4259ACC21BB4FE420057A64C /* TopicDetailViewController.m */; };
+		4259ACC61BB583630057A64C /* TopicMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4259ACC51BB583630057A64C /* TopicMemberViewController.m */; };
+		4259ACC91BB584FE0057A64C /* TopicMemberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4259ACC81BB584FE0057A64C /* TopicMemberModel.m */; };
 		425AC90D1B86C7A8007EC6B8 /* big_unread@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 425AC90B1B86C7A8007EC6B8 /* big_unread@2x.png */; };
 		425AC90E1B86C7A8007EC6B8 /* msg_icon_newinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 425AC90C1B86C7A8007EC6B8 /* msg_icon_newinfo@2x.png */; };
 		425AC9111B871D7B007EC6B8 /* RegisterInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425AC9101B871D7B007EC6B8 /* RegisterInformationViewController.m */; };
@@ -648,6 +652,13 @@
 		4257EE161B07122C0013D6A8 /* SendCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendCommentViewController.m; sourceTree = "<group>"; };
 		4257EE181B0741190013D6A8 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
 		4257EE191B0741190013D6A8 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
+		4259ACBF1BB4FBCE0057A64C /* topic_info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topic_info@2x.png"; sourceTree = "<group>"; };
+		4259ACC11BB4FE420057A64C /* TopicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicDetailViewController.h; sourceTree = "<group>"; };
+		4259ACC21BB4FE420057A64C /* TopicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicDetailViewController.m; sourceTree = "<group>"; };
+		4259ACC41BB583630057A64C /* TopicMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicMemberViewController.h; sourceTree = "<group>"; };
+		4259ACC51BB583630057A64C /* TopicMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicMemberViewController.m; sourceTree = "<group>"; };
+		4259ACC71BB584FE0057A64C /* TopicMemberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicMemberModel.h; sourceTree = "<group>"; };
+		4259ACC81BB584FE0057A64C /* TopicMemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicMemberModel.m; sourceTree = "<group>"; };
 		425AC90B1B86C7A8007EC6B8 /* big_unread@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big_unread@2x.png"; sourceTree = "<group>"; };
 		425AC90C1B86C7A8007EC6B8 /* msg_icon_newinfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msg_icon_newinfo@2x.png"; sourceTree = "<group>"; };
 		425AC90F1B871D7B007EC6B8 /* RegisterInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterInformationViewController.h; sourceTree = "<group>"; };
@@ -1079,6 +1090,10 @@
 				42DA90D31BB3C6E800F0C9B8 /* MoreTopicViewController.m */,
 				42DA90DA1BB3F49500F0C9B8 /* TopicNewsViewController.h */,
 				42DA90DB1BB3F49500F0C9B8 /* TopicNewsViewController.m */,
+				4259ACC11BB4FE420057A64C /* TopicDetailViewController.h */,
+				4259ACC21BB4FE420057A64C /* TopicDetailViewController.m */,
+				4259ACC41BB583630057A64C /* TopicMemberViewController.h */,
+				4259ACC51BB583630057A64C /* TopicMemberViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1090,6 +1105,8 @@
 				423D3C2F1BB2969200D05AD2 /* TopicCategoryModel.m */,
 				423D3C3A1BB2EC4500D05AD2 /* TopicModel.h */,
 				423D3C3B1BB2EC4500D05AD2 /* TopicModel.m */,
+				4259ACC71BB584FE0057A64C /* TopicMemberModel.h */,
+				4259ACC81BB584FE0057A64C /* TopicMemberModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1110,6 +1127,7 @@
 		423D3C241BB2583800D05AD2 /* topic */ = {
 			isa = PBXGroup;
 			children = (
+				4259ACBF1BB4FBCE0057A64C /* topic_info@2x.png */,
 				42DA90CD1BB397F700F0C9B8 /* arrow_down@2x.png */,
 				423D3C381BB2E1BB00D05AD2 /* topic_background@2x.png */,
 				423D3C341BB2DDAB00D05AD2 /* member_count_icon@2x.png */,
@@ -2507,6 +2525,7 @@
 				42CF45411BAFFE5C00AD4CE8 /* school_localtion@2x.png in Resources */,
 				425164DF1B8D64BF007FC136 /* loading10@2x.png in Resources */,
 				42C925F71B15F54900B5A203 /* jlxc.db in Resources */,
+				4259ACC01BB4FBCE0057A64C /* topic_info@2x.png in Resources */,
 				42CF45401BAFFE5C00AD4CE8 /* group_main_background@2x.png in Resources */,
 				42CFFC1D1B862A1000A090F7 /* small_unread@2x.png in Resources */,
 				425AC92A1B876B5A007EC6B8 /* back_bottom@2x.png in Resources */,
@@ -2673,6 +2692,7 @@
 				42A65C131B063D350026E1F3 /* ImageModel.m in Sources */,
 				42C925F51B15ADBD00B5A203 /* ChatViewController.m in Sources */,
 				423DAB5A1B8A0B6400A57F68 /* NavBar.m in Sources */,
+				4259ACC61BB583630057A64C /* TopicMemberViewController.m in Sources */,
 				425E0CE51B0C67EA00F0E0F1 /* LeftPersonalViewController.m in Sources */,
 				42CF77C41B37EDA40038E5F8 /* LikeListViewController.m in Sources */,
 				427AD7DE1AFE1F4B00103CAC /* AFURLSessionManager.m in Sources */,
@@ -2697,6 +2717,7 @@
 				428C8EC01B27D8930058D3EB /* OldCutImageView.m in Sources */,
 				42DA90DC1BB3F49500F0C9B8 /* TopicNewsViewController.m in Sources */,
 				4271E1611B09D3B200B87CD1 /* NewsDetailViewController.m in Sources */,
+				4259ACC91BB584FE0057A64C /* TopicMemberModel.m in Sources */,
 				427AD7EF1AFE1F4B00103CAC /* MBProgressHUD.m in Sources */,
 				42967EFB1B0C8E51003FE483 /* PersonalViewController.m in Sources */,
 				42A976FC1B3504CA00E6FD5E /* SearchUserViewController.m in Sources */,
@@ -2748,6 +2769,7 @@
 				427AD7DF1AFE1F4B00103CAC /* Base64.m in Sources */,
 				423DAB5D1B8A0B6400A57F68 /* TestListViewController.m in Sources */,
 				42997BBC1B03735400DDA3B5 /* ImageHelper.m in Sources */,
+				4259ACC31BB4FE420057A64C /* TopicDetailViewController.m in Sources */,
 				4249F76A1B16B127002A37A2 /* OldFriendsListViewController.m in Sources */,
 				4243DF941B024A9D0050357F /* ChoiceSchoolViewController.m in Sources */,
 				42A65C0C1B05DCF10026E1F3 /* NewsModel.m in Sources */,

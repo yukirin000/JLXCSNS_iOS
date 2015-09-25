@@ -225,11 +225,17 @@
         return;
     }
     
-    //[NSString stringWithFormat:@"%d", [UserService sharedService].user.uid]
-    
     NSDictionary * params = @{@"uid":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
                               @"content_text":self.textView.text,
                               @"location":self.location};
+    //如果是发到圈子里的
+    if (self.topicID > 0) {
+        params = @{@"uid":[NSString stringWithFormat:@"%ld", [UserService sharedService].user.uid],
+                                  @"content_text":self.textView.text,
+                                  @"location":self.location,
+                                  @"topic_id":[NSString stringWithFormat:@"%ld", self.topicID]};
+    }
+    
     NSMutableArray * files = [[NSMutableArray alloc] init];
     
     //头像处理

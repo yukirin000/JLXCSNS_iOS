@@ -11,4 +11,9 @@
 /*! 发布状态页面*/
 @interface PublishNewsViewController : BaseViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate, UIActionSheetDelegate>
 
+//话题ID
+@property (nonatomic, assign) NSInteger topicID;
+//话题名字
+@property (nonatomic, copy) NSString * topicName;
+
 @end

@@ -110,7 +110,7 @@
     signLabel.frame               = CGRectMake(timeLabel.right+5, nameLabel.bottom+1, 200, 20);
     signLabel.font                = [UIFont systemFontOfSize:FontListContent];
     signLabel.textColor           = [UIColor colorWithHexString:ColorDeepGary];
-    signLabel.text                = @"添加了你为好友";
+    signLabel.text                = @"关注了你";
     [cell.contentView addSubview:signLabel];
 
 
