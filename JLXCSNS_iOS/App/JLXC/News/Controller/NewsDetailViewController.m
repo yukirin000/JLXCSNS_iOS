@@ -24,6 +24,8 @@
 #import "LikeListViewController.h"
 #import "NewsUtils.h"
 #import "YSAlertView.h"
+#import "SchoolHomeViewController.h"
+#import "TopicNewsViewController.h"
 
 @interface NewsDetailViewController ()<NewsCommentDelegate,HPGrowingTextViewDelegate>
 
@@ -573,36 +575,28 @@
     [self.commentTextView becomeFirstResponder];
 }
 
-//#pragma mark- UITextViewDelegate
-//- (void)textViewDidChange:(UITextView *)textView
-//{
-//    if ([textView isKindOfClass:[PlaceHolderTextView class]]) {
-//        
-//        if (textView.text.length > 0) {
-//            [((PlaceHolderTextView *)textView) setPlaceHidden:YES];
-//        }else{
-//            [((PlaceHolderTextView *)textView) setPlaceHidden:NO];
-//        }
-//    }
-//}
-
-//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-//{
-//    
-//    if (textView == self.commentTextView) {
-//        if ([text isEqualToString:@"\n"]) {
-//            //发送状态
-//            [self publishCommentClick];
-//            [self.commentTextView resignFirstResponder];
-//            self.commentTextView.text = @"";
-//            return NO;
-//        }
-//    }
-//    
-//    return YES;
-//}
-
 #pragma mark- method response
+//学校点击
+- (void)schoolClick:(UIButton *)sender
+{
+    //学校
+    if (self.news.school_code.length > 0) {
+        SchoolHomeViewController * snlvc = [[SchoolHomeViewController alloc] init];
+        snlvc.schoolCode                 = self.news.school_code;
+        [self pushVC:snlvc];
+    }
+}
+//话题圈子
+- (void)topicClick:(UIButton *)sender
+{
+    //圈子
+    if (self.news.topic_id > 0) {
+        TopicNewsViewController * tnvc = [[TopicNewsViewController alloc] init];
+        tnvc.topicID                   = self.news.topic_id;
+        tnvc.topicName                 = self.news.topic_name;
+        [self pushVC:tnvc];
+    }
+}
 //最近浏览点击
 - (void)browseClick:(CustomButton *)btn
 {

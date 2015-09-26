@@ -18,6 +18,7 @@
 #import "NewsDetailViewController.h"
 #import "HttpCache.h"
 #import "NewsUtils.h"
+#import "MyTopicListViewController.h"
 
 @interface NewsListViewController ()<NewsListDelegate>
 //需要复制的字符串
@@ -25,6 +26,8 @@
 
 //发布按钮
 @property (nonatomic, strong) CustomButton * publishBtn;
+//头部背景
+@property (nonatomic, strong) CustomButton * topicBackBtn;
 
 @end
 
@@ -61,10 +64,13 @@
 #pragma mark- layout
 - (void)initWidget
 {
-    self.publishBtn = [[CustomButton alloc] init];
+    self.publishBtn   = [[CustomButton alloc] init];
+    self.topicBackBtn = [[CustomButton alloc] init];
+    
     [self.view addSubview:self.publishBtn];
     
     [self.publishBtn addTarget:self action:@selector(publishNews:) forControlEvents:UIControlEventTouchUpInside];
+    [self.topicBackBtn addTarget:self action:@selector(myTopic:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)configUI
@@ -72,6 +78,24 @@
     self.publishBtn.frame = CGRectMake(self.viewWidth-85, self.viewHeight-kNavBarAndStatusHeight-kTabBarHeight-85, 70, 70);
     [self.publishBtn setImage:[UIImage imageNamed:@"publish_btn_normal"] forState:UIControlStateNormal];
     [self.publishBtn setImage:[UIImage imageNamed:@"publish_btn_press"] forState:UIControlStateHighlighted];
+    
+    //我的话题
+    self.topicBackBtn.frame            = CGRectMake(0, 0, self.viewWidth, 60);
+    self.topicBackBtn.backgroundColor  = [UIColor whiteColor];
+    CustomImageView * myTopicImageView = [[CustomImageView alloc] initWithImage:[UIImage imageNamed:@"my_topic"]];
+    myTopicImageView.frame             = CGRectMake(10, 12, 30, 28);
+    [self.topicBackBtn addSubview:myTopicImageView];
+    
+    CustomLabel * topicLabel = [[CustomLabel alloc] initWithFontSize:15];
+    topicLabel.frame         = CGRectMake(myTopicImageView.right+5, 15, 100, 20);
+    topicLabel.textColor     = [UIColor colorWithHexString:ColorDeepBlack];
+    topicLabel.text          = @"我的频道";
+    [self.topicBackBtn addSubview:topicLabel];
+    UIView * lineView        = [[UIView alloc] initWithFrame:CGRectMake(0, 50, self.viewWidth, 10)];
+    lineView.backgroundColor = [UIColor colorWithHexString:ColorLightWhite];
+    [self.topicBackBtn addSubview:lineView];
+    
+    self.refreshTableView.tableHeaderView = self.topicBackBtn;
 }
 
 #pragma mark- override
@@ -176,40 +200,15 @@
 
     }];
 }
-////删除评论
-//- (void)deleteCommentClick:(NewsModel *)news index:(NSInteger)index
-//{
-//    NSArray * commentArr     = news.comment_arr;
-//    CommentModel * model     = commentArr[index];
-//    
-//    NSDictionary * params = @{@"cid":[NSString stringWithFormat:@"%ld", model.cid],
-//                              @"news_id":[NSString stringWithFormat:@"%ld", news.nid]};
-//    debugLog(@"%@ %@", kDeleteCommentPath, params);
-//    [self showLoading:@"删除中"];
-//    
-//    [HttpService postWithUrlString:kDeleteCommentPath params:params andCompletion:^(AFHTTPRequestOperation *operation, id responseData) {
-////        debugLog(@"%@", responseData);
-//        int status = [responseData[HttpStatus] intValue];
-//        if (status == HttpStatusCodeSuccess) {
-//            [self showComplete:responseData[HttpMessage]];
-//            //成功之后更新
-//            [news.comment_arr removeObject:model];
-//            if (news.comment_quantity > 0) {
-//                news.comment_quantity --;
-//            }
-//            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.dataArr indexOfObject:news] inSection:0];
-//            [self.refreshTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//            
-//        }else{
-//            
-//            [self showWarn:responseData[HttpMessage]];
-//        }
-//    } andFail:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [self showWarn:StringCommonNetException];
-//    }];
-//}
 
 #pragma mark- method response
+//我的圈子
+- (void)myTopic:(id)sender
+{
+    MyTopicListViewController * mylvc = [[MyTopicListViewController alloc] init];
+    [self pushVC:mylvc];
+}
+
 //复制
 - (void)copyContnet
 {
@@ -270,7 +269,6 @@
     }];
     
 }
-
 
 //数据注入
 - (void)injectDataSourceWith:(NSArray *)list

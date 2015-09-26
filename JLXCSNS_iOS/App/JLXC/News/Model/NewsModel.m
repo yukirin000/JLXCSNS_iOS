@@ -30,6 +30,9 @@
     self.uid              = [newsDic[@"uid"] integerValue];
     self.name             = newsDic[@"name"];
     self.school           = newsDic[@"school"];
+    self.school_code      = newsDic[@"school_code"];
+    self.topic_id         = [newsDic[@"topic_id"] integerValue];
+    self.topic_name       = newsDic[@"topic_name"];
     self.publish_date     = newsDic[@"add_date"];
     self.publish_time     = newsDic[@"add_time"];
     self.location         = newsDic[@"location"];

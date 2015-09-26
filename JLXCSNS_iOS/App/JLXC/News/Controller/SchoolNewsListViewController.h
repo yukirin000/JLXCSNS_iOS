@@ -11,4 +11,7 @@
 /*! 校园广场主页*/
 @interface SchoolNewsListViewController : RefreshViewController
 
+//学校代码
+@property (nonatomic, copy) NSString * schoolCode;
+
 @end

@@ -1,12 +1,12 @@
 //
-//  NewsListCell.m
+//  SchoolNewsCell.m
 //  JLXCSNS_iOS
 //
-//  Created by 李晓航 on 15/5/17.
+//  Created by 李晓航 on 15/9/26.
 //  Copyright (c) 2015年 JLXC. All rights reserved.
 //
 
-#import "NewsListCell.h"
+#import "SchoolNewsCell.h"
 #import "ImageModel.h"
 #import "CommentModel.h"
 #import "UIImageView+WebCache.h"
@@ -20,7 +20,7 @@
 #import "SchoolHomeViewController.h"
 #import "TopicNewsViewController.h"
 
-@interface NewsListCell()
+@interface SchoolNewsCell()
 
 //新闻模型
 @property (nonatomic, strong) NewsModel * news;
@@ -32,10 +32,6 @@
 @property (nonatomic, strong) CustomLabel * timeLabel;
 //描述
 @property (nonatomic, strong) CustomLabel * descLabel;
-//学校
-@property (nonatomic, strong) CustomButton * schoolBtn;
-//圈子
-@property (nonatomic, strong) CustomButton * topicBtn;
 //内容
 @property (nonatomic, strong) CustomLabel * contentLabel;
 //线view
@@ -56,7 +52,7 @@
 
 @end
 
-@implementation NewsListCell
+@implementation SchoolNewsCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -74,10 +70,6 @@
         self.timeLabel                     = [[CustomLabel alloc] init];
         //描述
         self.descLabel                     = [[CustomLabel alloc] init];
-        //学校
-        self.schoolBtn                     = [[CustomButton alloc] init];
-        //圈子
-        self.topicBtn                      = [[CustomButton alloc] init];
         //内容
         self.contentLabel                  = [[CustomLabel alloc] init];
         //地址
@@ -97,8 +89,6 @@
         [self.contentView addSubview:self.nameLabel];
         [self.contentView addSubview:self.timeLabel];
         [self.contentView addSubview:self.descLabel];
-        [self.contentView addSubview:self.schoolBtn];
-        [self.contentView addSubview:self.topicBtn];
         [self.contentView addSubview:self.contentLabel];
         [self.contentView addSubview:self.locationBtn];
         [self.contentView addSubview:self.commentBtn];
@@ -118,10 +108,6 @@
         //长按内容复制
         UILongPressGestureRecognizer * ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressCopy:)];
         [self.contentLabel addGestureRecognizer:ges];
-        //学校点击
-        [self.schoolBtn addTarget:self action:@selector(schoolClick:) forControlEvents:UIControlEventTouchUpInside];
-        //圈子点击
-        [self.topicBtn addTarget:self action:@selector(topicClick:) forControlEvents:UIControlEventTouchUpInside];
         
         [self configUI];
     }
@@ -139,23 +125,12 @@
     self.headImageBtn.layer.cornerRadius     = 2;
     self.headImageBtn.layer.masksToBounds    = YES;
     //姓名
-    self.nameLabel.frame                     = CGRectMake(self.headImageBtn.right+10, self.headImageBtn.y, 0, 20);
+    self.nameLabel.frame                     = CGRectMake(self.headImageBtn.right+10, self.headImageBtn.y+5, 0, 20);
     self.nameLabel.font                      = [UIFont systemFontOfSize:FontListName];
     self.nameLabel.textColor                 = [UIColor colorWithHexString:ColorDeepBlack];
-
+    
     self.descLabel.font                      = [UIFont systemFontOfSize:11];
     self.descLabel.textColor                 = [UIColor colorWithHexString:ColorFlesh];
-    //学校
-    CustomImageView * schoolImageView        = [[CustomImageView alloc] init];
-    schoolImageView.frame                    = CGRectMake(self.headImageBtn.right+10, self.nameLabel.bottom+7, 15, 15);
-    schoolImageView.image                    = [UIImage imageNamed:@"school_icon"];
-    [self.contentView addSubview:schoolImageView];
-    
-    self.schoolBtn.frame                      = CGRectMake(schoolImageView.right+3, schoolImageView.y-3, 250, 20);
-    self.schoolBtn.titleLabel.font            = [UIFont systemFontOfSize:13];
-    self.schoolBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [self.schoolBtn setTitleColor:[UIColor colorWithHexString:ColorBrown andAlpha:0.8] forState:UIControlStateNormal];
-    [self.schoolBtn setTitleColor:[UIColor colorWithHexString:ColorGary] forState:UIControlStateHighlighted];
     //内容
     self.contentLabel.frame                  = CGRectMake(self.headImageBtn.x, self.headImageBtn.bottom+5, [DeviceManager getDeviceWidth]-30, 0);
     self.contentLabel.userInteractionEnabled = YES;
@@ -173,13 +148,6 @@
     self.timeLabel.frame                  = CGRectMake(self.headImageBtn.x, 0, 100, 20);
     self.timeLabel.font                   = [UIFont systemFontOfSize:13];
     self.timeLabel.textColor              = [UIColor colorWithHexString:ColorGary];
-    //圈子
-    self.topicBtn.frame                      = CGRectMake(0, 0, 250, 20);
-    self.topicBtn.titleLabel.font            = [UIFont systemFontOfSize:13];
-    self.topicBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [self.topicBtn setImage:[UIImage imageNamed:@"news_topic_image"] forState:UIControlStateNormal];
-    [self.topicBtn setTitleColor:[UIColor colorWithHexString:ColorBrown andAlpha:0.8] forState:UIControlStateNormal];
-    [self.topicBtn setTitleColor:[UIColor colorWithHexString:ColorGary] forState:UIControlStateHighlighted];
     
     //评论按钮
     self.commentBtn.titleLabel.font     = [UIFont systemFontOfSize:14];
@@ -224,9 +192,6 @@
     CGSize nameSize          = [ToolsManager getSizeWithContent:name andFontSize:15 andFrame:CGRectMake(0, 0, 200, 20)];
     self.nameLabel.width     = nameSize.width;
     self.nameLabel.text      = name;
-
-    //学校
-    [self.schoolBtn setTitle:news.school forState:UIControlStateNormal];
     
     if (news.typeDic[@"content"] != nil || [news.typeDic[@"content"] length]>0) {
         self.nameLabel.width = nameSize.width;
@@ -234,7 +199,7 @@
         NSString * content   = [NSString stringWithFormat:@" %@", news.typeDic[@"content"]];
         self.descLabel.text  = content;
     }
-
+    
     //内容
     CGSize contentSize       = [ToolsManager getSizeWithContent:news.content_text andFontSize:15 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
     if (news.content_text == nil || news.content_text.length < 1) {
@@ -242,7 +207,7 @@
     }
     self.contentLabel.height = contentSize.height;
     self.contentLabel.text   = news.content_text;
-
+    
     //底部位置
     CGFloat bottomPosition = self.contentLabel.bottom ;
     //图片处理
@@ -315,16 +280,6 @@
     self.timeLabel.width     = lengthSize.width;
     self.timeLabel.y         = bottomPosition+5;
     self.timeLabel.text      = timeStr;
-    //圈子位置
-    self.topicBtn.x          = self.timeLabel.right+5;
-    self.topicBtn.y          = self.timeLabel.y;
-    //圈子
-    if (news.topic_id < 1) {
-        self.topicBtn.hidden = YES;
-    }else{
-        self.topicBtn.hidden = NO;
-        [self.topicBtn setTitle:[NSString stringWithFormat:@"%@", news.topic_name] forState:UIControlStateNormal];
-    }
     
     bottomPosition           += 20;
     
@@ -341,7 +296,7 @@
         [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"btn_like_normal"] forState:UIControlStateNormal];
         [self.likeBtn setTitle:@"点赞" forState:UIControlStateNormal];
     }
-
+    
     //游标
     bottomPosition = self.commentBtn.bottom+5;
     
@@ -354,14 +309,14 @@
     }else{
         self.likeImageView.hidden = YES;
     }
-
+    
     //点赞头像 最多8个 大小根据分辨率算
     NSInteger likeCout = news.like_arr.count;
     if (likeCout > 8) {
         likeCout = 8;
     }
     for (int i=0; i<likeCout; i++) {
-
+        
         LikeModel * like           = news.like_arr[i];
         CustomButton * likeHeadBtn = [[CustomButton alloc] initWithFrame:CGRectMake(self.likeImageView.right+3+width*i, bottomPosition, width-5, width-5)];
         NSURL * headUrl            = [NSURL URLWithString:[ToolsManager completeUrlStr:like.head_sub_image]];
@@ -382,11 +337,11 @@
     }else{
         self.likePeopleBtn.hidden = YES;
     }
-
+    
     if (self.news.like_arr.count > 0) {
         bottomPosition += width+5;
     }
-
+    
     //评论
     for (int i=0; i<news.comment_arr.count; i++) {
         
@@ -394,14 +349,14 @@
         //评论文本 姓名：内容 //是好友查看备注
         NSString * commentName              = comment.name;
         NSString * commentStr               = [NSString stringWithFormat:@"%@:%@", commentName, comment.comment_content];
-
+        
         CustomLabel * commentLabel          = [[CustomLabel alloc] initWithFontSize:14];
         commentLabel.userInteractionEnabled = YES;
         commentLabel.tag                    = i;
         //删除或者其他动作
         UITapGestureRecognizer * tap        = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTap:)];
         [commentLabel addGestureRecognizer:tap];
-
+        
         commentLabel.textColor              = [UIColor colorWithHexString:ColorLightBlack];
         //frame
         CGSize commentSize                  = [ToolsManager getSizeWithContent:commentStr andFontSize:14 andFrame:CGRectMake(0, 0, [DeviceManager getDeviceWidth]-30, MAXFLOAT)];
@@ -412,7 +367,7 @@
         commentLabel.numberOfLines          = 0;
         commentLabel.frame                  = CGRectMake(self.headImageBtn.x, bottomPosition, commentSize.width, commentSize.height);
         [self.contentView addSubview:commentLabel];
-
+        
         //前面的name
         NSString * nameStr                  = [NSString stringWithFormat:@"%@:", commentName];
         CustomLabel * nameLabel             = [[CustomLabel alloc] initWithFontSize:14];
@@ -447,27 +402,6 @@
 {
     [self browsePersonalHome:self.news.uid];
 }
-//学校点击
-- (void)schoolClick:(UIButton *)sender
-{
-    //学校存在
-    if (self.news.school_code.length > 0) {
-        SchoolHomeViewController * snlvc = [[SchoolHomeViewController alloc] init];
-        snlvc.schoolCode                 = self.news.school_code;
-        [((UIViewController *)self.delegate).navigationController pushViewController:snlvc animated:YES];
-    }
-}
-//话题圈子
-- (void)topicClick:(UIButton *)sender
-{
-    //学校存在
-    if (self.news.topic_id > 0) {
-        TopicNewsViewController * tnvc = [[TopicNewsViewController alloc] init];
-        tnvc.topicID                   = self.news.topic_id;
-        tnvc.topicName                 = self.news.topic_name;
-        [((UIViewController *)self.delegate).navigationController pushViewController:tnvc animated:YES];
-    }
-}
 
 //长按复制
 - (void)longPressCopy:(UILongPressGestureRecognizer *)longPress
@@ -477,9 +411,7 @@
             [self.delegate longPressContent:self.news andGes:longPress];
         }
     }
-
 }
-
 
 //复制
 - (void)copyContnet:(id)sender
@@ -551,16 +483,16 @@
 //评论点击
 - (void)commentTap:(UITapGestureRecognizer *)tap
 {
-//    NSArray * commentArr     = self.news.comment_arr;
-//    CommentModel * model     = commentArr[tap.view.tag];
-//    if (model.user_id == [UserService sharedService].user.uid) {
-//        UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"删除", nil];
-//        sheet.tag             = tap.view.tag;
-//        [sheet showInView:[(UIViewController *)self.delegate view]];
-//    }else{
-////        ALERT_SHOW(@"奏凯", @"");
-//        [self browsePersonalHome:model.user_id];
-//    }
+    //    NSArray * commentArr     = self.news.comment_arr;
+    //    CommentModel * model     = commentArr[tap.view.tag];
+    //    if (model.user_id == [UserService sharedService].user.uid) {
+    //        UIActionSheet * sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:StringCommonCancel destructiveButtonTitle:nil otherButtonTitles:@"删除", nil];
+    //        sheet.tag             = tap.view.tag;
+    //        [sheet showInView:[(UIViewController *)self.delegate view]];
+    //    }else{
+    ////        ALERT_SHOW(@"奏凯", @"");
+    //        [self browsePersonalHome:model.user_id];
+    //    }
     NewsDetailViewController * ndvc = [[NewsDetailViewController alloc] init];
     ndvc.newsId                     = self.news.nid;
     [((BaseViewController *)self.delegate) pushVC:ndvc];
@@ -581,27 +513,4 @@
     llVC.news_id = self.news.nid;
     [((BaseViewController *)self.delegate) pushVC:llVC];
 }
-
-//#pragma mark- Action Delegate
-//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    //选照片
-//    if (buttonIndex == 0) {
-//        if ([self.delegate respondsToSelector:@selector(deleteCommentClick:index:)]) {
-//            [self.delegate deleteCommentClick:self.news index:actionSheet.tag];
-//        }
-//    }
-//    
-//}
-
-//- (void)awakeFromNib {
-//    // Initialization code
-//}
-//
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-//
-//    // Configure the view for the selected state
-//}
-
 @end

@@ -47,6 +47,12 @@ enum {
 /*! 所在学校代码*/
 @property (nonatomic, copy) NSString * school_code;
 
+/*! 圈子ID*/
+@property (nonatomic, assign) NSInteger topic_id;
+
+/*! 圈子名*/
+@property (nonatomic, copy) NSString * topic_name;
+
 /*! 消息体*/
 @property (nonatomic, copy) NSString * content_text;
 

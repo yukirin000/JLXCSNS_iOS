@@ -28,8 +28,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    [self setNavBarTitle:@"所有学生"];
     self.dataSource = [[NSMutableArray alloc] init];
     self.allData    = [[NSMutableArray alloc] init];
     
@@ -52,6 +50,8 @@
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"筛选" message:nil delegate:sself cancelButtonTitle:StringCommonCancel otherButtonTitles:@"我只看男的",@"我只看女的",@"全都看", nil];
         [alert show];
     }];
+    
+    [self setNavBarTitle:@"所有成员"];
 }
 #define CellIdetifier @"collectCell"
 //初始化 集合视图

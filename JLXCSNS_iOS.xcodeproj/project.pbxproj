@@ -221,6 +221,11 @@
 		425C9D951B0B23F200E508A0 /* SecondCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 425C9D941B0B23F200E508A0 /* SecondCommentModel.m */; };
 		425C9D981B0B6C1B00E508A0 /* SecondCommentActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 425C9D971B0B6C1B00E508A0 /* SecondCommentActionSheet.m */; };
 		425E0CE51B0C67EA00F0E0F1 /* LeftPersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425E0CE31B0C67EA00F0E0F1 /* LeftPersonalViewController.m */; };
+		425E12681BB6491F00B312AD /* my_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 425E12671BB6491F00B312AD /* my_topic@2x.png */; };
+		425E126B1BB64B4D00B312AD /* MyTopicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425E126A1BB64B4D00B312AD /* MyTopicListViewController.m */; };
+		425E126E1BB66A6C00B312AD /* MyTopicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 425E126D1BB66A6C00B312AD /* MyTopicCell.m */; };
+		425E12701BB6927A00B312AD /* news_topic_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 425E126F1BB6927A00B312AD /* news_topic_image@2x.png */; };
+		425E12731BB6980A00B312AD /* SchoolNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 425E12721BB6980A00B312AD /* SchoolNewsCell.m */; };
 		425FA9331B3BC9BA00FD93EE /* NotifyNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425FA9321B3BC9BA00FD93EE /* NotifyNewsViewController.m */; };
 		425FA9361B3BCB8600FD93EE /* NewsPushCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 425FA9351B3BCB8600FD93EE /* NewsPushCell.m */; };
 		4260401E1B144C5200554875 /* libYunBa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4260401C1B144C5200554875 /* libYunBa.a */; };
@@ -697,6 +702,14 @@
 		425C9D971B0B6C1B00E508A0 /* SecondCommentActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondCommentActionSheet.m; sourceTree = "<group>"; };
 		425E0CE21B0C67EA00F0E0F1 /* LeftPersonalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftPersonalViewController.h; sourceTree = "<group>"; };
 		425E0CE31B0C67EA00F0E0F1 /* LeftPersonalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftPersonalViewController.m; sourceTree = "<group>"; };
+		425E12671BB6491F00B312AD /* my_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "my_topic@2x.png"; sourceTree = "<group>"; };
+		425E12691BB64B4D00B312AD /* MyTopicListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTopicListViewController.h; sourceTree = "<group>"; };
+		425E126A1BB64B4D00B312AD /* MyTopicListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTopicListViewController.m; sourceTree = "<group>"; };
+		425E126C1BB66A6C00B312AD /* MyTopicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTopicCell.h; sourceTree = "<group>"; };
+		425E126D1BB66A6C00B312AD /* MyTopicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTopicCell.m; sourceTree = "<group>"; };
+		425E126F1BB6927A00B312AD /* news_topic_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news_topic_image@2x.png"; sourceTree = "<group>"; };
+		425E12711BB6980A00B312AD /* SchoolNewsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolNewsCell.h; sourceTree = "<group>"; };
+		425E12721BB6980A00B312AD /* SchoolNewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolNewsCell.m; sourceTree = "<group>"; };
 		425FA9311B3BC9BA00FD93EE /* NotifyNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyNewsViewController.h; sourceTree = "<group>"; };
 		425FA9321B3BC9BA00FD93EE /* NotifyNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyNewsViewController.m; sourceTree = "<group>"; };
 		425FA9341B3BCB8600FD93EE /* NewsPushCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsPushCell.h; sourceTree = "<group>"; };
@@ -1094,6 +1107,8 @@
 				4259ACC21BB4FE420057A64C /* TopicDetailViewController.m */,
 				4259ACC41BB583630057A64C /* TopicMemberViewController.h */,
 				4259ACC51BB583630057A64C /* TopicMemberViewController.m */,
+				425E12691BB64B4D00B312AD /* MyTopicListViewController.h */,
+				425E126A1BB64B4D00B312AD /* MyTopicListViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1120,6 +1135,8 @@
 				42DA90D01BB39AD800F0C9B8 /* TopicCategoryView.m */,
 				42DA90D51BB3CA0800F0C9B8 /* MoreTopicCell.h */,
 				42DA90D61BB3CA0800F0C9B8 /* MoreTopicCell.m */,
+				425E126C1BB66A6C00B312AD /* MyTopicCell.h */,
+				425E126D1BB66A6C00B312AD /* MyTopicCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1127,6 +1144,8 @@
 		423D3C241BB2583800D05AD2 /* topic */ = {
 			isa = PBXGroup;
 			children = (
+				425E126F1BB6927A00B312AD /* news_topic_image@2x.png */,
+				425E12671BB6491F00B312AD /* my_topic@2x.png */,
 				4259ACBF1BB4FBCE0057A64C /* topic_info@2x.png */,
 				42DA90CD1BB397F700F0C9B8 /* arrow_down@2x.png */,
 				423D3C381BB2E1BB00D05AD2 /* topic_background@2x.png */,
@@ -2266,6 +2285,8 @@
 				42CF77C61B37F3B50038E5F8 /* LikeListCell.m */,
 				425FA9341B3BCB8600FD93EE /* NewsPushCell.h */,
 				425FA9351B3BCB8600FD93EE /* NewsPushCell.m */,
+				425E12711BB6980A00B312AD /* SchoolNewsCell.h */,
+				425E12721BB6980A00B312AD /* SchoolNewsCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2478,6 +2499,7 @@
 				4257A6AC1B85BFCC002507C6 /* friend_btn_phonebook_click@2x.png in Resources */,
 				4257A6A41B85BFCC002507C6 /* home_btn_homepage_select@2x.png in Resources */,
 				425164E21B8D64BF007FC136 /* loading13@2x.png in Resources */,
+				425E12701BB6927A00B312AD /* news_topic_image@2x.png in Resources */,
 				4257A6A51B85BFCC002507C6 /* home_btn_me_normal@2x.png in Resources */,
 				42CF453F1BAFFE5C00AD4CE8 /* campus_person@2x.png in Resources */,
 				4240CF261B8460E9002B09E2 /* my_visit_icon@2x.png in Resources */,
@@ -2501,6 +2523,7 @@
 				4240CF321B84A637002B09E2 /* other_setting_btn@2x.png in Resources */,
 				4249E2A11B81C16400F01B77 /* Icon-Small-40@2x.png in Resources */,
 				42CF453E1BAFFE5C00AD4CE8 /* campus_news@2x.png in Resources */,
+				425E12681BB6491F00B312AD /* my_topic@2x.png in Resources */,
 				423D3C371BB2DDAB00D05AD2 /* news_count_icon@2x.png in Resources */,
 				4257A67B1B85B953002507C6 /* about_back_image@2x.png in Resources */,
 				4249E2AD1B81C78100F01B77 /* LaunchImage-568@2x.png in Resources */,
@@ -2691,6 +2714,7 @@
 				427AD8021AFE1F4B00103CAC /* UIView+LayoutMethods.m in Sources */,
 				42A65C131B063D350026E1F3 /* ImageModel.m in Sources */,
 				42C925F51B15ADBD00B5A203 /* ChatViewController.m in Sources */,
+				425E12731BB6980A00B312AD /* SchoolNewsCell.m in Sources */,
 				423DAB5A1B8A0B6400A57F68 /* NavBar.m in Sources */,
 				4259ACC61BB583630057A64C /* TopicMemberViewController.m in Sources */,
 				425E0CE51B0C67EA00F0E0F1 /* LeftPersonalViewController.m in Sources */,
@@ -2774,6 +2798,7 @@
 				4243DF941B024A9D0050357F /* ChoiceSchoolViewController.m in Sources */,
 				42A65C0C1B05DCF10026E1F3 /* NewsModel.m in Sources */,
 				424B22CB1B1ECD0A00E5BC71 /* ChineseToPinyinResource.m in Sources */,
+				425E126B1BB64B4D00B312AD /* MyTopicListViewController.m in Sources */,
 				429C6E251B82CC8800776C9D /* UIColor+Hexadecimal.m in Sources */,
 				42DA90D41BB3C6E800F0C9B8 /* MoreTopicViewController.m in Sources */,
 				42A65C051B05DA950026E1F3 /* ChoiceLocationViewController.m in Sources */,
@@ -2792,6 +2817,7 @@
 				427AD7F71AFE1F4B00103CAC /* SDWebImageDownloaderOperation.m in Sources */,
 				426B50711B12B9B200BC3E0D /* LoginViewController.m in Sources */,
 				423DAB5B1B8A0B6400A57F68 /* RefreshTableView.m in Sources */,
+				425E126E1BB66A6C00B312AD /* MyTopicCell.m in Sources */,
 				42C925F21B15ACD100B5A203 /* ChatListViewController.m in Sources */,
 				426FC4E01B2BCA88000EF875 /* ChatRoomMemberCell.m in Sources */,
 				4257EE1A1B0741190013D6A8 /* CommentModel.m in Sources */,

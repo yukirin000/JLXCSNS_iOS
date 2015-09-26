@@ -8,6 +8,8 @@
 
 #import "SchoolHomeViewController.h"
 #import "UIImageView+WebCache.h"
+#import "StudentListViewController.h"
+#import "SchoolNewsListViewController.h"
 
 @interface SchoolHomeViewController ()
 
@@ -97,7 +99,7 @@
     self.locationLabel.numberOfLines = 0;
     
     //校内的人
-    UIView * schoolMemberView               = [[UIView alloc] initWithFrame:CGRectMake(0, backCoverView.bottom+15, self.viewWidth, 70)];
+    CustomButton * schoolMemberView         = [[CustomButton alloc] initWithFrame:CGRectMake(0, backCoverView.bottom+15, self.viewWidth, 70)];
     schoolMemberView.backgroundColor        = [UIColor colorWithHexString:ColorWhite];
     //图标
     CustomImageView * schoolMemberImageView = [[CustomImageView alloc] initWithImage:[UIImage imageNamed:@"campus_person"]];
@@ -129,7 +131,7 @@
     self.memberCImageView.layer.masksToBounds = YES;
     
     //校内动态
-    UIView * schoolNewsView                 = [[UIView alloc] initWithFrame:CGRectMake(0, schoolMemberView.bottom+15, self.viewWidth, 70)];
+    CustomButton * schoolNewsView           = [[CustomButton alloc] initWithFrame:CGRectMake(0, schoolMemberView.bottom+15, self.viewWidth, 70)];
     schoolNewsView.backgroundColor          = [UIColor colorWithHexString:ColorWhite];
     //图标
     CustomImageView * schoolNewsImageView   = [[CustomImageView alloc] initWithImage:[UIImage imageNamed:@"campus_news"]];
@@ -167,12 +169,32 @@
     [schoolNewsView addSubview:self.schoolUnreadMsgLabel];
     
     self.scrollView.contentSize = CGSizeMake(0, self.viewHeight);
+    
+    //事件
+    [schoolMemberView addTarget:self action:@selector(studentListClick:) forControlEvents:UIControlEventTouchUpInside];
+    [schoolNewsView addTarget:self action:@selector(newsListClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma override
 
 
 #pragma mark- private method
+//学生List点击
+- (void)studentListClick:(id)sender
+{
+    StudentListViewController * slVC = [[StudentListViewController alloc] init];
+    slVC.school_code                 = self.schoolCode;
+    [self pushVC:slVC];
+}
+
+//状态List点击
+- (void)newsListClick:(id)sender
+{
+    SchoolNewsListViewController * slVC = [[SchoolNewsListViewController alloc] init];
+    slVC.schoolCode                     = self.schoolCode;
+    [self pushVC:slVC];
+}
+
 //获取数据
 - (void)getData
 {
@@ -221,7 +243,7 @@
     }
     //不是本校没有未读
     if ([[UserService sharedService].user.school_code compare:self.schoolCode] != NSOrderedSame) {
-    self.schoolUnreadMsgLabel.hidden = YES;
+        self.schoolUnreadMsgLabel.hidden = YES;
     }
     
     //成员
