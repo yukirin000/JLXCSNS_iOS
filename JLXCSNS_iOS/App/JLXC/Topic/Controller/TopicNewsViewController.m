@@ -89,7 +89,7 @@
     [self.navBar.rightBtn setImage:[UIImage imageNamed:@"topic_info"] forState:UIControlStateNormal];
     
     //发布按钮
-    self.publishBtn.frame = CGRectMake(self.viewWidth-85, self.viewHeight-kNavBarAndStatusHeight-kTabBarHeight-85, 70, 70);
+    self.publishBtn.frame = CGRectMake(self.viewWidth-85, self.viewHeight-85, 70, 70);
     [self.publishBtn setImage:[UIImage imageNamed:@"publish_btn_normal"] forState:UIControlStateNormal];
     [self.publishBtn setImage:[UIImage imageNamed:@"publish_btn_press"] forState:UIControlStateHighlighted];
     //顶部背景

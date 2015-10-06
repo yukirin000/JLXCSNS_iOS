@@ -165,7 +165,7 @@
             //数据处理
             for (NSDictionary * userDic in list) {
                 UserModel * model    = [[UserModel alloc] init];
-                model.uid            = [userDic[@"uid"] integerValue];
+                model.uid            = [userDic[@"user_id"] integerValue];
                 model.name           = userDic[@"name"];
                 model.sex            = [userDic[@"sex"] integerValue];
                 model.head_sub_image = userDic[@"head_sub_image"];
